@@ -1,3 +1,5 @@
+import java.util.Iterator;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.sikuli.script.FindFailed;
@@ -8,6 +10,7 @@ public class FundsRequired {
 	public static Screen screen = new Screen();
 	public static int Offset[] = {0,10,50,100,200,500,1000};
 	static Pattern FundsRequiredSection;
+	static Pattern AddNewTransaction;
 	
 	static Pattern TransactionType;
 	static Pattern UseOfFunds;
@@ -26,7 +29,6 @@ public class FundsRequired {
 	static Pattern LoanLimit;
 	static Pattern NumberofDebts;
 	
-	
 	static Pattern Ownerbuilder;
 	static Pattern LandValue;
 	static Pattern ConstructionCosts;
@@ -38,20 +40,28 @@ public class FundsRequired {
 	static Pattern SecuredLimt;
 	static Pattern LMIPremiumCredit;
 	
+	static Pattern RefinanceAmount;
+	static Pattern CashOut;
+	static Pattern ConsolidationAmount;
+	
 	static Pattern Bridging;
 	static Pattern Refinance;
 	static Pattern SecurityValue;
 	static Pattern CapitalisedInterest;	
 	static Pattern SellingCostCashOut;
 	static Pattern BridgingExistingLMI;
+	
+	static Pattern FullDOC;
+	static Pattern CapitaliseLMI;
 		
 	public FundsRequired(){
-		new FundsRequired("C:\\Sikuli Images\\FundsRequired\\FundsRequired\\");
+		new FundsRequired("C:\\Sikuli Images\\FundsRequired\\");
 	}
 	
 	public FundsRequired(String Imagefolderlocation){
 		
 		FundsRequiredSection = new Pattern(Imagefolderlocation + "FundsRequired.PNG");
+		AddNewTransaction = new Pattern(Imagefolderlocation + "AddNewTransaction");
 		Bridging =  new Pattern(Imagefolderlocation + "Bridging.PNG");
 		BridgingExistingLMI  =  new Pattern(Imagefolderlocation + "BridgingExistingLMI.PNG");
 		CapitalisedInterest =  new Pattern(Imagefolderlocation + "BridgingCapitalisedInterest.PNG");
@@ -81,122 +91,144 @@ public class FundsRequired {
 		ReasonforLoanIncrease =  new Pattern(Imagefolderlocation + "ReasonforLoanIncrease.PNG");
 		SecuredLimt =  new Pattern(Imagefolderlocation + "SecuredLimt.PNG");
 		LMIPremiumCredit =  new Pattern(Imagefolderlocation + "LMIPremiumCredit.PNG");
-
+		RefinanceAmount =  new Pattern(Imagefolderlocation + "RefinanceAmount.PNG");
+		CashOut =  new Pattern(Imagefolderlocation + "CashOut.PNG");
+		ConsolidationAmount =  new Pattern(Imagefolderlocation + "ConsolidationAmount.PNG");
+		FullDOC = new Pattern(Imagefolderlocation + "FullDoc.PNG");
+		CapitaliseLMI = new Pattern(Imagefolderlocation + "CapitaliseLMI.PNG");
 		
 	}
 	
 	public static boolean CaptureTransaction(JSONObject RawFile){
+		int counter = 0;
+		JSONArray FundsRequired_Array = (JSONArray) RawFile.get("FundsRequired");
+		Iterator<JSONObject> FundsRequiredArray = FundsRequired_Array.iterator();
 		
-		JSONObject FundsRequiredValues = (JSONObject) RawFile.get("FundsRequired");
+		//JSONObject FundsRequiredValues = (JSONObject) RawFile.get("FundsRequired");
 		try {
 			screen.click(FundsRequiredSection);
-		
-			if ((FundsRequiredValues.get("TransactionType") != null) && (Integer.parseInt(FundsRequiredValues.get("TransactionType").toString()) >= 1) && (Integer.parseInt(FundsRequiredValues.get("TransactionType").toString()) <= 5)){
-				if (Integer.parseInt(FundsRequiredValues.get("TransactionType").toString()) > 1){
-					screen.find(TransactionType).right(Offset[1]).click();
-					Helper.Keystrokedown(Integer.parseInt(FundsRequiredValues.get("TransactionType").toString()) - 1);
-					Helper.Keystrokeenter(1);
+			while (FundsRequiredArray.hasNext()){
+				counter++;
+					if (counter > 1) {
+						screen.click(AddNewTransaction);
+					}
+				JSONObject FundsRequiredValues = FundsRequiredArray.next();
+				if ((FundsRequiredValues.get("TransactionType") != null) && (Integer.parseInt(FundsRequiredValues.get("TransactionType").toString()) >= 1) && (Integer.parseInt(FundsRequiredValues.get("TransactionType").toString()) <= 5)){
+					if (Integer.parseInt(FundsRequiredValues.get("TransactionType").toString()) > 1){
+						screen.find(TransactionType).right(Offset[1]).click();
+						Helper.Keystrokedown(Integer.parseInt(FundsRequiredValues.get("TransactionType").toString()) - 1);
+						Helper.Keystrokeenter(1);
+					}
+				}else{
+					System.out.println("Invalid Parameter Passed for transaction type");
+					return false;
 				}
-			}else{
-				System.out.println("Invalid Parameter Passed for transaction type");
-				return false;
-			}
-			
-			if ((FundsRequiredValues.get("UseofFunds") != null) && (Integer.parseInt(FundsRequiredValues.get("UseofFunds").toString()) > 0)){
 				
-				if ((Integer.parseInt(FundsRequiredValues.get("TransactionType").toString()) > 1)){
-					if (Integer.parseInt(FundsRequiredValues.get("UseofFunds").toString()) > 1){
-						screen.find(UseOfFunds).right(Offset[1]).click();
-						Helper.Keystrokedown(Integer.parseInt(FundsRequiredValues.get("UseofFunds").toString()) - 1);
-						Helper.Keystrokeenter(1);
-					}
-				}
-				else if (Integer.parseInt(FundsRequiredValues.get("TransactionType").toString()) == 1){ 
-					if (Integer.parseInt(FundsRequiredValues.get("UseofFunds").toString()) != 4){
-						screen.find(UseOfFunds).right(Offset[1]).click();
-						Helper.Keystrokeup(Math.abs(4 - Integer.parseInt(FundsRequiredValues.get("UseofFunds").toString())));
-						Helper.Keystrokeenter(1);
-					}
-				}			
-			}else{
-				System.out.println("Invalid Parameter Passed for UseofFunds");
-				return false;
-			}
-
-			if ((FundsRequiredValues.get("LoanPurpose") != null) && (Integer.parseInt(FundsRequiredValues.get("LoanPurpose").toString()) >= 1) && (Integer.parseInt(FundsRequiredValues.get("LoanPurpose").toString()) <= 4)){
-				if (Integer.parseInt(FundsRequiredValues.get("LoanPurpose").toString()) != 3){
+				if ((FundsRequiredValues.get("UseofFunds") != null) && (Integer.parseInt(FundsRequiredValues.get("UseofFunds").toString()) > 0)){
 					
-					if ((Integer.parseInt(FundsRequiredValues.get("LoanPurpose").toString()) - 3) > 0){
-						screen.find(LoanPurpose).right(Offset[1]).click();
-						Helper.Keystrokedown(Math.abs(Integer.parseInt(FundsRequiredValues.get("LoanPurpose").toString()) - 3));
-						Helper.Keystrokeenter(1);
+					if ((Integer.parseInt(FundsRequiredValues.get("TransactionType").toString()) > 1)){
+						if (Integer.parseInt(FundsRequiredValues.get("UseofFunds").toString()) > 1){
+							screen.find(UseOfFunds).right(Offset[1]).click();
+							Helper.Keystrokedown(Integer.parseInt(FundsRequiredValues.get("UseofFunds").toString()) - 1);
+							Helper.Keystrokeenter(1);
+						}
 					}
-					else if ((Integer.parseInt(FundsRequiredValues.get("LoanPurpose").toString()) - 3) < 0){
-						screen.find(LoanPurpose).right(Offset[1]).click();
-						Helper.Keystrokeup(Math.abs(Integer.parseInt(FundsRequiredValues.get("LoanPurpose").toString()) - 3));
-						Helper.Keystrokeenter(1);
+					else if (Integer.parseInt(FundsRequiredValues.get("TransactionType").toString()) == 1){ 
+						if (Integer.parseInt(FundsRequiredValues.get("UseofFunds").toString()) != 4){
+							screen.find(UseOfFunds).right(Offset[1]).click();
+							Helper.Keystrokeup(Math.abs(4 - Integer.parseInt(FundsRequiredValues.get("UseofFunds").toString())));
+							Helper.Keystrokeenter(1);
+						}
 					}			
+				}else{
+					System.out.println("Invalid Parameter Passed for UseofFunds");
+					return false;
 				}
-			}else{
-				System.out.println("Invalid Parameter Passed for LoanPurpose");
-				return false;
-			}
-			
-			if ((FundsRequiredValues.get("PropertyType") != null) && (Integer.parseInt(FundsRequiredValues.get("PropertyType").toString()) >= 1)){
-				
-				if ((Integer.parseInt(FundsRequiredValues.get("PropertyType").toString()) - 4) > 0){
-					screen.find(PropertyType).right(Offset[1]).click();
-					Helper.Keystrokedown(Math.abs(Integer.parseInt(FundsRequiredValues.get("PropertyType").toString()) - 4));
-					Helper.Keystrokeenter(1);
-				}
-				else if ((Integer.parseInt(FundsRequiredValues.get("PropertyType").toString()) - 4) < 0){
-					screen.find(PropertyType).right(Offset[1]).click();
-					Helper.Keystrokeup(Math.abs(Integer.parseInt(FundsRequiredValues.get("PropertyType").toString()) - 4));
-					Helper.Keystrokeenter(1);
-				}
-			}else{
-				System.out.println("Invalid Parameter Passed for PropertyType");
-				return false;
-			}
-			
-			if ((FundsRequiredValues.get("Location") != null) && (Integer.parseInt(FundsRequiredValues.get("Location").toString()) >= 1)){
-				screen.find(Location).right(Offset[1]).click();
-				Helper.Keystrokedown(Integer.parseInt(FundsRequiredValues.get("Location").toString()));
-				Helper.Keystrokeenter(1);
-				
-			}else{
-				System.out.println("Invalid Parameter Passed for Location");
-				return false;
-			}
-			
-			if ((FundsRequiredValues.get("State") != null) && (Integer.parseInt(FundsRequiredValues.get("State").toString()) >= 1)){
-				if ((Integer.parseInt(FundsRequiredValues.get("State").toString()) - 5) > 0){
-					screen.click(State);
-					Helper.Keystrokedown(Math.abs(Integer.parseInt(FundsRequiredValues.get("State").toString()) - 5));
-					Helper.Keystrokeenter(1);
-				}
-				else if ((Integer.parseInt(FundsRequiredValues.get("State").toString()) - 5) < 0){
-					screen.click(State);
-					Helper.Keystrokeup(Math.abs(Integer.parseInt(FundsRequiredValues.get("State").toString()) - 5));
-					Helper.Keystrokeenter(1);
-				}
-			}else{
-				System.out.println("Invalid Parameter Passed for state");
-				return false;
-			}
-			
-			if ( FundsRequiredValues.get("LinkSecurity") != null && FundsRequiredValues.get("LinkSecurity").toString().equals("Uncheck")){
-				screen.click(LinkSecurity);
-			}
-			
-			if (AdditionalValuesFundsRequired(FundsRequiredValues) != true){
-				return false;
-			};
-			if(Integer.parseInt(FundsRequiredValues.get("TransactionType").toString()) == 1 || Integer.parseInt(FundsRequiredValues.get("TransactionType").toString()) == 3){
-				if (JSON.GetTestData(FundsRequiredValues, "Bridging").get("Bridging").toString().equals("Check")){
-					if (Bridging(JSON.GetTestData(FundsRequiredValues, "Bridging")) != true){
-						return false;
+	
+				if ((FundsRequiredValues.get("LoanPurpose") != null) && (Integer.parseInt(FundsRequiredValues.get("LoanPurpose").toString()) >= 1) && (Integer.parseInt(FundsRequiredValues.get("LoanPurpose").toString()) <= 4)){
+					if (Integer.parseInt(FundsRequiredValues.get("LoanPurpose").toString()) != 3){
+						
+						if ((Integer.parseInt(FundsRequiredValues.get("LoanPurpose").toString()) - 3) > 0){
+							screen.find(LoanPurpose).right(Offset[1]).click();
+							Helper.Keystrokedown(Math.abs(Integer.parseInt(FundsRequiredValues.get("LoanPurpose").toString()) - 3));
+							Helper.Keystrokeenter(1);
+						}
+						else if ((Integer.parseInt(FundsRequiredValues.get("LoanPurpose").toString()) - 3) < 0){
+							screen.find(LoanPurpose).right(Offset[1]).click();
+							Helper.Keystrokeup(Math.abs(Integer.parseInt(FundsRequiredValues.get("LoanPurpose").toString()) - 3));
+							Helper.Keystrokeenter(1);
+						}			
 					}
+				}else{
+					System.out.println("Invalid Parameter Passed for LoanPurpose");
+					return false;
+				}
+				
+				if ((FundsRequiredValues.get("PropertyType") != null) && (Integer.parseInt(FundsRequiredValues.get("PropertyType").toString()) >= 1)){
+					
+					if ((Integer.parseInt(FundsRequiredValues.get("PropertyType").toString()) - 4) > 0){
+						screen.find(PropertyType).right(Offset[1]).click();
+						Helper.Keystrokedown(Math.abs(Integer.parseInt(FundsRequiredValues.get("PropertyType").toString()) - 4));
+						Helper.Keystrokeenter(1);
+					}
+					else if ((Integer.parseInt(FundsRequiredValues.get("PropertyType").toString()) - 4) < 0){
+						screen.find(PropertyType).right(Offset[1]).click();
+						Helper.Keystrokeup(Math.abs(Integer.parseInt(FundsRequiredValues.get("PropertyType").toString()) - 4));
+						Helper.Keystrokeenter(1);
+					}
+				}else{
+					System.out.println("Invalid Parameter Passed for PropertyType");
+					return false;
+				}
+				
+				if ((FundsRequiredValues.get("Location") != null) && (Integer.parseInt(FundsRequiredValues.get("Location").toString()) >= 1)){
+					screen.find(Location).right(Offset[1]).click();
+					Helper.Keystrokedown(Integer.parseInt(FundsRequiredValues.get("Location").toString()));
+					Helper.Keystrokeenter(1);
+					
+				}else{
+					System.out.println("Invalid Parameter Passed for Location");
+					return false;
+				}
+				
+				if ((FundsRequiredValues.get("State") != null) && (Integer.parseInt(FundsRequiredValues.get("State").toString()) >= 1)){
+					if ((Integer.parseInt(FundsRequiredValues.get("State").toString()) - 5) > 0){
+						screen.click(State);
+						Helper.Keystrokedown(Math.abs(Integer.parseInt(FundsRequiredValues.get("State").toString()) - 5));
+						Helper.Keystrokeenter(1);
+					}
+					else if ((Integer.parseInt(FundsRequiredValues.get("State").toString()) - 5) < 0){
+						screen.click(State);
+						Helper.Keystrokeup(Math.abs(Integer.parseInt(FundsRequiredValues.get("State").toString()) - 5));
+						Helper.Keystrokeenter(1);
+					}
+				}else{
+					System.out.println("Invalid Parameter Passed for state");
+					return false;
+				}
+				
+				if ( FundsRequiredValues.get("LinkSecurity") != null && FundsRequiredValues.get("LinkSecurity").toString().equals("Uncheck")){
+					screen.click(LinkSecurity);
+				}
+				
+				if (AdditionalValuesFundsRequired(FundsRequiredValues) != true){
+					return false;
+				};
+				if(Integer.parseInt(FundsRequiredValues.get("TransactionType").toString()) == 1 || Integer.parseInt(FundsRequiredValues.get("TransactionType").toString()) == 3){
+					if (JSON.GetTestData(FundsRequiredValues, "Bridging").get("Bridging").toString().equals("Check")){
+						if (Bridging(JSON.GetTestData(FundsRequiredValues, "Bridging")) != true){
+							return false;
+						}
+					}
+				}
+				
+				if (JSON.GetTestData(FundsRequiredValues, "LVRCalculation").get("LowDoc") != null && JSON.GetTestData(FundsRequiredValues, "LVRCalculation").get("LowDoc").toString().equals("Yes")){
+					screen.click(FullDOC);
+					Helper.Keystrokeup(1);
+					Helper.Keystrokeenter(1);
+				}
+				if (JSON.GetTestData(FundsRequiredValues, "LVRCalculation").get("CapitalisedLMI") != null && JSON.GetTestData(FundsRequiredValues, "LVRCalculation").get("CapitalisedLMI").toString().equals("Uncheck")){
+					screen.click(CapitaliseLMI);
 				}
 			}
 			return true;
@@ -205,9 +237,8 @@ public class FundsRequired {
 			return false;
 		}
 		
-	
-		
 	}
+	
 	public static boolean AdditionalValuesFundsRequired(JSONObject FundsRequiredPayLoad){
 		switch(Integer.parseInt(FundsRequiredPayLoad.get("TransactionType").toString())){
 		case 1:
@@ -403,21 +434,7 @@ public class FundsRequired {
 	}
 	
 	public static boolean Increaseexistinglender(JSONObject FundsRequiredPayLoad){
-		/*"LoanIncreaseAmount":"100000",
-		"ReasonforIncrease":"3",
-		"LoanBalance":"250000",
-		"LoanLimit":"500000",
-		"SecurityValue":"500000",
-		"SecuredLimt":"100000",
-		"ExistingLMI": "Check",
-		"LMIPremiumCredit":"14000",
-		"NumberofDebts":2
-		
-		static Pattern LoanIncreaseAmount;
-		static Pattern ReasonforLoanIncrease;
-		static Pattern SecuredLimt;
-		static Pattern LMIPremiumCredit;
-		*/
+
 		JSONObject Increaseexistinglender = (JSONObject) FundsRequiredPayLoad.get("Increaseexistinglender");
 		try {
 			if (Increaseexistinglender.get("LoanIncreaseAmount") != null && Double.parseDouble(Increaseexistinglender.get("LoanIncreaseAmount").toString()) > 0){
@@ -466,10 +483,8 @@ public class FundsRequired {
 				Helper.ClearTextBox(15);
 				Helper.ClearTextBoxandEnterValue(Increaseexistinglender.get("SecuredLimt").toString());
 				Helper.Keystrokeenter(1);
-			}else{
-				System.out.println("Invalid parameter passed for SecuredLimt");
-				return false;
 			}
+			
 			if(Increaseexistinglender.get("ExistingLMI") != null && Increaseexistinglender.get("ExistingLMI").toString().equals("Check")){
 				screen.click(ExistingLMI);
 				if (Increaseexistinglender.get("LMIPremiumCredit") != null && Double.parseDouble(Increaseexistinglender.get("LMIPremiumCredit").toString()) > 0){
@@ -501,7 +516,73 @@ public class FundsRequired {
 	}
 	
 	public static boolean Refinance(JSONObject FundsRequiredPayLoad){
-		return false;
+
+		
+		JSONObject Refinance = (JSONObject) FundsRequiredPayLoad.get("Refinance");
+		try{
+			if (Refinance.get("RefinanceAmount") != null && Double.parseDouble(Refinance.get("RefinanceAmount").toString()) > 0){
+				screen.find(RefinanceAmount).right(Offset[2]).click();
+				Helper.ClearTextBoxandEnterValue(Refinance.get("RefinanceAmount").toString());
+				Helper.Keystrokeenter(1);
+			}else{
+				System.out.println("Invalid parameter passed for RefinanceAmount");
+				return false;
+			}
+			if (Refinance.get("CashOut") != null && Double.parseDouble(Refinance.get("CashOut").toString()) > 0){
+				screen.find(CashOut).right(Offset[2]).click();
+				Helper.ClearTextBoxandEnterValue(Refinance.get("CashOut").toString());
+				Helper.Keystrokeenter(1);
+			}else{
+				System.out.println("Invalid parameter passed for CashOut");
+				return false;
+			}
+			if (Refinance.get("ReasonforCashOut") != null && Integer.parseInt(Refinance.get("ReasonforCashOut").toString()) > 0){
+				screen.find(ReasonforCashOut).right(Offset[3]).click();
+				Helper.Keystrokedown(Integer.parseInt((Refinance.get("ReasonforCashOut").toString())));
+				Helper.Keystrokeenter(1);
+			}else{
+				System.out.println("Invalid parameter passed for ReasonforCashOut");
+				return false;
+			}
+			if (Refinance.get("ConsolidationAmount") != null && Double.parseDouble(Refinance.get("ConsolidationAmount").toString()) > 0){
+				screen.find(ConsolidationAmount).right(Offset[3]).click();
+				Helper.ClearTextBoxandEnterValue(Refinance.get("ConsolidationAmount").toString());
+				Helper.Keystrokeenter(1);
+			}else{
+				System.out.println("Invalid parameter passed for ConsolidationAmount");
+				return false;
+			}
+			if (FundsRequiredPayLoad.get("UseofFunds").toString().equals("2")){
+				if (Refinance.get("NumberofDebts") != null && Integer.parseInt(Refinance.get("NumberofDebts").toString()) > 0){
+					screen.find(NumberofDebts).right(Offset[2]).click();
+					Helper.ClearTextBoxandEnterValue(Refinance.get("NumberofDebts").toString());
+					Helper.Keystrokeenter(1);
+				}else{
+					System.out.println("Invalid parameter passed for NumberofDebts");
+					return false;
+				}
+			}
+			if (Refinance.get("SecurityValue") != null && Double.parseDouble(Refinance.get("SecurityValue").toString()) > 0){
+				screen.find(SecurityValue).right(Offset[2]).click();
+				Helper.ClearTextBoxandEnterValue(Refinance.get("SecurityValue").toString());
+				Helper.Keystrokeenter(1);
+			}else{
+				System.out.println("Invalid parameter passed for SecurityValue");
+				return false;
+			}
+			if (Refinance.get("SecuredLimt") != null && Double.parseDouble(Refinance.get("SecuredLimt").toString()) > 0){
+				screen.find(SecuredLimt).right(Offset[2]).click();
+				Helper.ClearTextBox(15);
+				Helper.ClearTextBoxandEnterValue(Refinance.get("SecuredLimt").toString());
+				Helper.Keystrokeenter(1);
+			}
+			
+			return true;
+		}catch (FindFailed e) {
+			e.printStackTrace();
+			return false;
+		}
+		
 	}
 }
 	

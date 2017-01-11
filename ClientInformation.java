@@ -184,6 +184,7 @@ public class ClientInformation {
 		JSONArray CustomerInformation_Array = (JSONArray) RawFile.get("Customerinformation");
 		
 		try {
+			
 			App.focus("Qualifier Analyser");
 			screen.wait(titlelabel,30);
 			Iterator<JSONObject> CustomerInformationArray = CustomerInformation_Array.iterator();
@@ -238,7 +239,9 @@ public class ClientInformation {
 						screen.type(JSON.GetTestData(CustomerInformation, "CustomerAddress").get("AddressLine2").toString());
 					}
 					screen.click(SelectRegion);
-					SelectPostCode(JSON.GetTestData(CustomerInformation, "CustomerAddress").get("Suburb").toString(),JSON.GetTestData(CustomerInformation, "CustomerAddress").get("PostCode").toString());
+					if (SelectPostCode(JSON.GetTestData(CustomerInformation, "CustomerAddress").get("Suburb").toString(),JSON.GetTestData(CustomerInformation, "CustomerAddress").get("PostCode").toString()) != true){
+						return false;
+					}
 					screen.find(MoveInDate).right(Offset[4]).click();
 					screen.type(JSON.GetTestData(CustomerInformation, "CustomerAddress").get("MoveInDate").toString());
 					IncomeExpenses(CustomerInformation);
@@ -291,7 +294,7 @@ public class ClientInformation {
 
 	}
 	
-	public static void SelectPostCode(String Suburb, String Postcode){
+	public static boolean SelectPostCode(String Suburb, String Postcode){
 		Screen screen = new Screen();
 		try{
 			App.pause(3);
@@ -302,8 +305,10 @@ public class ClientInformation {
 			screen.type(Postcode);
 			screen.click(popupOK);
 			screen.waitVanish(popupOK,30);
+			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 	
