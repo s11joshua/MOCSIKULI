@@ -1,0 +1,560 @@
+{
+	"EnvironmentDetails": {
+		"TestEnvironment": "SIT"
+	},
+	"UserDetails": {
+		"MFO": "Yes",
+		"Franchise": ["NSW646"],
+		"Username": "joanne.gocher",
+		"Password": "choosey1!"
+	},
+	"Customerinformation": [{
+		"NewCustomer": "Yes",
+		"CustomerType": "Individual",
+		"ResidentialStatus": 4,
+		"DOB": "11/04/1983",
+		"PreferredContactMethod": 1,
+		"Probation": "Uncheck",
+		"PrimaryEmployment": 3,
+		"EmploymentType": 2,
+
+		"CustomerContactDetails": {
+			"BusinessPhone": "0292667890",
+			"HomePhone": "0292777890",
+			"Mobile": "0426940940",
+			"EmailId": "s11joshua@gmail.co.in"
+		},
+		"CustomerNames": {
+			"Title": 1,
+			"FirstName": "Suresh",
+			"MiddleName": "Joshua",
+			"LastName": "Anthony"
+		},
+		"CustomerAddress": {
+			"AddressLine1": "unit 27/99-101,Anzac Avenue",
+			"AddressLine2": "Test Address Line2",
+			"Suburb": "West Ryde",
+			"PostCode": "2114",
+			"MoveInDate": "10/2010"
+		},
+		"CustomerDependents": {
+			"NumberOfDependents": "2",
+			"DependentsDOB": ["18/05/2009", "10/05/2014"],
+			"BoardwithRelatives": "Yes",
+			"NonAplicantSpouse": "Yes",
+			"NumberofDependentsNonApplicantSpouse": "2"
+		},
+		"CustomerLivingExpenses": {
+			"HouseholdOfApplicant": 1,
+			"BasicExpenses": "600",
+			"Gym-OtherMembeships": "200",
+			"AdditionalMotorVehicles": "260",
+			"ChildCare": "1000",
+			"PrivateSchoolFees": "",
+			"Other": "500",
+			"CreditAssementNotes": "Test Credit Notes1"
+		},
+		"CustomerIncome": [{
+			"IncomeGroup": 1,
+			"IncomeType": 1,
+			"SourceOfProposedRentalIncome": null,
+			"Amount": "7500",
+			"Frequency": 1,
+			"Taxed": 1
+		}, {
+			"IncomeGroup": 1,
+			"IncomeType": 4,
+			"SourceOfProposedRentalIncome": 2,
+			"Amount": "500",
+			"Frequency": 1,
+			"Taxed": 1
+		}],
+		"CustomerFinancialCommitments": [{
+			"CommitmentGroup": "4",
+			"CommitmentType": "1",
+			"WillbeCleared": "Yes",
+			"TaxDeductable": "Yes",
+			"RepaymentAmount": "7000",
+			"Frequency": "1",
+			"Lender": "1",
+			"Balance": "100000",
+			"Limit": "150000",
+			"PaidinFull": null,
+			"RemainingP&ITerm": "5",
+			"RemainingP&ITermFrequency": "1",
+			"RepaymentType": "1",
+			"Interestrate": "4.5"
+		}, {
+			"CommitmentGroup": "6",
+			"CommitmentType": "1",
+			"WillbeCleared": null,
+			"TaxDeductable": null,
+			"RepaymentAmount": null,
+			"Frequency": null,
+			"Lender": null,
+			"Balance": null,
+			"Limit": null,
+			"PaidinFull": null,
+			"RemainingP&ITerm": null,
+			"RemainingP&ITermFrequency": null,
+			"RepaymentType": null,
+			"Interestrate": null
+		}]
+	}, {
+		"NewCustomer": "Yes",
+		"CustomerType": "Guarantor",
+		"ResidentialStatus": 2,
+		"DOB": "12/04/1987",
+		"PreferredContactMethod": 2,
+		"Probation": "Check",
+		"PrimaryEmployment": 6,
+		"EmploymentType": 5,
+
+		"CustomerContactDetails": {
+			"BusinessPhone": "0292667891",
+			"HomePhone": "0292777891",
+			"Mobile": "0426940941",
+			"EmailId": "s11joshua@gmail.co.in"
+		},
+		"CustomerNames": {
+			"Title": 1,
+			"FirstName": "suresh",
+			"MiddleName": "",
+			"LastName": "20161206"
+		},
+		"CustomerAddress": {
+			"AddressLine1": "unit 27/99-101,Anzac Avenue",
+			"AddressLine2": null,
+			"Suburb": "West Ryde",
+			"PostCode": "2114",
+			"MoveInDate": "10/2010"
+		},
+		"CustomerDependents": {
+			"NumberOfDependents": "2",
+			"DependentsDOB": ["18/05/2009", "10/05/2014"],
+			"BoardwithRelatives": "Yes",
+			"NonAplicantSpouse": "Yes",
+			"NumberofDependentsNonApplicantSpouse": "0"
+		},
+		"CustomerLivingExpenses": {
+
+			"HouseholdOfApplicant": 1,
+			"BasicExpenses": null,
+			"Gym-OtherMembeships": null,
+			"AdditionalMotorVehicles": null,
+			"ChildCare": null,
+			"PrivateSchoolFees": null,
+			"Other": null,
+			"CreditAssementNotes": null
+		},
+		"CustomerIncome": [{
+			"IncomeGroup": 1,
+			"IncomeType": 4,
+			"SourceOfProposedRentalIncome": 1,
+			"Amount": "7500",
+			"Frequency": 1,
+			"Taxed": 1
+		}, {
+			"IncomeGroup": 1,
+			"IncomeType": 2,
+			"SourceOfProposedRentalIncome": null,
+			"Amount": "500",
+			"Frequency": 1,
+			"Taxed": 1
+		}],
+		"CustomerFinancialCommitments": [{
+			"CommitmentGroup": "4",
+			"CommitmentType": "1",
+			"WillbeCleared": null,
+			"TaxDeductable": null,
+			"RepaymentAmount": "7000",
+			"Frequency": "2",
+			"Lender": "1",
+			"Balance": "100000",
+			"Limit": "150000",
+			"PaidinFull": null,
+			"RemainingP&ITerm": "3",
+			"RemainingP&ITermFrequency": "1",
+			"RepaymentType": "1",
+			"Interestrate": "4.5"
+		}, {
+			"CommitmentGroup": "6",
+			"CommitmentType": "1",
+			"WillbeCleared": "Yes",
+			"TaxDeductable": "Yes",
+			"RepaymentAmount": null,
+			"Frequency": null,
+			"Lender": null,
+			"Balance": null,
+			"Limit": null,
+			"PaidinFull": null,
+			"RemainingP&ITerm": null,
+			"RemainingP&ITermFrequency": null,
+			"RepaymentType": null,
+			"Interestrate": null
+		}]
+	}],
+	"FundsRequired": [{
+		"TransactionType": 1,
+		"UseofFunds": 2,
+		"LoanPurpose": 2,
+		"PropertyType": 2,
+		"Location": 3,
+		"State": 2,
+		"LinkSecurity": "Uncheck",
+
+		"Bridging": {
+			"Bridging": "Check",
+			"Refinance": "Check",
+			"BridgingSecurityValue": "100000",
+			"BridgingLoanBalance": "20000",
+			"BridgingSellingCostsCashOut": "30000",
+			"BridgingCapitalisedinterest": "4000",
+			"BridgingExistingLMI": "Check",
+			"BridgingExistingLMIvalue": "14000"
+		},
+		"NewPurchase": {
+			"FHO": "Yes",
+			"PurchasePrice": "750000"
+		},
+		"NewPersonalLoanUse": {
+			"FundsRequested": "100000",
+			"ReasonforCashOut": 2,
+			"SecurityValue": "200000",
+			"LoanBalance": null,
+			"LoanLimit": null,
+			"NumberofDebts": 2
+		},
+		"Construction": {
+			"FHO": "Yes",
+			"Ownerbuilder": "Check",
+			"LandValue": "250000",
+			"ConstructionCosts": "350000",
+			"ThisLoanIs": 3,
+			"LoanBalance": "100000",
+			"LoanLimit": "200000",
+			"ExistingLMI": "Check",
+			"ExistingLMIvalue": "14000"
+		},
+		"Increaseexistinglender": {
+			"LoanIncreaseAmount": "100000",
+			"ReasonforIncrease": "3",
+			"LoanBalance": "250000",
+			"LoanLimit": "10000",
+			"SecurityValue": "10000",
+			"SecuredLimt": null,
+			"ExistingLMI": "Check",
+			"LMIPremiumCredit": "14000",
+			"NumberofDebts": 2
+		},
+		"Refinance": {
+			"RefinanceAmount": "75000",
+			"CashOut": "10000",
+			"ReasonforCashOut": "3",
+			"ConsolidationAmount": "15000",
+			"NumberofDebts": "3",
+			"SecurityValue": "5000",
+			"SecuredLimt": null
+		},
+		"LVRCalculation": {
+			"LowDoc": "Yes",
+			"CapitalisedLMI": "Uncheck"
+		}
+	}, {
+		"TransactionType": 2,
+		"UseofFunds": 2,
+		"LoanPurpose": 2,
+		"PropertyType": 2,
+		"Location": 3,
+		"State": 2,
+		"LinkSecurity": "Uncheck",
+
+		"Bridging": {
+			"Bridging": "Check",
+			"Refinance": "Check",
+			"BridgingSecurityValue": "100000",
+			"BridgingLoanBalance": "20000",
+			"BridgingSellingCostsCashOut": "30000",
+			"BridgingCapitalisedinterest": "4000",
+			"BridgingExistingLMI": "Check",
+			"BridgingExistingLMIvalue": "14000"
+		},
+		"NewPurchase": {
+			"FHO": "Yes",
+			"PurchasePrice": "750000"
+		},
+		"NewPersonalLoanUse": {
+			"FundsRequested": "100000",
+			"ReasonforCashOut": 2,
+			"SecurityValue": "200000",
+			"LoanBalance": "1000",
+			"LoanLimit": null,
+			"NumberofDebts": 2
+		},
+		"Construction": {
+			"FHO": "Yes",
+			"Ownerbuilder": "Check",
+			"LandValue": "250000",
+			"ConstructionCosts": "350000",
+			"ThisLoanIs": 3,
+			"LoanBalance": "100000",
+			"LoanLimit": "200000",
+			"ExistingLMI": "Check",
+			"ExistingLMIvalue": "14000"
+		},
+		"Increaseexistinglender": {
+			"LoanIncreaseAmount": "100000",
+			"ReasonforIncrease": "3",
+			"LoanBalance": "250000",
+			"LoanLimit": "10000",
+			"SecurityValue": "10000",
+			"SecuredLimt": null,
+			"ExistingLMI": "Check",
+			"LMIPremiumCredit": "14000",
+			"NumberofDebts": 2
+		},
+		"Refinance": {
+			"RefinanceAmount": "75000",
+			"CashOut": "10000",
+			"ReasonforCashOut": "3",
+			"ConsolidationAmount": "15000",
+			"NumberofDebts": "3",
+			"SecurityValue": "5000",
+			"SecuredLimt": null
+		},
+		"LVRCalculation": {
+			"LowDoc": "No",
+			"CapitalisedLMI": "Check"
+		}
+	}, {
+		"TransactionType": 1,
+		"UseofFunds": 2,
+		"LoanPurpose": 2,
+		"PropertyType": 2,
+		"Location": 3,
+		"State": 2,
+		"LinkSecurity": "Uncheck",
+
+		"Bridging": {
+			"Bridging": "Check",
+			"Refinance": "Check",
+			"BridgingSecurityValue": "100000",
+			"BridgingLoanBalance": "20000",
+			"BridgingSellingCostsCashOut": "30000",
+			"BridgingCapitalisedinterest": "4000",
+			"BridgingExistingLMI": "Check",
+			"BridgingExistingLMIvalue": "14000"
+		},
+		"NewPurchase": {
+			"FHO": "Yes",
+			"PurchasePrice": "750000"
+		},
+		"NewPersonalLoanUse": {
+			"FundsRequested": "100000",
+			"ReasonforCashOut": 2,
+			"SecurityValue": "200000",
+			"LoanBalance": null,
+			"LoanLimit": null,
+			"NumberofDebts": 2
+		},
+		"Construction": {
+			"FHO": "Yes",
+			"Ownerbuilder": "Check",
+			"LandValue": "250000",
+			"ConstructionCosts": "350000",
+			"ThisLoanIs": 3,
+			"LoanBalance": "100000",
+			"LoanLimit": "200000",
+			"ExistingLMI": "Check",
+			"ExistingLMIvalue": "14000"
+		},
+		"Increaseexistinglender": {
+			"LoanIncreaseAmount": "100000",
+			"ReasonforIncrease": "3",
+			"LoanBalance": "250000",
+			"LoanLimit": "10000",
+			"SecurityValue": "10000",
+			"SecuredLimt": null,
+			"ExistingLMI": "Check",
+			"LMIPremiumCredit": "14000",
+			"NumberofDebts": 2
+		},
+		"Refinance": {
+			"RefinanceAmount": "75000",
+			"CashOut": "10000",
+			"ReasonforCashOut": "3",
+			"ConsolidationAmount": "15000",
+			"NumberofDebts": "3",
+			"SecurityValue": "5000",
+			"SecuredLimt": null
+		},
+		"LVRCalculation": {
+			"LowDoc": "Yes",
+			"CapitalisedLMI": "Uncheck"
+		}
+	}],
+	"Securities": {
+		"AdditionalSecurity": [{
+			"NotImplemeted": "NotImplemeted"
+		}],
+		"SecurityDetails": [{
+			"AddressLine1": "unit 24/30, Anzac Avenue",
+			"AddressLine2": "Address Line 2",
+			"Suburb": "West Ryde",
+			"PostCode": "2114",
+			"Lender": 3,
+			"HeritageListed": "Uncheck",
+			"FloodAffected": "Uncheck",
+			"DefenceHousing": "Uncheck",
+			"MineSubsidence": "Uncheck",
+			"HighDensity": "Uncheck",
+			"MultipleOccupancy": "Uncheck",
+			"OffthePlanCompletionDate": "23112017",
+			"TitleType": 13,
+			"Zoning": 1,
+			"LandFloorArea": "100",
+			"Squaremeter": "Yes",
+			"Hectares": "No"
+		}, {
+			"AddressLine1": "unit 24/30, Anzac Avenue",
+			"AddressLine2": "Address Line 2",
+			"Suburb": "West Ryde",
+			"PostCode": "2114",
+			"Lender": 3,
+			"HeritageListed": "Uncheck",
+			"FloodAffected": "Uncheck",
+			"DefenceHousing": "Uncheck",
+			"MineSubsidence": "Uncheck",
+			"HighDensity": "Uncheck",
+			"MultipleOccupancy": "Check",
+			"OffthePlanCompletionDate": null,
+			"TitleType": 5,
+			"Zoning": 3,
+			"LandFloorArea": "100",
+			"Squaremeter": "No",
+			"Hectares": "Yes"
+		}, {
+			"AddressLine1": "unit 24/30, Anzac Avenue",
+			"AddressLine2": "Address Line 2",
+			"Suburb": "West Ryde",
+			"PostCode": "2114",
+			"Lender": 3,
+			"HeritageListed": "Check",
+			"FloodAffected": "Check",
+			"DefenceHousing": "Check",
+			"MineSubsidence": "Check",
+			"HighDensity": "Check",
+			"MultipleOccupancy": "Check",
+			"OffthePlanCompletionDate": "23112017",
+			"TitleType": 5,
+			"Zoning": 5,
+			"LandFloorArea": "100",
+			"Squaremeter": "Yes",
+			"Hectares": "No"
+		}]
+	},
+	"LoanStructure": {
+		"IncludeCapitalisedLMI":"2",
+		"Loan": [{
+			"SplitValues": [{
+				"SplitAmountRatio": 25,
+				"AdjustLoan": 1,
+				"InterestType": "Fixed",
+				"RepaymentType": 1,
+				"ReasonforInterestOnly": 5,
+				"OtherReason": "test",
+				"TermInYears": 30,
+				"InterestOnlyPeriod": "5Y",
+				"FixedInterestPeriod": "12M"
+			}, {
+				"SplitAmountRatio": 50,
+				"AdjustLoan": 1,
+				"InterestType": "Variable",
+				"RepaymentType": 1,
+				"ReasonforInterestOnly": 5,
+				"OtherReason": "test",
+				"TermInYears": 30,
+				"InterestOnlyPeriod": "5Y",
+				"FixedInterestPeriod": null
+			}, {
+				"SplitAmountRatio": 25,
+				"AdjustLoan": 2,
+				"InterestType": "Fixed",
+				"RepaymentType": 3,
+				"ReasonforInterestOnly": null,
+				"OtherReason": null,
+				"TermInYears": 30,
+				"InterestOnlyPeriod": "5Y",
+				"FixedInterestPeriod": "12M"
+			}]
+		}, {
+			"SplitValues": [{
+				"SplitAmountRatio": 100,
+				"AdjustLoan": null,
+				"InterestType": "Fixed",
+				"RepaymentType": 1,
+				"ReasonforInterestOnly": 5,
+				"OtherReason": "test",
+				"TermInYears": 30,
+				"InterestOnlyPeriod": "5Y",
+				"FixedInterestPeriod": "12M"
+			}]
+		}, {
+			"SplitValues": [{
+				"SplitAmountRatio": 40,
+				"AdjustLoan": 1,
+				"InterestType": "Variable",
+				"RepaymentType": 2,
+				"ReasonforInterestOnly": null,
+				"OtherReason": null,
+				"TermInYears": 15,
+				"InterestOnlyPeriod": null,
+				"FixedInterestPeriod": null
+			}, {
+				"SplitAmountRatio": 60,
+				"AdjustLoan": 1,
+				"InterestType": "Fixed",
+				"RepaymentType": 1,
+				"ReasonforInterestOnly": 5,
+				"OtherReason": "test",
+				"TermInYears": 10,
+				"InterestOnlyPeriod": "12M",
+				"FixedInterestPeriod": "60M"
+			}]
+		}, {
+			"SplitValues": [{
+				"SplitAmountRatio": 100,
+				"AdjustLoan": null,
+				"InterestType": "Variable",
+				"RepaymentType": 2,
+				"ReasonforInterestOnly": null,
+				"OtherReason": null,
+				"TermInYears": 10,
+				"InterestOnlyPeriod": null,
+				"FixedInterestPeriod": null
+			}]
+		}, {
+			"SplitValues": [{
+				"SplitAmountRatio": 70,
+				"AdjustLoan": 1,
+				"InterestType": "Variable",
+				"RepaymentType": 2,
+				"ReasonforInterestOnly": null,
+				"OtherReason": null,
+				"TermInYears": 15,
+				"InterestOnlyPeriod": null,
+				"FixedInterestPeriod": null
+			}, {
+				"SplitAmountRatio": 30,
+				"AdjustLoan": 1,
+				"InterestType": "Fixed",
+				"RepaymentType": 1,
+				"ReasonforInterestOnly": 5,
+				"OtherReason": "test",
+				"TermInYears": 10,
+				"InterestOnlyPeriod": "12M",
+				"FixedInterestPeriod": "60M"
+			}]
+		}]
+	}
+}
