@@ -1,9 +1,10 @@
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.sikuli.script.App;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
@@ -36,25 +37,31 @@ public class Securities {
 	static Pattern Security3;
 	static Pattern Security4;
 	static Pattern Security5;
+	static Pattern Security6;
+	static Pattern Security7;
+	static Pattern Security8;
+	static Pattern Security9;
+	static Pattern Security10;
 		
 	public Securities(){
-		new Securities("C:\\Sikuli Images\\Securities\\Securities\\");
+		new Securities("C:\\Sikuli Images\\Securities\\");
 	}
 	
 	public Securities(String Imagefolderlocation){
 		
-		AddressLine1 =  new Pattern(Imagefolderlocation + "Address.PNG");
-		AddSecurity =  new Pattern(Imagefolderlocation + "AddSecurity.PNG");
-		DefenceHousing =  new Pattern(Imagefolderlocation + "DefenceHousing.PNG");
-		FloodAffected =  new Pattern(Imagefolderlocation + "FloodAffected.PNG");
-		Hectares =  new Pattern(Imagefolderlocation + "Hectares.PNG");
-		HeritageListed =  new Pattern(Imagefolderlocation + "HeritageListed.PNG");
-		HighDensity =  new Pattern(Imagefolderlocation + "HighDensity.PNG");
-		LandFloorArea =  new Pattern(Imagefolderlocation + "LandFloorArea.PNG");
-		Lender =  new Pattern(Imagefolderlocation + "Lender.PNG");
-		MineSubsidence =  new Pattern(Imagefolderlocation + "MineSubsidence.PNG");
-		MultipleOccupancy =  new Pattern(Imagefolderlocation + "MultipleOccupancy.PNG");
-		OffthePLanCompletion =  new Pattern(Imagefolderlocation + "OffthePLanCompletion.PNG");
+		AddressLine1 = new Pattern(Imagefolderlocation + "Address.PNG");
+		AddSecurity = new Pattern(Imagefolderlocation + "AddSecurity.PNG");
+		DefenceHousing = new Pattern(Imagefolderlocation + "DefenceHousing.PNG");
+		FloodAffected = new Pattern(Imagefolderlocation + "FloodAffected.PNG");
+		Hectares = new Pattern(Imagefolderlocation + "Hectares.PNG");
+		HeritageListed = new Pattern(Imagefolderlocation + "HeritageListed.PNG");
+		HighDensity = new Pattern(Imagefolderlocation + "HighDensity.PNG");
+		LandFloorArea = new Pattern(Imagefolderlocation + "LandFloorArea.PNG");
+		Lender = new Pattern(Imagefolderlocation + "Lender.PNG");
+		MineSubsidence = new Pattern(Imagefolderlocation + "MineSubsidence.PNG");
+		MultipleOccupancy = new Pattern(Imagefolderlocation + "MultipleOccupancy.PNG");
+		OffthePLanCompletion = new Pattern(Imagefolderlocation + "OffthePLanCompletion.PNG");
+		Zoning = new Pattern(Imagefolderlocation + "Zoning.PNG");
 		SelectRegion =  new Pattern(Imagefolderlocation + "PostCode-popup.PNG");
 		Securities =  new Pattern(Imagefolderlocation + "Securities.PNG");
 		Sqm =  new Pattern(Imagefolderlocation + "Sqm.PNG");
@@ -64,6 +71,11 @@ public class Securities {
 		Security3 = new Pattern(Imagefolderlocation + "Security3.PNG");
 		Security4 = new Pattern(Imagefolderlocation + "Security4.PNG");
 		Security5 = new Pattern(Imagefolderlocation + "Security5.PNG");
+		Security6 = new Pattern(Imagefolderlocation + "Security6.PNG");
+		Security7 = new Pattern(Imagefolderlocation + "Security7.PNG");
+		Security8 = new Pattern(Imagefolderlocation + "Security8.PNG");
+		Security9 = new Pattern(Imagefolderlocation + "Security9.PNG");
+		Security10 = new Pattern(Imagefolderlocation + "Security10.PNG");
 	}
 	
 	public static boolean CaptureSecurities(JSONObject RawFile){
@@ -73,7 +85,7 @@ public class Securities {
 		Iterator<JSONObject> SecuritiesArray = Securities_Array.iterator();
 		JSONArray FundsRequired_Array = (JSONArray) RawFile.get("FundsRequired");
 		Iterator<JSONObject> FundsRequiredArray = FundsRequired_Array.iterator();
-		Pattern Securitytab[] = {Security1,Security2,Security3,Security4,Security5};
+		Pattern Securitytab[] = {Security1,Security2,Security3,Security4,Security5,Security6,Security7,Security8,Security9,Security10};
 		
 		try {
 			
@@ -137,9 +149,52 @@ public class Securities {
 					screen.click(MultipleOccupancy);				
 				}
 				
+				if (SecuritiesDetails.get("OffthePlanCompletionDate") != null){
+					SimpleDateFormat date = new SimpleDateFormat("ddMMyyyy");
+					screen.find(OffthePLanCompletion).right(Offset[2]).click();
+					date.parse(SecuritiesDetails.get("OffthePlanCompletionDate").toString());
+					screen.type(SecuritiesDetails.get("OffthePlanCompletionDate").toString());
+				}
+				
+				if (SecuritiesDetails.get("TitleType") != null && Integer.parseInt(SecuritiesDetails.get("TitleType").toString()) > 0 && Integer.parseInt(SecuritiesDetails.get("TitleType").toString()) <= 13){
+					if (Integer.parseInt(SecuritiesDetails.get("TitleType").toString()) < 13){
+						screen.find(TitleType).right(Offset[2]).click();
+						Helper.Keystrokeup(13 - Integer.parseInt(SecuritiesDetails.get("TitleType").toString()));
+						Helper.Keystrokeenter(1);
+					}
+				}
+				
+				if (SecuritiesDetails.get("Zoning") != null && Integer.parseInt(SecuritiesDetails.get("Zoning").toString()) > 0 && Integer.parseInt(SecuritiesDetails.get("Zoning").toString()) <= 5){
+					screen.find(Zoning).right(Offset[2]).click();
+					if((Integer.parseInt(SecuritiesDetails.get("Zoning").toString()) - 3) > 0){
+						Helper.Keystrokedown(Integer.parseInt(SecuritiesDetails.get("Zoning").toString()) - 3);
+						Helper.Keystrokeenter(1);
+					}else{
+						Helper.Keystrokeup(Math.abs(Integer.parseInt(SecuritiesDetails.get("Zoning").toString()) - 3));
+						Helper.Keystrokeenter(1);
+					}
+				}
+				
+				if (SecuritiesDetails.get("LandFloorArea") != null && Double.parseDouble(SecuritiesDetails.get("LandFloorArea").toString()) > 0){
+					screen.find(LandFloorArea).right(Offset[2]).click();
+					screen.type(SecuritiesDetails.get("LandFloorArea").toString());
+					if (SecuritiesDetails.get("Squaremeter") != null && SecuritiesDetails.get("Squaremeter").toString().equals("Yes")){
+						screen.click(Sqm);
+					}else if (SecuritiesDetails.get("Hectares") != null && SecuritiesDetails.get("Hectares").toString().equals("Yes")){
+						screen.click(Hectares);
+					}else{
+						System.out.println("Invalid parameter for the land-floor size unit");
+						return false;
+					}
+					
+				}
+				
 			}
 			return true;
 		} catch (FindFailed e) {
+			e.printStackTrace();
+			return false;
+		} catch (ParseException e) {
 			e.printStackTrace();
 			return false;
 		}

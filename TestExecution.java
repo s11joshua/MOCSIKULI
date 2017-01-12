@@ -29,12 +29,13 @@ public class TestExecution {
 		new ClientInformation();
 		new FundsRequired();
 		new Securities();
+		new LoanStructure();
 		ObjectReferencesArray[1] = new DiscoveryHomePage("C:\\Sikuli Images\\DiscoveryHomePage\\");
 		ObjectReferencesArray[2] = new QAHomePage("C:\\Sikuli Images\\QA Homepage\\");
 		//ObjectReferencesArray[3] = new ClientInformation("C:\\Sikuli Images\\Client_Information\\");
 		//ObjectReferencesArray[4] = new FundsRequired("C:\\Sikuli Images\\FundsRequired\\");
 		//ObjectReferencesArray[5] = new Securities("C:\\Sikuli Images\\Securities\\");
-		ObjectReferencesArray[6] = new LoanSplit("C:\\Sikuli Images\\LoanStructure\\");
+		//ObjectReferencesArray[6] = new LoanSplit("C:\\Sikuli Images\\LoanStructure\\");
 		ObjectReferencesArray[7] = new QualifyLenders("C:\\Sikuli Images\\QualifyLenders\\");
 		ObjectReferencesArray[8] = new ScenarioSummary("C:\\Sikuli Images\\ScenarioSummary\\");
 		ObjectReferencesArray[9] = new ResponsibleLending("C:\\Sikuli Images\\ResponsibleLending\\");
@@ -61,8 +62,8 @@ public class TestExecution {
 		App.focus("Qualifier Analyser");
 		//assertTrue(ClientInformation.CaptureClientDetails(JSONTestData));
 		//assertTrue (FundsRequired.CaptureTransaction(JSONTestData));
-		assertTrue (Securities.CaptureSecurities(JSONTestData));
-		//assertTrue (LoanSplit.CaptureLoanSplits((LoanSplit)ObjectReferencesArray[6], screen));
+		//assertTrue (Securities.CaptureSecurities(JSONTestData));
+		assertTrue (LoanStructure.CaptureLoanStructure(JSONTestData));
 		//assertTrue (QualifyLenders.ActionOnQulifyLenders((QualifyLenders) ObjectReferencesArray[7], screen));
 		//assertTrue (ScenarioSummary.SelectLenderandProduct((ScenarioSummary) ObjectReferencesArray[8],screen));
 		//assertTrue (ResponsibleLending.captureResponsibleLending((ResponsibleLending) ObjectReferencesArray[9], screen));
@@ -89,7 +90,7 @@ public class TestExecution {
 		//assertTrue (ClientInformation.CaptureClientInformation((ClientInformation)ObjectReferencesArray[3] ,screen, FirstName, LastName));
 		//assertTrue (FundsRequired.CaptureTransaction());
 		//assertTrue (Securities.CaptureSecurities((ClientInformation)ObjectReferencesArray[3],(Securities)ObjectReferencesArray[5], screen));
-		assertTrue (LoanSplit.CaptureLoanSplits((LoanSplit)ObjectReferencesArray[6], screen));
+		//assertTrue (LoanStructure.CaptureLoanSplits((LoanSplit)ObjectReferencesArray[6], screen));
 		assertTrue (QualifyLenders.ActionOnQulifyLenders((QualifyLenders) ObjectReferencesArray[7], screen));
 		assertTrue (ScenarioSummary.SelectLenderandProduct((ScenarioSummary) ObjectReferencesArray[8],screen));
 		assertTrue (ResponsibleLending.captureResponsibleLending((ResponsibleLending) ObjectReferencesArray[9], screen));

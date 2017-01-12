@@ -188,6 +188,7 @@ public class ClientInformation {
 			App.focus("Qualifier Analyser");
 			screen.wait(titlelabel,30);
 			Iterator<JSONObject> CustomerInformationArray = CustomerInformation_Array.iterator();
+			
 			while (CustomerInformationArray.hasNext()){
 				JSONObject CustomerInformation = CustomerInformationArray.next();
 				//System.out.println(CustomerInformation.toString());
@@ -244,7 +245,9 @@ public class ClientInformation {
 					}
 					screen.find(MoveInDate).right(Offset[4]).click();
 					screen.type(JSON.GetTestData(CustomerInformation, "CustomerAddress").get("MoveInDate").toString());
-					IncomeExpenses(CustomerInformation);
+					if (IncomeExpenses(CustomerInformation) != true){
+						return false;
+					}
 					
 					
 				} else if(CustomerInformation.get("NewCustomer").toString().equals("No")){
@@ -312,7 +315,7 @@ public class ClientInformation {
 		}
 	}
 	
-	public static void IncomeExpenses(JSONObject CustomerInformation){
+	public static boolean IncomeExpenses(JSONObject CustomerInformation){
 		try {
 			if(Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerDependents").get("NumberOfDependents").toString()) >= 1){
 				screen.find(NumberOfChildern).right(Offset[2]).click();
@@ -339,16 +342,24 @@ public class ClientInformation {
 			screen.find(NumberofDependentsNonApplicantSpouse).right(Offset[2]).click();
 			screen.type(JSON.GetTestData(CustomerInformation, "CustomerDependents").get("NumberofDependentsNonApplicantSpouse").toString());
 			
-			HouseHoldDetails(CustomerInformation);
-			Income(CustomerInformation);
-			FinancialCommitments(CustomerInformation);
+			if (HouseHoldDetails(CustomerInformation) != true){
+				return false;
+			}
+			if(Income(CustomerInformation) != true){
+				return false;
+			}
+			if(FinancialCommitments(CustomerInformation) != true){
+				return false;
+			}
 			
+			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
-		};
+			return false;
+		}
 	}
 	
-	public static void HouseHoldDetails(JSONObject CustomerInformation){
+	public static boolean HouseHoldDetails(JSONObject CustomerInformation){
 		
 		try {
 			
@@ -398,19 +409,23 @@ public class ClientInformation {
 			}
 			
 			screen.click(HousholdDetailsSave);
-			
+						
 			if (screen.exists(WarningSavebutton) != null){
 				screen.click(WarningSavebutton);
 			}
 			
+			screen.waitVanish(HousholdDetailsSave);
+			return true;
+			
 		} catch (FindFailed e) {
 			e.printStackTrace();
+			return false;
 		}
 		
 		
 	}
 	
-	public static void Income(JSONObject CustomerInformation){
+	public static boolean Income(JSONObject CustomerInformation){
 		try {
 			//Clearing the default income section.
 		
@@ -479,12 +494,15 @@ public class ClientInformation {
 				screen.click(IncomeOKbutton);
 				screen.waitVanish(IncomeOKbutton);
 			}
+			
+			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 	
-	public static void FinancialCommitments(JSONObject CustomerInformation){
+	public static boolean FinancialCommitments(JSONObject CustomerInformation){
 		try {
 			
 			//Clearing the default commitment section.
@@ -572,9 +590,11 @@ public class ClientInformation {
 				screen.waitVanish(CommitmentOKbutton);
 			}
 			
+			return true;
 			
 		} catch (FindFailed e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 }
