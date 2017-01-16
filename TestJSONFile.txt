@@ -201,8 +201,8 @@
 		"PropertyType": 2,
 		"Location": 3,
 		"State": 2,
-		"LinkSecurity": "Uncheck",
-
+		"LinkSecurity": "Check",
+		
 		"Bridging": {
 			"Bridging": "Check",
 			"Refinance": "Check",
@@ -267,7 +267,7 @@
 		"PropertyType": 2,
 		"Location": 3,
 		"State": 2,
-		"LinkSecurity": "Uncheck",
+		"LinkSecurity": "Check",
 
 		"Bridging": {
 			"Bridging": "Check",
@@ -333,7 +333,7 @@
 		"PropertyType": 2,
 		"Location": 3,
 		"State": 2,
-		"LinkSecurity": "Uncheck",
+		"LinkSecurity": "Check",
 
 		"Bridging": {
 			"Bridging": "Check",
@@ -454,30 +454,30 @@
 		}]
 	},
 	"LoanStructure": {
-		"IncludeCapitalisedLMI":"2",
+		"IncludeCapitalisedLMI":2,
 		"Loan": [{
 			"SplitValues": [{
-				"SplitAmountRatio": 25,
+				"SplitAmount": null,
+				"AdjustLoan": 1,
+				"InterestType": "Variable",
+				"RepaymentType": 2,
+				"ReasonforInterestOnly": null,
+				"OtherReason": null,
+				"TermInYears": 15,
+				"InterestOnlyPeriod": null,
+				"FixedInterestPeriod": null
+			}, {
+				"SplitAmount": "20000",
 				"AdjustLoan": 1,
 				"InterestType": "Fixed",
 				"RepaymentType": 1,
 				"ReasonforInterestOnly": 5,
-				"OtherReason": "test",
-				"TermInYears": 30,
-				"InterestOnlyPeriod": "5Y",
-				"FixedInterestPeriod": "12M"
+				"OtherReason": "test1",
+				"TermInYears": 10,
+				"InterestOnlyPeriod": "12M",
+				"FixedInterestPeriod": "60M"
 			}, {
-				"SplitAmountRatio": 50,
-				"AdjustLoan": 1,
-				"InterestType": "Variable",
-				"RepaymentType": 1,
-				"ReasonforInterestOnly": 5,
-				"OtherReason": "test",
-				"TermInYears": 30,
-				"InterestOnlyPeriod": "5Y",
-				"FixedInterestPeriod": null
-			}, {
-				"SplitAmountRatio": 25,
+				"SplitAmount": "10000",
 				"AdjustLoan": 2,
 				"InterestType": "Fixed",
 				"RepaymentType": 3,
@@ -489,19 +489,19 @@
 			}]
 		}, {
 			"SplitValues": [{
-				"SplitAmountRatio": 100,
+				"SplitAmount": null,
 				"AdjustLoan": null,
 				"InterestType": "Fixed",
 				"RepaymentType": 1,
 				"ReasonforInterestOnly": 5,
-				"OtherReason": "test",
+				"OtherReason": "test2",
 				"TermInYears": 30,
 				"InterestOnlyPeriod": "5Y",
 				"FixedInterestPeriod": "12M"
 			}]
 		}, {
 			"SplitValues": [{
-				"SplitAmountRatio": 40,
+				"SplitAmount": null,
 				"AdjustLoan": 1,
 				"InterestType": "Variable",
 				"RepaymentType": 2,
@@ -511,19 +511,19 @@
 				"InterestOnlyPeriod": null,
 				"FixedInterestPeriod": null
 			}, {
-				"SplitAmountRatio": 60,
+				"SplitAmount": "200000",
 				"AdjustLoan": 1,
 				"InterestType": "Fixed",
 				"RepaymentType": 1,
 				"ReasonforInterestOnly": 5,
-				"OtherReason": "test",
+				"OtherReason": "test3",
 				"TermInYears": 10,
 				"InterestOnlyPeriod": "12M",
 				"FixedInterestPeriod": "60M"
 			}]
 		}, {
 			"SplitValues": [{
-				"SplitAmountRatio": 100,
+				"SplitAmount": null,
 				"AdjustLoan": null,
 				"InterestType": "Variable",
 				"RepaymentType": 2,
@@ -535,7 +535,7 @@
 			}]
 		}, {
 			"SplitValues": [{
-				"SplitAmountRatio": 70,
+				"SplitAmount": null,
 				"AdjustLoan": 1,
 				"InterestType": "Variable",
 				"RepaymentType": 2,
@@ -545,7 +545,7 @@
 				"InterestOnlyPeriod": null,
 				"FixedInterestPeriod": null
 			}, {
-				"SplitAmountRatio": 30,
+				"SplitAmount": "20000",
 				"AdjustLoan": 1,
 				"InterestType": "Fixed",
 				"RepaymentType": 1,

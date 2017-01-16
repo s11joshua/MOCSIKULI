@@ -5,8 +5,14 @@ import org.sikuli.script.Screen;
 
 public class QualifyLenders {
 	
-	Pattern QualifyLendersNvaigation;
-	Pattern QualifyLendersbutton;
+	public static int Offset[] = {0,10,50,100,200,500,1000};
+	public static Screen screen = new Screen();
+	static Pattern QualifyLendersNvaigation;
+	static Pattern QualifyLendersbutton;
+	
+	public QualifyLenders(){
+		new QualifyLenders("C:\\Sikuli Images\\QualifyLenders\\");
+	}
 	
 	public QualifyLenders(String Imagefolderlocation){
 		QualifyLendersNvaigation = new Pattern(Imagefolderlocation + "QualifyLenders.PNG" );
@@ -14,11 +20,11 @@ public class QualifyLenders {
 		
 	}
 
-	public static boolean ActionOnQulifyLenders(QualifyLenders Qualifylenders,Screen screen)
+	public static boolean ActionOnQulifyLenders()
 	{
 		try {
-			screen.click(Qualifylenders.QualifyLendersNvaigation);
-			screen.click(Qualifylenders.QualifyLendersbutton);
+			screen.click(QualifyLendersNvaigation);
+			screen.click(QualifyLendersbutton);
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();

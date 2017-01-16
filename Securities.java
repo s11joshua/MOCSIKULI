@@ -94,7 +94,7 @@ public class Securities {
 				
 				JSONObject SecuritiesDetails = SecuritiesArray.next();
 				JSONObject FundsRequiredValues = FundsRequiredArray.next();
-				
+				screen.wait(AddressLine1,15);
 				screen.click(Securitytab[counter]);
 				counter++;
 				
