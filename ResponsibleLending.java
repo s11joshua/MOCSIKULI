@@ -4,10 +4,17 @@ import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 
 public class ResponsibleLending {
-	Pattern ResponsibleLendingNavigation;
-	Pattern PreferredLoanRepayment;
-	Pattern PreferredLoanTerm;
-	Pattern FinancialCircumstancesradiobutton;
+	
+	public static Screen screen = new Screen();
+	public static int Offset[] = {0,10,50,100,200,500,1000};
+	static Pattern ResponsibleLendingNavigation;
+	static Pattern PreferredLoanRepayment;
+	static Pattern PreferredLoanTerm;
+	static Pattern FinancialCircumstancesradiobutton;
+	
+	public ResponsibleLending(){
+		new ResponsibleLending("C:\\Sikuli Images\\ResponsibleLending\\");
+	}
 	
 	public ResponsibleLending(String Imagefolderlocation){
 		PreferredLoanRepayment = new Pattern (Imagefolderlocation + "PreferedLoanRepayment.PNG");
@@ -16,19 +23,19 @@ public class ResponsibleLending {
 		ResponsibleLendingNavigation = new Pattern(Imagefolderlocation + "ResponsibleLending.PNG");
 	}
 	
-	public static boolean captureResponsibleLending(ResponsibleLending Responsiblelending, Screen screen){
+	public static boolean CaptureResponsibleLending(){
 		try {
 			App.pause(2);
-			screen.click(Responsiblelending.ResponsibleLendingNavigation);
-			screen.click(Responsiblelending.PreferredLoanTerm);
+			screen.click(ResponsibleLendingNavigation);
+			screen.click(PreferredLoanTerm);
 			Helper.Keystrokebackspace(3);
 			Helper.Keystrokedelete(3);
 			screen.type("30");
-			screen.click(Responsiblelending.PreferredLoanRepayment);
+			screen.click(PreferredLoanRepayment);
 			Helper.Keystrokebackspace(3);
 			Helper.Keystrokedelete(3);
-			screen.type("2700");
-			screen.click(Responsiblelending.FinancialCircumstancesradiobutton);
+			screen.type("6000");
+			screen.click(FinancialCircumstancesradiobutton);
 			return true;
 			
 		} catch (FindFailed e) {

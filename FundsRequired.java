@@ -2,6 +2,7 @@ import java.util.Iterator;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.sikuli.script.App;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
@@ -51,6 +52,9 @@ public class FundsRequired {
 	static Pattern SellingCostCashOut;
 	static Pattern BridgingExistingLMI;
 	
+	static Pattern TotalCost;
+	static Pattern TotalContribution;
+	
 	static Pattern FullDOC;
 	static Pattern CapitaliseLMI;
 		
@@ -94,6 +98,8 @@ public class FundsRequired {
 		RefinanceAmount =  new Pattern(Imagefolderlocation + "RefinanceAmount.PNG");
 		CashOut =  new Pattern(Imagefolderlocation + "CashOut.PNG");
 		ConsolidationAmount =  new Pattern(Imagefolderlocation + "ConsolidationAmount.PNG");
+		TotalCost =  new Pattern(Imagefolderlocation + "TotalCost.PNG");
+		TotalContribution =  new Pattern(Imagefolderlocation + "TotalContribution.PNG");
 		FullDOC = new Pattern(Imagefolderlocation + "FullDoc.PNG");
 		CapitaliseLMI = new Pattern(Imagefolderlocation + "CapitaliseLMI.PNG");
 		
@@ -220,6 +226,20 @@ public class FundsRequired {
 							return false;
 						}
 					}
+				}
+				
+				if (FundsRequiredValues.get("TotalCost") != null && Double.parseDouble(FundsRequiredValues.get("TotalCost").toString()) > 0 ){
+					screen.find(TotalCost).right(Offset[1]).click();
+					Helper.ClearTextBox(10,(float) 0.3);
+					Helper.ClearTextBoxandEnterValue(FundsRequiredValues.get("TotalCost").toString());
+					Helper.Keystrokeenter(1);
+				}
+				
+				if (FundsRequiredValues.get("TotalContribution") != null && Double.parseDouble(FundsRequiredValues.get("TotalContribution").toString()) > 0 ){
+					screen.find(TotalContribution).right(Offset[1]).click();
+					Helper.ClearTextBox(10,(float) 0.3);
+					Helper.ClearTextBoxandEnterValue(FundsRequiredValues.get("TotalContribution").toString());
+					Helper.Keystrokeenter(1);
 				}
 				
 				if (JSON.GetTestData(FundsRequiredValues, "LVRCalculation").get("LowDoc") != null && JSON.GetTestData(FundsRequiredValues, "LVRCalculation").get("LowDoc").toString().equals("Yes")){

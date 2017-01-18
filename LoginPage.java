@@ -4,18 +4,22 @@ import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 
 public class LoginPage {
-	Pattern username;
-	Pattern password;
-	Pattern environmentdropdown;
-	Pattern login;
+	public static Screen screen = new Screen();
+	static Pattern username;
+	static Pattern password;
+	static Pattern environmentdropdown;
+	static Pattern login;
 	
-
-		public LoginPage()
+		public LoginPage(){
+			new LoginPage("C:\\Sikuli Images\\Login\\");
+		}
+	
+		public LoginPage(String Imagefolderlocation)
 		{
-			username = new Pattern("C:\\Sikuli Images\\Login\\Username.PNG");
-			password = new Pattern("C:\\Sikuli Images\\Login\\Password.PNG");
-			environmentdropdown = new Pattern("C:\\Sikuli Images\\Login\\EnvironmentDropdown.PNG");
-			login = new Pattern("C:\\Sikuli Images\\Login\\Login.PNG");
+			username = new Pattern(Imagefolderlocation + "Username.PNG");
+			password = new Pattern(Imagefolderlocation + "Password.PNG");
+			environmentdropdown = new Pattern(Imagefolderlocation + "EnvironmentDropdown.PNG");
+			login = new Pattern(Imagefolderlocation + "Login.PNG");
 				
 		}
 		
@@ -40,23 +44,24 @@ public class LoginPage {
 			
 		}
 		
-		public static boolean LogintoDiscovery(Screen screen, String username, String password, String TestEnvironment)
+		public static boolean LogintoDiscovery(String Discoveryusername, String Discoverypassword, String TestEnvironment)
 		{
-			LoginPage Login = new LoginPage();
-
 			try
 			{
-			screen.wait(Login.username,30);
-			screen.click(Login.username);
+			screen.wait(username,30);
+			screen.click(username);
 			Helper.Keystrokebackspace(30);
 			Helper.Keystrokedelete(30);
-			screen.type(username);
-			screen.click(Login.password);
-			screen.type(password);
-			screen.click(Login.environmentdropdown);
+			Helper.ClearTextBox(50);
+			Helper.ClearTextBoxandEnterValue(Discoveryusername);
+			screen.click(password);
+			Helper.ClearTextBox(50);
+			Helper.ClearTextBoxandEnterValue(Discoverypassword);
+			screen.click(environmentdropdown);
+			Helper.ClearTextBox(40);
 			screen.type(TestEnvironment);
 			Helper.Keystrokeenter(1);
-			screen.click(Login.login);
+			screen.click(login);
 			return true;
 			}
 			catch (FindFailed e){

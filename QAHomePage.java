@@ -1,3 +1,7 @@
+import java.util.Iterator;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.sikuli.script.App;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
@@ -5,21 +9,29 @@ import org.sikuli.script.Screen;
 
 
 public class QAHomePage {
-	Pattern clientsearch;
-	Pattern quickqualify;
+	public static Screen screen = new Screen();
+	static Pattern clientsearch;
+	static Pattern quickqualify;
+	
+	public QAHomePage(){
+		new QAHomePage("C:\\Sikuli Images\\QA Homepage\\");
+	}
+	
 	public QAHomePage(String Imagefolderlocation){
 		clientsearch = new Pattern(Imagefolderlocation + "Clienttextbox.PNG");
 		quickqualify = new Pattern(Imagefolderlocation + "QuickQualify.PNG");
 	}
 	
-	public static boolean QuickQualify(QAHomePage HomePage,Screen screen,String FirstName){
-
+	public static boolean QuickQualify(JSONObject RawFile){
+		JSONArray CustomerInformation_Array = (JSONArray) RawFile.get("Customerinformation");
+		Iterator<JSONObject> CustomerInformationArray = CustomerInformation_Array.iterator();
+		JSONObject CustomerInformation = CustomerInformationArray.next();
 		
 		try {
 			App.focus("Qualifier Analyser");
-			screen.click(HomePage.clientsearch);
-			screen.type(FirstName);
-			screen.click(HomePage.quickqualify);
+			screen.click(clientsearch);
+			screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("FirstName").toString() + JSON.GetTestData(CustomerInformation, "CustomerNames").get("LastName").toString());
+			screen.click(quickqualify);
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();

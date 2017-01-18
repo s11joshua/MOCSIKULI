@@ -317,30 +317,42 @@ public class ClientInformation {
 	
 	public static boolean IncomeExpenses(JSONObject CustomerInformation){
 		try {
-			if(Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerDependents").get("NumberOfDependents").toString()) >= 1){
-				screen.find(NumberOfChildern).right(Offset[2]).click();
-				screen.type(JSON.GetTestData(CustomerInformation, "CustomerDependents").get("NumberOfDependents").toString());
-				screen.click(AgesButton);
-				App.focus("Child Ages");
-				screen.click(FirstChildAge);
-				JSONArray DependantDOBArray = (JSONArray) JSON.GetTestData(CustomerInformation, "CustomerDependents").get("DependentsDOB");
-				Iterator<String> DOBArray = DependantDOBArray.iterator();
-				while (DOBArray.hasNext()){
-					screen.type(DOBArray.next().toString());
-					Helper.Keystroketab(2);
+			
+			if (JSON.GetTestData(CustomerInformation, "CustomerDependents").get("NumberOfDependents") != null){
+				if(Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerDependents").get("NumberOfDependents").toString()) >= 1){
+					screen.find(NumberOfChildern).right(Offset[2]).click();
+					screen.type(JSON.GetTestData(CustomerInformation, "CustomerDependents").get("NumberOfDependents").toString());
+					screen.click(AgesButton);
+					App.focus("Child Ages");
+					screen.click(FirstChildAge);
+					JSONArray DependantDOBArray = (JSONArray) JSON.GetTestData(CustomerInformation, "CustomerDependents").get("DependentsDOB");
+					Iterator<String> DOBArray = DependantDOBArray.iterator();
+					while (DOBArray.hasNext()){
+						screen.type(DOBArray.next().toString());
+						Helper.Keystroketab(2);
+					}
+					screen.click(ChildAgeOkbutton);
+					screen.waitVanish(ChildAgeOkbutton,30);
 				}
-				screen.click(ChildAgeOkbutton);
-				screen.waitVanish(ChildAgeOkbutton,30);
-			};
-			if((JSON.GetTestData(CustomerInformation, "CustomerDependents").get("BoardwithRelatives").toString().equals("Yes")) == true){
-			screen.click(BoardwithRealtives);
-			App.pause(1);
 			}
-			if((JSON.GetTestData(CustomerInformation, "CustomerDependents").get("NonAplicantSpouse").toString().equals("Yes")) == true){
-				screen.find(NonAplicantSpouse).right(Offset[1]).click();
+			
+			if(JSON.GetTestData(CustomerInformation, "CustomerDependents").get("BoardwithRelatives") != null){
+				if(JSON.GetTestData(CustomerInformation, "CustomerDependents").get("BoardwithRelatives").toString().equals("Yes")){
+				screen.click(BoardwithRealtives);
+				App.pause(1);
+				}
 			}
-			screen.find(NumberofDependentsNonApplicantSpouse).right(Offset[2]).click();
-			screen.type(JSON.GetTestData(CustomerInformation, "CustomerDependents").get("NumberofDependentsNonApplicantSpouse").toString());
+			
+			if (JSON.GetTestData(CustomerInformation, "CustomerDependents").get("NonAplicantSpouse") != null){
+				if(JSON.GetTestData(CustomerInformation, "CustomerDependents").get("NonAplicantSpouse").toString().equals("Yes")){
+					screen.find(NonAplicantSpouse).right(Offset[1]).click();
+				}
+			}
+			
+			if (JSON.GetTestData(CustomerInformation, "CustomerDependents").get("NumberofDependentsNonApplicantSpouse") != null){
+				screen.find(NumberofDependentsNonApplicantSpouse).right(Offset[2]).click();
+				screen.type(JSON.GetTestData(CustomerInformation, "CustomerDependents").get("NumberofDependentsNonApplicantSpouse").toString());
+			}
 			
 			if (HouseHoldDetails(CustomerInformation) != true){
 				return false;
@@ -363,41 +375,48 @@ public class ClientInformation {
 		
 		try {
 			
-			if(Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("HouseholdOfApplicant").toString()) > 1){
-				screen.find(HouseholdOfApplicant).right(Offset[2]).click();
-				Helper.Keystrokedown(Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("HouseholdOfApplicant").toString()) - 1);
-				Helper.Keystrokeenter(1);
+			if(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("HouseholdOfApplicant") != null && Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("HouseholdOfApplicant").toString()) >= 1){
+				if (Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("HouseholdOfApplicant").toString()) > 1){
+					screen.find(HouseholdOfApplicant).right(Offset[2]).click();
+					Helper.Keystrokedown(Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("HouseholdOfApplicant").toString()) - 1);
+					Helper.Keystrokeenter(1);
+				}
+			}else{
+				System.out.println("Invalid Parameter passed for HouseholdOfApplicant in Customerinformation-CustomerLivingExpenses-HouseholdOfApplicant");
+				return false;
 			}
 			
 			screen.click(LivingExpenseseditbutton);
 			App.focus("Household Details");
 			
-			if (JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("BasicExpenses") != null){
+			if (JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("BasicExpenses") != null && Double.parseDouble(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("BasicExpenses").toString()) > 1){
 				screen.find(HouseHoldBasicExpenses).right(Offset[5]).click();
 				Helper.ClearTextBoxandEnterValue(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("BasicExpenses").toString());
 				Helper.Keystrokeenter(1);
 			}
-			if(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("Gym-OtherMembeships") != null){
+				
+			if(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("Gym-OtherMembeships") != null && Double.parseDouble(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("Gym-OtherMembeships").toString()) > 1){
 				screen.find(HouseHoldGymMemberships).right(Offset[5]).click();
 				Helper.ClearTextBoxandEnterValue(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("Gym-OtherMembeships").toString());
 				Helper.Keystrokeenter(1);
 			}
-			if(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("AdditionalMotorVehicles") != null){
+			
+			if(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("AdditionalMotorVehicles") != null && Double.parseDouble(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("AdditionalMotorVehicles").toString()) > 1){
 				screen.find(HouseHoldMotorVehicles).right(Offset[5]).click();
 				Helper.ClearTextBoxandEnterValue(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("AdditionalMotorVehicles").toString());
 				Helper.Keystrokeenter(1);
 			}
-			if(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("ChildCare") != null){
+			if(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("ChildCare") != null && Double.parseDouble(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("ChildCare").toString()) > 1){
 				screen.find(HouseHoldChildCare).right(Offset[5]).click();
 				Helper.ClearTextBoxandEnterValue(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("ChildCare").toString());
 				Helper.Keystrokeenter(1);
 			}
-			if(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("PrivateSchoolFees") != null){
+			if(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("PrivateSchoolFees") != null && Double.parseDouble(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("PrivateSchoolFees").toString()) > 1){
 				screen.find(HouseHoldPrivateSchoolFees).right(Offset[5]).click();
 				Helper.ClearTextBoxandEnterValue(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("PrivateSchoolFees").toString());
 				Helper.Keystrokeenter(1);
 			}
-			if(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("Other") != null){
+			if(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("Other") != null && Double.parseDouble(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("Other").toString()) > 1){
 				screen.find(HouseHoldOther).right(Offset[5]).click();
 				Helper.ClearTextBoxandEnterValue(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("Other").toString());
 				Helper.Keystrokeenter(1);

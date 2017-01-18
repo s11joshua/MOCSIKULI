@@ -70,7 +70,12 @@ public class LoanStructure {
 		try {
 			
 			screen.click(LoanStructure);
+			if (Helper.CountIteratorItem(FundsRequired) > 1){// need to check this logic as to what happens if the customer decides not to capitalize the LMI
 			screen.wait(IncludeCapitaliseLMIIn,15);
+			}else{
+				screen.wait(Loan1,15);
+			}
+				
 			if (Loans.get("IncludeCapitalisedLMI")!= null && Integer.parseInt(Loans.get("IncludeCapitalisedLMI").toString()) > 0 && Integer.parseInt(Loans.get("IncludeCapitalisedLMI").toString()) <= FundsRequired.size()){
 				if (Integer.parseInt(Loans.get("IncludeCapitalisedLMI").toString()) > 1){
 					screen.find(IncludeCapitaliseLMIIn).right(Offset[2]).click();

@@ -9,7 +9,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.sikuli.script.App;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
@@ -159,6 +162,30 @@ public class Helper {
 		
 	}
 	
+	public static void ClearTextBox(int RepeatCount, float time)
+	{
+		
+		try {Robot robot = new Robot();
+		int counter = 1;
+		do{
+			robot.keyPress(KeyEvent.VK_DELETE);
+			counter = counter + 1;
+			App.pause((float)time);
+		}
+		while(counter <= RepeatCount);
+		
+		int counter1 = 1;
+		do{
+			robot.keyPress(KeyEvent.VK_BACK_SPACE);
+			counter1 = counter1 + 1;
+			App.pause((float)time);
+		}
+		while(counter1 <= RepeatCount);
+		
+		} catch (AWTException e1) {e1.printStackTrace();}
+		
+	}
+	
 	public static boolean ForceKillApplication(String ApplicationName){
 		//Tonto.exe
 		try {
@@ -170,7 +197,15 @@ public class Helper {
 		}
 	}
 	
-	
+	public static int CountIteratorItem(JSONArray Array){
+		int counter = 0;
+		Iterator<JSONObject> SplitDetails = Array.iterator();
+		while (SplitDetails.hasNext()){
+			JSONObject SplitValues = SplitDetails.next();
+			counter ++;
+		}
+		return counter;
+	}
 	public static void ScreenDump(String FilePathinSikuliformat, String Screenshotname){
 		Screen screen = new Screen();
 		//screen.capture().save("C:\\Sikuli Images\\", "TestFile");

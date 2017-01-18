@@ -4,9 +4,16 @@ import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 
 public class Apply {
-	Pattern ApplyNavigation;
-	Pattern ApplyOnlineNewApplication;
-	Pattern SubmitApplication;
+	public static int Offset[] = {0,10,50,100,200,500,1000};
+	public static Screen screen = new Screen();
+	
+	static Pattern ApplyNavigation;
+	static Pattern ApplyOnlineNewApplication;
+	static Pattern SubmitApplication;
+	
+	public Apply(){
+		new Apply("C:\\Sikuli Images\\Apply\\");
+	}
 	
 	public Apply(String Imagefolderlocation){
 		ApplyNavigation = new Pattern(Imagefolderlocation + "Apply.PNG");
@@ -14,12 +21,12 @@ public class Apply {
 		SubmitApplication = new Pattern(Imagefolderlocation + "ApplicationSubmit.PNG");
 	}
 	
-	public static boolean CaptureTypeOfLodgement(Apply apply, Screen screen){
+	public static boolean CaptureTypeOfLodgement(){
 		try {
 			App.pause(2);
-			screen.click(apply.ApplyNavigation);
+			screen.click(ApplyNavigation);
 			App.pause(6);
-			screen.click(apply.ApplyOnlineNewApplication);
+			screen.click(ApplyOnlineNewApplication);
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
@@ -27,11 +34,11 @@ public class Apply {
 		}
 	}
 	
-	public static boolean SubmitApplication(Apply apply, Screen screen){
+	public static boolean SubmitApplication(){
 		
 		try {
 			App.pause(2);
-			screen.click(apply.SubmitApplication);
+			screen.click(SubmitApplication);
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
