@@ -199,6 +199,7 @@ public class ClientInformation {
 					screen.click(AddNewCustomer);
 					}
 					
+					App.pause(2);
 					screen.wait(titlelabel,30);
 					
 					if (counter >= 1 && CustomerInformation.get("CustomerType") != null && CustomerInformation.get("CustomerType").toString().equals("Guarantor")){

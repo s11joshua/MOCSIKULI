@@ -66,15 +66,15 @@ public class TestExecution {
 		//assertTrue(ClientInformation.CaptureClientDetails(JSONTestData));
 		//assertTrue (FundsRequired.CaptureTransaction(JSONTestData));
 		//assertTrue (Securities.CaptureSecurities(JSONTestData));
-		assertTrue (LoanStructure.CaptureLoanStructure(JSONTestData));
-		assertTrue (QualifyLenders.ActionOnQulifyLenders());
-		assertTrue (ScenarioSummary.SelectLenderandProduct(JSONTestData));
-		assertTrue (ResponsibleLending.CaptureResponsibleLending());
-		assertTrue (Referrals.CaptureReferrals());
-		assertTrue (ClientInformation.SaveScenario());
-		assertTrue (Apply.CaptureTypeOfLodgement());		
-		assertTrue (Apply.SubmitApplication());
-		assertTrue (Helper.ForceKillApplication("Tonto.exe"));
+		//assertTrue (LoanStructure.CaptureLoanStructure(JSONTestData));
+		//assertTrue (QualifyLenders.ActionOnQulifyLenders());
+		//assertTrue (ClientInformation.SaveScenario());
+		//assertTrue (ScenarioSummary.SelectLenderandProduct(JSONTestData));
+		assertTrue (ResponsibleLending.CaptureResponsibleLending(JSONTestData));
+		//assertTrue (Referrals.CaptureReferrals());
+		//assertTrue (Apply.CaptureTypeOfLodgement());		
+		//assertTrue (Apply.SubmitApplication());
+		//assertTrue (Helper.ForceKillApplication("Tonto.exe"));
 		
 		//App.focus("Qualifier Analyser");
 		//assertTrue (FundsRequired.CaptureTransaction((FundsRequired) ObjectReferencesArray[4], screen));
@@ -99,9 +99,9 @@ public class TestExecution {
 		//assertTrue (ResponsibleLending.captureResponsibleLending((ResponsibleLending) ObjectReferencesArray[9], screen));
 		//assertTrue (Referrals.CaptureReferrals((Referrals) ObjectReferencesArray[10], screen));
 		//assertTrue (Apply.CaptureTypeOfLodgement((Apply) ObjectReferencesArray[11], screen));
-		assertTrue (ClientInformation.SaveScenario());
+		//assertTrue (ClientInformation.SaveScenario());
 		//assertTrue (Apply.SubmitApplication((Apply) ObjectReferencesArray[11], screen));
-		assertTrue (Helper.ForceKillApplication("Tonto.exe"));
+		//assertTrue (Helper.ForceKillApplication("Tonto.exe"));
 
 		//App.focus("Qualifier Analyser");
 	}

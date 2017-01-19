@@ -3,20 +3,21 @@
 		"TestEnvironment": "SIT"
 	},
 	"UserDetails": {
-		"MFO": "Yes",
-		"Franchise": ["NSW646"],
-		"Username": "joanne.gocher",
-		"Password": "choosey1!"
+		"MFO": "NO",
+		"Franchise": ["NSW747"],
+		"DiscoveryUsername": "LendingSupportSIT",
+		"DiscoveryPassword": "choosey1!",
+		"DiscoveryDatabase": "LendingSupportSIT"
 	},
 	"Customerinformation": [{
 		"NewCustomer": "Yes",
 		"CustomerType": "Individual",
-		"ResidentialStatus": 4,
+		"ResidentialStatus": 1,
 		"DOB": "11/04/1983",
 		"PreferredContactMethod": 1,
 		"Probation": "Uncheck",
-		"PrimaryEmployment": 3,
-		"EmploymentType": 2,
+		"PrimaryEmployment": 1,
+		"EmploymentType": 1,
 
 		"CustomerContactDetails": {
 			"BusinessPhone": "0292667890",
@@ -28,7 +29,7 @@
 			"Title": 1,
 			"FirstName": "Suresh",
 			"MiddleName": "Joshua",
-			"LastName": "Anthony"
+			"LastName": "Arokiaraj"
 		},
 		"CustomerAddress": {
 			"AddressLine1": "unit 27/99-101,Anzac Avenue",
@@ -38,7 +39,7 @@
 			"MoveInDate": "10/2010"
 		},
 		"CustomerDependents": {
-			"NumberOfDependents": "2",
+			"NumberOfDependents": null,
 			"DependentsDOB": ["18/05/2009", "10/05/2014"],
 			"BoardwithRelatives": "Yes",
 			"NonAplicantSpouse": "Yes",
@@ -50,7 +51,7 @@
 			"Gym-OtherMembeships": "200",
 			"AdditionalMotorVehicles": "260",
 			"ChildCare": "1000",
-			"PrivateSchoolFees": "",
+			"PrivateSchoolFees": null,
 			"Other": "500",
 			"CreditAssementNotes": "Test Credit Notes1"
 		},
@@ -63,10 +64,10 @@
 			"Taxed": 1
 		}, {
 			"IncomeGroup": 1,
-			"IncomeType": 4,
-			"SourceOfProposedRentalIncome": 2,
+			"IncomeType": 3,
+			"SourceOfProposedRentalIncome": null,
 			"Amount": "500",
-			"Frequency": 1,
+			"Frequency": 2,
 			"Taxed": 1
 		}],
 		"CustomerFinancialCommitments": [{
@@ -77,8 +78,8 @@
 			"RepaymentAmount": "7000",
 			"Frequency": "1",
 			"Lender": "1",
-			"Balance": "100000",
-			"Limit": "150000",
+			"Balance": "1000",
+			"Limit": "15000",
 			"PaidinFull": null,
 			"RemainingP&ITerm": "5",
 			"RemainingP&ITermFrequency": "1",
@@ -91,9 +92,9 @@
 			"TaxDeductable": null,
 			"RepaymentAmount": null,
 			"Frequency": null,
-			"Lender": null,
-			"Balance": null,
-			"Limit": null,
+			"Lender": 1,
+			"Balance": "5000",
+			"Limit": "10000",
 			"PaidinFull": null,
 			"RemainingP&ITerm": null,
 			"RemainingP&ITermFrequency": null,
@@ -103,12 +104,12 @@
 	}, {
 		"NewCustomer": "Yes",
 		"CustomerType": "Guarantor",
-		"ResidentialStatus": 2,
+		"ResidentialStatus": 1,
 		"DOB": "12/04/1987",
 		"PreferredContactMethod": 2,
 		"Probation": "Check",
-		"PrimaryEmployment": 6,
-		"EmploymentType": 5,
+		"PrimaryEmployment": 1,
+		"EmploymentType": 1,
 
 		"CustomerContactDetails": {
 			"BusinessPhone": "0292667891",
@@ -130,7 +131,7 @@
 			"MoveInDate": "10/2010"
 		},
 		"CustomerDependents": {
-			"NumberOfDependents": "2",
+			"NumberOfDependents": null,
 			"DependentsDOB": ["18/05/2009", "10/05/2014"],
 			"BoardwithRelatives": "Yes",
 			"NonAplicantSpouse": "Yes",
@@ -149,9 +150,9 @@
 		},
 		"CustomerIncome": [{
 			"IncomeGroup": 1,
-			"IncomeType": 4,
-			"SourceOfProposedRentalIncome": 1,
-			"Amount": "7500",
+			"IncomeType": 1,
+			"SourceOfProposedRentalIncome": null,
+			"Amount": "7000",
 			"Frequency": 1,
 			"Taxed": 1
 		}, {
@@ -163,30 +164,15 @@
 			"Taxed": 1
 		}],
 		"CustomerFinancialCommitments": [{
-			"CommitmentGroup": "4",
+			"CommitmentGroup": "6",
 			"CommitmentType": "1",
 			"WillbeCleared": null,
 			"TaxDeductable": null,
-			"RepaymentAmount": "7000",
-			"Frequency": "2",
-			"Lender": "1",
-			"Balance": "100000",
-			"Limit": "150000",
-			"PaidinFull": null,
-			"RemainingP&ITerm": "3",
-			"RemainingP&ITermFrequency": "1",
-			"RepaymentType": "1",
-			"Interestrate": "4.5"
-		}, {
-			"CommitmentGroup": "6",
-			"CommitmentType": "1",
-			"WillbeCleared": "Yes",
-			"TaxDeductable": "Yes",
 			"RepaymentAmount": null,
 			"Frequency": null,
-			"Lender": null,
-			"Balance": null,
-			"Limit": null,
+			"Lender": 1,
+			"Balance": "500",
+			"Limit": "1000",
 			"PaidinFull": null,
 			"RemainingP&ITerm": null,
 			"RemainingP&ITermFrequency": null,
@@ -196,147 +182,17 @@
 	}],
 	"FundsRequired": [{
 		"TransactionType": 1,
-		"UseofFunds": 2,
-		"LoanPurpose": 2,
+		"UseofFunds": 4,
+		"LoanPurpose": 3,
 		"PropertyType": 2,
-		"Location": 3,
-		"State": 2,
+		"Location": 2,
+		"State": 6,
 		"LinkSecurity": "Check",
+		"TotalCost":"2500",
+		"TotalContribution":"150000",
 		
 		"Bridging": {
-			"Bridging": "Check",
-			"Refinance": "Check",
-			"BridgingSecurityValue": "100000",
-			"BridgingLoanBalance": "20000",
-			"BridgingSellingCostsCashOut": "30000",
-			"BridgingCapitalisedinterest": "4000",
-			"BridgingExistingLMI": "Check",
-			"BridgingExistingLMIvalue": "14000"
-		},
-		"NewPurchase": {
-			"FHO": "Yes",
-			"PurchasePrice": "750000"
-		},
-		"NewPersonalLoanUse": {
-			"FundsRequested": "100000",
-			"ReasonforCashOut": 2,
-			"SecurityValue": "200000",
-			"LoanBalance": null,
-			"LoanLimit": null,
-			"NumberofDebts": 2
-		},
-		"Construction": {
-			"FHO": "Yes",
-			"Ownerbuilder": "Check",
-			"LandValue": "250000",
-			"ConstructionCosts": "350000",
-			"ThisLoanIs": 3,
-			"LoanBalance": "100000",
-			"LoanLimit": "200000",
-			"ExistingLMI": "Check",
-			"ExistingLMIvalue": "14000"
-		},
-		"Increaseexistinglender": {
-			"LoanIncreaseAmount": "100000",
-			"ReasonforIncrease": "3",
-			"LoanBalance": "250000",
-			"LoanLimit": "10000",
-			"SecurityValue": "10000",
-			"SecuredLimt": null,
-			"ExistingLMI": "Check",
-			"LMIPremiumCredit": "14000",
-			"NumberofDebts": 2
-		},
-		"Refinance": {
-			"RefinanceAmount": "75000",
-			"CashOut": "10000",
-			"ReasonforCashOut": "3",
-			"ConsolidationAmount": "15000",
-			"NumberofDebts": "3",
-			"SecurityValue": "5000",
-			"SecuredLimt": null
-		},
-		"LVRCalculation": {
-			"LowDoc": "Yes",
-			"CapitalisedLMI": "Uncheck"
-		}
-	}, {
-		"TransactionType": 2,
-		"UseofFunds": 2,
-		"LoanPurpose": 2,
-		"PropertyType": 2,
-		"Location": 3,
-		"State": 2,
-		"LinkSecurity": "Check",
-
-		"Bridging": {
-			"Bridging": "Check",
-			"Refinance": "Check",
-			"BridgingSecurityValue": "100000",
-			"BridgingLoanBalance": "20000",
-			"BridgingSellingCostsCashOut": "30000",
-			"BridgingCapitalisedinterest": "4000",
-			"BridgingExistingLMI": "Check",
-			"BridgingExistingLMIvalue": "14000"
-		},
-		"NewPurchase": {
-			"FHO": "Yes",
-			"PurchasePrice": "750000"
-		},
-		"NewPersonalLoanUse": {
-			"FundsRequested": "100000",
-			"ReasonforCashOut": 2,
-			"SecurityValue": "200000",
-			"LoanBalance": "1000",
-			"LoanLimit": null,
-			"NumberofDebts": 2
-		},
-		"Construction": {
-			"FHO": "Yes",
-			"Ownerbuilder": "Check",
-			"LandValue": "250000",
-			"ConstructionCosts": "350000",
-			"ThisLoanIs": 3,
-			"LoanBalance": "100000",
-			"LoanLimit": "200000",
-			"ExistingLMI": "Check",
-			"ExistingLMIvalue": "14000"
-		},
-		"Increaseexistinglender": {
-			"LoanIncreaseAmount": "100000",
-			"ReasonforIncrease": "3",
-			"LoanBalance": "250000",
-			"LoanLimit": "10000",
-			"SecurityValue": "10000",
-			"SecuredLimt": null,
-			"ExistingLMI": "Check",
-			"LMIPremiumCredit": "14000",
-			"NumberofDebts": 2
-		},
-		"Refinance": {
-			"RefinanceAmount": "75000",
-			"CashOut": "10000",
-			"ReasonforCashOut": "3",
-			"ConsolidationAmount": "15000",
-			"NumberofDebts": "3",
-			"SecurityValue": "5000",
-			"SecuredLimt": null
-		},
-		"LVRCalculation": {
-			"LowDoc": "No",
-			"CapitalisedLMI": "Check"
-		}
-	}, {
-		"TransactionType": 1,
-		"UseofFunds": 2,
-		"LoanPurpose": 2,
-		"PropertyType": 2,
-		"Location": 3,
-		"State": 2,
-		"LinkSecurity": "Check",
-
-		"Bridging": {
-			"Bridging": "Check",
+			"Bridging": "Uncheck",
 			"Refinance": "Check",
 			"BridgingSecurityValue": "100000",
 			"BridgingLoanBalance": "20000",
@@ -454,7 +310,7 @@
 		}]
 	},
 	"LoanStructure": {
-		"IncludeCapitalisedLMI":2,
+		"IncludeCapitalisedLMI":1,
 		"Loan": [{
 			"SplitValues": [{
 				"SplitAmount": null,
@@ -469,23 +325,13 @@
 			}, {
 				"SplitAmount": "20000",
 				"AdjustLoan": 1,
-				"InterestType": "Fixed",
+				"InterestType": "Variable",
 				"RepaymentType": 1,
 				"ReasonforInterestOnly": 5,
 				"OtherReason": "test1",
 				"TermInYears": 10,
 				"InterestOnlyPeriod": "12M",
-				"FixedInterestPeriod": "60M"
-			}, {
-				"SplitAmount": "10000",
-				"AdjustLoan": 2,
-				"InterestType": "Fixed",
-				"RepaymentType": 3,
-				"ReasonforInterestOnly": null,
-				"OtherReason": null,
-				"TermInYears": 30,
-				"InterestOnlyPeriod": "5Y",
-				"FixedInterestPeriod": "12M"
+				"FixedInterestPeriod": null
 			}]
 		}, {
 			"SplitValues": [{
@@ -556,5 +402,62 @@
 				"FixedInterestPeriod": "60M"
 			}]
 		}]
+	},
+	"ScenarioSummary":{
+		"BranchNetworkAvailability":"Uncheck",
+		"CompetitiveInterestRate":"Uncheck",
+		"CustomerLenderPreference":"Check",
+		"FeeStructure":"Uncheck",
+		"GeneralBankingFacilities":"Uncheck",
+		"LenderCreditPolicy":"Uncheck",
+		"LenderServiceLevels":"Uncheck",
+		"OverallLoanCostSavings":"Check",
+		"RepaymentFrequency":"Uncheck"
+	},
+	"ResponsibleLending":{
+		"PreferredLoanterm":15,
+		"PreferredLoanRepayment": 6500,
+		"ChangesFinancialCircumstances":"Yes",
+		"ChangesExpected":{
+			"TemporaryDecreaseInDisposableIncome":"Check",
+			"PermanaetDecreaseInDisposableIncome":"Unckeck",
+			"AnticipatedLagreExpenditure":"Unckeck",
+			"Other":"Uncheck"
+		},
+		"ManageChanges":{
+			"SecuringAdditionalIncome":"Check",
+			"UsingSavings":"Uncheck",
+			"FinancialDetailsReflect":"Uncheck",
+			"ReducingExpenditure":"Uncheck",
+			"SaleSharesInvestment":"Uncheck",
+			"PayoutforSuperannuation":"Uncheck",
+			"DownSizing":"Uncheck",
+			"Other":"Uncheck",
+			"MeassuresAcceptable":"Yes"
+		},
+		"PersonalInsurance":{
+			"MCFPAdviser":"Check",
+			"ProvideALIQuote":"Uncheck",
+			"NoActionRequired":{
+			"ActionRequired":"Uncheck",
+			"CustomerCanMeettheObligations":"Uncheck",
+			"ExistingRelationshipwithFA":"Uncheck",
+			"SufficientInsuranceCover":"Check"
+			}			
+		},
+		"RefinaceApplication":{
+			"Refinance":"Yes",
+			"ConvenienceFlexibility":"Uncheck",
+			"ConsolidatingRestructuring":"Uncheck",
+			"Disatisfaction":"Uncheck",
+			"CompetitivePricing":"Uncheck",
+			"SpecificFeaturesProducts":"Uncheck",
+			"UnabletoGetCredit":"Uncheck",
+			"Other":"Check",
+			"OtherReason":"Test1",
+			"LoanCostComparison":"No",
+			"ReasonLoanCostComparison":1
+		}		
 	}
+	
 }
