@@ -15,23 +15,19 @@ import org.sikuli.basics.Settings;
 public class TestExecution {
 	
 	public JSONObject JSONTestData;
-	public Screen screen;
 	public String TestEnvironment;
 	public String DiscoveryUserName;
 	public String DiscoveryPassword;
-	public Object[] ObjectReferencesArray = new Object[50];
 	
 	public void InitializeTestExecution(){
 		Settings.OcrTextSearch = true;
 		Settings.OcrTextRead = true;
 		Settings.setShowActions(true);
 		
-		JSONTestData = JSON.ReadTestData("C:\\Users\\santhony\\Desktop\\TestJSONFile.txt");
 		TestEnvironment = "LendingSupportSIT";
 		DiscoveryUserName = "santhony.replica";
 		DiscoveryPassword = "choosey1!";
-		
-		screen = new Screen();
+
 		new LoginPage();
 		new DiscoveryHomePage();
 		new QAHomePage();
@@ -40,6 +36,7 @@ public class TestExecution {
 		new Securities();
 		new LoanStructure();
 		new QualifyLenders();
+		new SaveScenario();
 		new ScenarioSummary();
 		new ResponsibleLending();
 		new Referrals();
@@ -55,36 +52,35 @@ public class TestExecution {
 	@ Test
 	public void Testcase01() throws Exception{
 		
-		String FirstName = "TestCase01";
-		String LastName = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		//String FirstName = "TestCase01";
+		//String LastName = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 		
-		//assertTrue (LoginPage.LaunchDiscoveryApplicaiton("TestInstance"));
-		//assertTrue (LoginPage.LogintoDiscovery(DiscoveryUserName,DiscoveryPassword,TestEnvironment));
-		//assertTrue (DiscoveryHomePage.NavigatetoQualifyandAnalize());
-		//assertTrue (QAHomePage.QuickQualify(JSONTestData));
-		App.focus("Qualifier Analyser");
-		//assertTrue(ClientInformation.CaptureClientDetails(JSONTestData));
-		//assertTrue (FundsRequired.CaptureTransaction(JSONTestData));
-		//assertTrue (Securities.CaptureSecurities(JSONTestData));
-		//assertTrue (LoanStructure.CaptureLoanStructure(JSONTestData));
-		//assertTrue (QualifyLenders.ActionOnQulifyLenders());
-		//assertTrue (ClientInformation.SaveScenario());
-		//assertTrue (ScenarioSummary.SelectLenderandProduct(JSONTestData));
+		JSONTestData = JSON.ReadTestData("C:\\Users\\santhony\\Desktop\\TestJSONFile.txt");
+		//App.focus("Qualifier Analyser");
+		assertTrue (LoginPage.LaunchDiscoveryApplicaiton("TestInstance"));
+		assertTrue (LoginPage.LogintoDiscovery(DiscoveryUserName,DiscoveryPassword,TestEnvironment,JSONTestData));
+		assertTrue (DiscoveryHomePage.NavigatetoQualifyandAnalize());
+		assertTrue (QAHomePage.QuickQualify(JSONTestData));
+		assertTrue (ClientInformation.CaptureClientDetails(JSONTestData));
+		assertTrue (FundsRequired.CaptureTransaction(JSONTestData));
+		assertTrue (Securities.CaptureSecurities(JSONTestData));
+		assertTrue (LoanStructure.CaptureLoanStructure(JSONTestData));
+		assertTrue (QualifyLenders.ActionOnQulifyLenders());
+		assertTrue (SaveScenario.SaveAsNewLead(JSONTestData));
+		assertTrue (ScenarioSummary.SelectLenderandProduct(JSONTestData));
 		assertTrue (ResponsibleLending.CaptureResponsibleLending(JSONTestData));
-		//assertTrue (Referrals.CaptureReferrals());
-		//assertTrue (Apply.CaptureTypeOfLodgement());		
-		//assertTrue (Apply.SubmitApplication());
+		//assertTrue (Referrals.CaptureReferrals(JSONTestData));
+		assertTrue (Apply.CaptureTypeOfLodgement(JSONTestData));
+		assertTrue (SaveScenario.Save(JSONTestData));
 		//assertTrue (Helper.ForceKillApplication("Tonto.exe"));
 		
-		//App.focus("Qualifier Analyser");
-		//assertTrue (FundsRequired.CaptureTransaction((FundsRequired) ObjectReferencesArray[4], screen));
 	}
 	
 	//@ Test
 	public void Testcase02() throws Exception{
 	
-		String FirstName = "TestCase02";
-		String LastName = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		//String FirstName = "TestCase02";
+		//String LastName = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
 				
 		//assertTrue (LoginPage.LaunchDiscoveryApplicaiton("TestInstance"));
 		//assertTrue (LoginPage.LogintoDiscovery(screen,"john.bilous","choosey1!",TestEnvironment));

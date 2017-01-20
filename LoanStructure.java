@@ -1,6 +1,5 @@
 import org.sikuli.script.App;
 import org.sikuli.script.FindFailed;
-import org.sikuli.script.Match;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 
@@ -70,24 +69,24 @@ public class LoanStructure {
 		try {
 			
 			screen.click(LoanStructure);
-			if (Helper.CountIteratorItem(FundsRequired) > 1){// need to check this logic as to what happens if the customer decides not to capitalize the LMI
-			screen.wait(IncludeCapitaliseLMIIn,15);
-			}else{
-				screen.wait(Loan1,15);
-			}
-				
-			if (Loans.get("IncludeCapitalisedLMI")!= null && Integer.parseInt(Loans.get("IncludeCapitalisedLMI").toString()) > 0 && Integer.parseInt(Loans.get("IncludeCapitalisedLMI").toString()) <= FundsRequired.size()){
-				if (Integer.parseInt(Loans.get("IncludeCapitalisedLMI").toString()) > 1){
-					screen.find(IncludeCapitaliseLMIIn).right(Offset[2]).click();
-					Helper.Keystrokedown(Integer.parseInt(Loans.get("IncludeCapitalisedLMI").toString()) -1);
-					Helper.Keystrokeenter(1);
-					App.pause(2);
-				}
-			}else{
-				System.out.println("Invalid Parameter Passed for IncludeCapitalisedLMI in LoanStructure");
-				return false;
-			}
+			App.pause(2);
+			screen.wait(Loan1,15);
 			
+			if (JSON.GetTestData(RawFile, "LVRCalculation").get("CapitalisedLMI") != null){	
+				if(!JSON.GetTestData(RawFile, "LVRCalculation").get("CapitalisedLMI").toString().equals("Uncheck")){
+					if (Loans.get("IncludeCapitalisedLMI")!= null && Integer.parseInt(Loans.get("IncludeCapitalisedLMI").toString()) > 0 && Integer.parseInt(Loans.get("IncludeCapitalisedLMI").toString()) <= FundsRequired.size()){
+						if (Integer.parseInt(Loans.get("IncludeCapitalisedLMI").toString()) > 1){
+							screen.find(IncludeCapitaliseLMIIn).right(Offset[2]).click();
+							Helper.Keystrokedown(Integer.parseInt(Loans.get("IncludeCapitalisedLMI").toString()) -1);
+							Helper.Keystrokeenter(1);
+							App.pause(2);
+						}
+					}else{
+						System.out.println("Invalid Parameter Passed for IncludeCapitalisedLMI in LoanStructure");
+						return false;
+					}
+				}
+			}
 			Iterator<JSONObject> LoanArray = Loan.iterator();
 			Iterator<JSONObject> FundsRequiredArray = FundsRequired.iterator();
 			int LoanCounter = 0;

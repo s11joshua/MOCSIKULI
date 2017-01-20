@@ -205,6 +205,7 @@ public class ClientInformation {
 					if (counter >= 1 && CustomerInformation.get("CustomerType") != null && CustomerInformation.get("CustomerType").toString().equals("Guarantor")){
 						screen.click(ClientTypeRole);
 						Helper.Keystrokedown(1);
+						Helper.Keystrokeenter(1);
 					}
 					if ((Integer.parseInt(CustomerInformation.get("ResidentialStatus").toString()) >= 1) && (Integer.parseInt(CustomerInformation.get("ResidentialStatus").toString()) <= 5)){
 						if(Integer.parseInt(CustomerInformation.get("ResidentialStatus").toString()) > 1) {
@@ -213,6 +214,7 @@ public class ClientInformation {
 							Helper.Keystrokeenter(1);
 						}
 					}else return false;
+					
 					
 					screen.find(TitleandFirstName).right(Offset[1]).click();
 					Helper.Keystrokedown(Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerNames").get("Title").toString()));
@@ -271,7 +273,7 @@ public class ClientInformation {
 		}
 	}
 
-	public static boolean SaveScenario(){
+    public static boolean SaveScenario(){
 		
 		try {
 			App.pause(3);
@@ -295,7 +297,6 @@ public class ClientInformation {
 		} catch (FindFailed e) {e.printStackTrace();
 			return false;
 		}
-
 	}
 	
 	public static boolean SelectPostCode(String Suburb, String Postcode){
@@ -532,7 +533,7 @@ public class ClientInformation {
 				screen.find(CommitmentDeletebutton).above(Offset[1]).click();
 				App.pause(1);
 				Counter ++;
-			}	
+			}
 						
 			JSONArray CommitmentArray = (JSONArray) CustomerInformation.get("CustomerFinancialCommitments");
 			Iterator<JSONObject> Commitment = CommitmentArray.iterator();
@@ -564,7 +565,8 @@ public class ClientInformation {
 				}
 				if ((Commitmentvalues.get("RepaymentAmount") != null) && (Integer.parseInt(Commitmentvalues.get("RepaymentAmount").toString()) > 0)){
 					screen.find(CommitmentRepaymentAmount).right(Offset[2]).click();
-					Helper.ClearTextBoxandEnterValue(Commitmentvalues.get("RepaymentAmount").toString());					
+					Helper.ClearTextBoxandEnterValue(Commitmentvalues.get("RepaymentAmount").toString());
+					Helper.Keystrokeenter(1);
 				}
 				if ((Commitmentvalues.get("Frequency") != null) && (Integer.parseInt(Commitmentvalues.get("Frequency").toString()) > 1)){
 					screen.find(CommitmentFrequency).right(Offset[2]).click();
@@ -578,20 +580,31 @@ public class ClientInformation {
 				}
 				if ((Commitmentvalues.get("Balance") != null) && (Integer.parseInt(Commitmentvalues.get("Balance").toString()) > 0)){
 					screen.find(CommitmentBalance).right(Offset[2]).click();
-					Helper.ClearTextBoxandEnterValue(Commitmentvalues.get("Balance").toString());					
+					Helper.ClearTextBoxandEnterValue(Commitmentvalues.get("Balance").toString());
+					Helper.Keystrokeenter(1);
 				}
 				if ((Commitmentvalues.get("Limit") != null) && (Integer.parseInt(Commitmentvalues.get("Limit").toString()) > 0)){
 					screen.find(CommitmentLimit).right(Offset[2]).click();
-					Helper.ClearTextBoxandEnterValue(Commitmentvalues.get("Limit").toString());					
+					Helper.ClearTextBoxandEnterValue(Commitmentvalues.get("Limit").toString());
+					Helper.Keystrokeenter(1);
 				}				
 				if (((Integer.parseInt(Commitmentvalues.get("CommitmentGroup").toString())) == 1) || ((Integer.parseInt(Commitmentvalues.get("CommitmentGroup").toString())) == 4) || ((Integer.parseInt(Commitmentvalues.get("CommitmentGroup").toString())) == 8)){
 					if ((Commitmentvalues.get("RemainingP&ITerm") != null) && (Integer.parseInt(Commitmentvalues.get("RemainingP&ITerm").toString()) > 0)){
 						screen.find(CommitmentRemaingPITerm).right(Offset[2]).click();
-						Helper.ClearTextBoxandEnterValue(Commitmentvalues.get("RemainingP&ITerm").toString());					
+						Helper.ClearTextBoxandEnterValue(Commitmentvalues.get("RemainingP&ITerm").toString());
+						Helper.Keystrokeenter(1);
 					}
 					if ((Commitmentvalues.get("RemainingP&ITermFrequency") != null) && (Integer.parseInt(Commitmentvalues.get("RemainingP&ITermFrequency").toString()) > 0)){
-						screen.click(CommitmentRemaingPITermFrequency);
-						Helper.ClearTextBoxandEnterValue(Commitmentvalues.get("RemainingP&ITermFrequency").toString());					
+						if((Integer.parseInt(Commitmentvalues.get("RemainingP&ITermFrequency").toString()) - 2) > 0){
+							screen.click(CommitmentRemaingPITermFrequency);
+							Helper.Keystrokedown((Integer.parseInt(Commitmentvalues.get("RemainingP&ITermFrequency").toString()) - 2));
+							Helper.Keystrokeenter(1);
+						}else{
+							screen.click(CommitmentRemaingPITermFrequency);
+							Helper.Keystrokeup(Math.abs((Integer.parseInt(Commitmentvalues.get("RemainingP&ITermFrequency").toString()) - 2)));
+							Helper.Keystrokeenter(1);
+						}
+							
 					}
 					if ((Integer.parseInt(Commitmentvalues.get("CommitmentGroup").toString())) == 4){ 
 						if ((Commitmentvalues.get("RepaymentType") != null) && (Integer.parseInt(Commitmentvalues.get("RepaymentType").toString()) >0)){
@@ -602,6 +615,7 @@ public class ClientInformation {
 						if ((Double.parseDouble(Commitmentvalues.get("Interestrate").toString()) >0) && (Commitmentvalues.get("Interestrate") != null)){
 							screen.find(CommitmentInterestRate).right(Offset[2]).click();
 							Helper.ClearTextBoxandEnterValue(Commitmentvalues.get("Interestrate").toString());
+							Helper.Keystrokeenter(1);
 						}
 					}
 					

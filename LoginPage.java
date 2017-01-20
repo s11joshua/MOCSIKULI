@@ -1,3 +1,4 @@
+import org.json.simple.JSONObject;
 import org.sikuli.script.App;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
@@ -44,25 +45,25 @@ public class LoginPage {
 			
 		}
 		
-		public static boolean LogintoDiscovery(String Discoveryusername, String Discoverypassword, String TestEnvironment)
+		public static boolean LogintoDiscovery(String Discoveryusername, String Discoverypassword, String TestEnvironment, JSONObject RawFile)
 		{
 			try
 			{
-			screen.wait(username,30);
-			screen.click(username);
-			Helper.Keystrokebackspace(30);
-			Helper.Keystrokedelete(30);
-			Helper.ClearTextBox(50);
-			Helper.ClearTextBoxandEnterValue(Discoveryusername);
-			screen.click(password);
-			Helper.ClearTextBox(50);
-			Helper.ClearTextBoxandEnterValue(Discoverypassword);
-			screen.click(environmentdropdown);
-			Helper.ClearTextBox(40);
-			screen.type(TestEnvironment);
-			Helper.Keystrokeenter(1);
-			screen.click(login);
-			return true;
+				screen.wait(username,30);
+				screen.click(username);
+				Helper.Keystrokebackspace(30);
+				Helper.Keystrokedelete(30);
+				Helper.ClearTextBox(50);
+				Helper.ClearTextBoxandEnterValue(Discoveryusername);
+				screen.click(password);
+				Helper.ClearTextBox(50);
+				Helper.ClearTextBoxandEnterValue(Discoverypassword);
+				screen.click(environmentdropdown);
+				Helper.ClearTextBox(40);
+				screen.type(TestEnvironment);
+				Helper.Keystrokeenter(1);
+				screen.click(login);
+				return true;
 			}
 			catch (FindFailed e){
 				e.printStackTrace();

@@ -1,13 +1,14 @@
 {
 	"EnvironmentDetails": {
-		"TestEnvironment": "SIT"
+		"Replicadatabase": "Yes",
+		"DiscoveryDatabase": "LendingSupportSIT"
 	},
 	"UserDetails": {
 		"MFO": "NO",
 		"Franchise": ["NSW747"],
-		"DiscoveryUsername": "LendingSupportSIT",
-		"DiscoveryPassword": "choosey1!",
-		"DiscoveryDatabase": "LendingSupportSIT"
+		"DiscoveryUsername": "santhony.replica",
+		"LoanConsultant":"SureshAnthony",
+		"DiscoveryPassword": "choosey1!"
 	},
 	"Customerinformation": [{
 		"NewCustomer": "Yes",
@@ -29,7 +30,7 @@
 			"Title": 1,
 			"FirstName": "Suresh",
 			"MiddleName": "Joshua",
-			"LastName": "Arokiaraj"
+			"LastName": "Test002"
 		},
 		"CustomerAddress": {
 			"AddressLine1": "unit 27/99-101,Anzac Avenue",
@@ -121,7 +122,7 @@
 			"Title": 1,
 			"FirstName": "suresh",
 			"MiddleName": "",
-			"LastName": "20161206"
+			"LastName": "Test003"
 		},
 		"CustomerAddress": {
 			"AddressLine1": "unit 27/99-101,Anzac Avenue",
@@ -243,12 +244,12 @@
 			"NumberofDebts": "3",
 			"SecurityValue": "5000",
 			"SecuredLimt": null
-		},
-		"LVRCalculation": {
-			"LowDoc": "Yes",
-			"CapitalisedLMI": "Uncheck"
 		}
 	}],
+	"LVRCalculation": {
+			"LowDoc": "Yes",
+			"CapitalisedLMI": "Uncheck"
+	},
 	"Securities": {
 		"AdditionalSecurity": [{
 			"NotImplemeted": "NotImplemeted"
@@ -458,6 +459,33 @@
 			"LoanCostComparison":"No",
 			"ReasonLoanCostComparison":1
 		}		
+	},
+	"Referrals":{
+		"MotorInsurance":"Check",
+		"BuildingInsurance":"Check",
+		"LandLordInsurance":"Check",
+		"ContentsInsurance":"Check",
+		"PreferredContactTime": null,
+		"PropertyBuiltYear":"2010",
+		"PreApproval":"Check",
+		"AllianceOptOut":"Check",
+		"OptOutReason":"TestOptOutReason"
+	},
+	"Apply":{
+		"ApplyOnlineNewApplication":"Apply",
+		"ManualApply":null,
+		"CreateNewApplicationFromPrevious":null,
+		"PreviousApplicationNumber":"MD000000004",
+		"AddThirdParty":"Check"
+	},
+	"SaveScenario":{
+		"LinkLeadtoScenario":"No",
+		"LoanConsultant": 2,
+		"OpportunityName": null,
+		"ScenarioName": null,
+		"LeadSourceMajor": 2,
+		"LeadSourceMinor": 2,
+		"FOLead": null,
+		"AmountRequested": null
 	}
-	
 }

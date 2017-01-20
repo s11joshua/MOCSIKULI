@@ -242,12 +242,12 @@ public class FundsRequired {
 					Helper.Keystrokeenter(1);
 				}
 				
-				if (JSON.GetTestData(FundsRequiredValues, "LVRCalculation").get("LowDoc") != null && JSON.GetTestData(FundsRequiredValues, "LVRCalculation").get("LowDoc").toString().equals("Yes")){
+				if (JSON.GetTestData(RawFile, "LVRCalculation").get("LowDoc") != null && JSON.GetTestData(RawFile, "LVRCalculation").get("LowDoc").toString().equals("Yes")){
 					screen.click(FullDOC);
 					Helper.Keystrokeup(1);
 					Helper.Keystrokeenter(1);
 				}
-				if (JSON.GetTestData(FundsRequiredValues, "LVRCalculation").get("CapitalisedLMI") != null && JSON.GetTestData(FundsRequiredValues, "LVRCalculation").get("CapitalisedLMI").toString().equals("Uncheck")){
+				if (JSON.GetTestData(RawFile, "LVRCalculation").get("CapitalisedLMI") != null && JSON.GetTestData(RawFile, "LVRCalculation").get("CapitalisedLMI").toString().equals("Uncheck")){
 					screen.click(CapitaliseLMI);
 				}
 			}
