@@ -1,3 +1,7 @@
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.sikuli.script.App;
 import org.sikuli.script.FindFailed;
@@ -30,23 +34,34 @@ public class LoginPage {
 					App.open("C:\\Program Files\\mortgage choice\\DiscoverySysTest\\bin\\Discovery.exe");
 					App.pause(3);
 					App.focus("Discovery");
+					Helper.ScreenDump(TestExecution.TestExecutionFolder, "Discoverylaunch");
 					return true;
 			}
 			else if (DiscoveryAppLocation == "ProductionInstance"){
 					App.open("C:\\Program Files (x86)\\Mortgage Choice\\Discovery\\bin\\Discovery.exe");
 					App.pause(3);
 					App.focus("Discovery");
+					Helper.ScreenDump(TestExecution.TestExecutionFolder, "Discoverylaunch");
 					return true;
 			}
 			else
 			{
-					return false;
+				Helper.WriteToTxtFile("Invalid parameter passed for Instance of Discovery ", TestExecution.TestExecutionFolder + "logs.txt");	
+				return false;
 			}
 			
 		}
 		
-		public static boolean LogintoDiscovery(String Discoveryusername, String Discoverypassword, String TestEnvironment, JSONObject RawFile)
-		{
+		
+		public static boolean LogintoDiscovery(JSONObject RawFile)
+		{	
+			JSONObject LoginDetails = JSON.GetTestData(RawFile, "UserDetails");
+			JSONObject EnvironmentDetails = JSON.GetTestData(RawFile, "EnvironmentDetails");
+			
+			String Discoveryusername = LoginDetails.get("DiscoveryUsername").toString();
+			String Discoverypassword = LoginDetails.get("DiscoveryPassword").toString();
+			String TestEnvironment = EnvironmentDetails.get("DiscoveryDatabase").toString();
+			
 			try
 			{
 				screen.wait(username,30);
@@ -63,10 +78,13 @@ public class LoginPage {
 				screen.type(TestEnvironment);
 				Helper.Keystrokeenter(1);
 				screen.click(login);
+				Helper.ScreenDump(TestExecution.TestExecutionFolder, "DiscoveryLogin");
 				return true;
 			}
 			catch (FindFailed e){
 				e.printStackTrace();
+				Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+				Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 				return false;
 			}
 		}

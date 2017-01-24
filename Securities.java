@@ -184,18 +184,24 @@ public class Securities {
 						screen.click(Hectares);
 					}else{
 						System.out.println("Invalid parameter for the land-floor size unit");
+						Helper.WriteToTxtFile("Invalid parameter for the land-floor size unit", TestExecution.TestExecutionFolder + "logs.txt");
 						return false;
 					}
 					
 				}
-				
+			
+				Helper.ScreenDump(TestExecution.TestExecutionFolder, "Securities");
 			}
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
+			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		} catch (ParseException e) {
 			e.printStackTrace();
+			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
 	}

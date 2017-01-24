@@ -8,8 +8,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -193,6 +199,8 @@ public class Helper {
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
+			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
 	}
@@ -235,18 +243,13 @@ public class Helper {
 		}
 	}
 	
-	public static void WriteToTxtFile(String Content, String FilenametoWrite){
-		//FilenametoWrite = "C:\\ResultsFolder\\filename.txt"
-		File file = new File(FilenametoWrite);
-		FileWriter fw = null;
+	public static void WriteToTxtFile(String Content, String PathforFileName){
+		File file = new File(PathforFileName);
 		try {
-			fw = new FileWriter(file.getAbsoluteFile());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		BufferedWriter bw = new BufferedWriter(fw);
-		try {
+			FileWriter fw = new FileWriter(file.getAbsoluteFile(),true);
+			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write(Content);
+			bw.newLine();
 			bw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -254,6 +257,46 @@ public class Helper {
 		
 	}
 	
+	public static boolean CreateFile(String path, String Filename){
+		try {
+			Files.createFile(Paths.get(path + Filename));
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 	
+	public static boolean CreateDirectory(String RootFolder, String DirectoryName){
+		try {
+			Files.createDirectories(Paths.get(RootFolder + DirectoryName));
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+	
+	public static boolean ReadAllTextFilesInDirectory(String DirectoryPath){
+	Path dir = FileSystems.getDefault().getPath(DirectoryPath);
+	//List<JSONObject> list = new ArrayList<JSONObject>();
+	//TestExecution Test = new TestExecution();
+		try (DirectoryStream<Path> stream =
+		     Files.newDirectoryStream(dir, "*.txt")) {
+		    for (Path entry: stream) {
+		    	//JSON.ReadTestData(entry.getFileName().toString());
+		    	//list.add(JSON.ReadTestData(entry.getFileName().toString()));
+		    	//Test.teststeps(DirectoryPath + entry.getFileName().toString());
+		    	System.out.println(entry.getFileName());
+		    }
+		    return true;
+		} catch (IOException x) {
+		    // IOException can never be thrown by the iteration.
+		    // In this snippet, it can // only be thrown by newDirectoryStream.
+		    System.err.println(x);
+		    return false;
+		}
+	}
 	
 }

@@ -44,13 +44,17 @@ public class QualifyLenders {
 			
 			if (screen.exists(Qualifiedsymbol) == null){
 				System.out.println("The loan application was not successful, because it was not qualified by any lenders.");
+				Helper.WriteToTxtFile("The loan application was not successful, because it was not qualified by any lenders.", TestExecution.TestExecutionFolder + "logs.txt");
 				return false;
 			}else{
+				Helper.ScreenDump(TestExecution.TestExecutionFolder, "QualifyLender");
 				return true;
 			}
 			
 		} catch (FindFailed e) {
 			e.printStackTrace();
+			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
 	}

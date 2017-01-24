@@ -56,6 +56,7 @@ public class SaveScenario {
 				Helper.Keystrokeenter(1);
 			}else{
 				System.out.println("Invalid Parameter passed for loan Consultant in SaveScenario");
+				Helper.WriteToTxtFile("Invalid Parameter passed for loan Consultant in SaveScenario", TestExecution.TestExecutionFolder + "logs.txt");
 				return false;
 			}
 			if (SaveScenarioDetails.get("OpportunityName") != null){
@@ -78,6 +79,7 @@ public class SaveScenario {
 				Helper.Keystrokeenter(1);
 			}else{
 				System.out.println("Invalid Parameter passed for LeadSourceMajor in SaveScenario");
+				Helper.WriteToTxtFile("Invalid Parameter passed for LeadSourceMajor in SaveScenario", TestExecution.TestExecutionFolder + "logs.txt");
 				return false;
 			}
 			if (SaveScenarioDetails.get("LeadSourceMinor") != null && Integer.parseInt(SaveScenarioDetails.get("LeadSourceMinor").toString()) >=1 ){
@@ -86,6 +88,7 @@ public class SaveScenario {
 				Helper.Keystrokeenter(1);
 			}else{
 				System.out.println("Invalid Parameter passed for LeadSourceMinor in SaveScenario");
+				Helper.WriteToTxtFile("Invalid Parameter passed for LeadSourceMinor in SaveScenario", TestExecution.TestExecutionFolder + "logs.txt");
 				return false;
 			}
 			if (SaveScenarioDetails.get("FOLead") != null ){
@@ -95,6 +98,7 @@ public class SaveScenario {
 					Helper.Keystrokeenter(1);
 				}else{
 					System.out.println("Invalid Parameter passed for FOLead in SaveScenario");
+					Helper.WriteToTxtFile("Invalid Parameter passed for FOLead in SaveScenario", TestExecution.TestExecutionFolder + "logs.txt");
 					return false;
 				}				
 			}
@@ -103,10 +107,12 @@ public class SaveScenario {
 			screen.click(OkButton);
 			screen.waitVanish(OkButton,15);
 			App.pause(10); // this is for the pop up screen to disappear
-			
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "SaveScenario");
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
+			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
 
@@ -119,6 +125,8 @@ public class SaveScenario {
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
+			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
 	}

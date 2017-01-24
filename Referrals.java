@@ -79,10 +79,12 @@ public class Referrals {
 					screen.click(PreApproval);
 				}
 			}
-			
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Referrals");
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
+			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
 	}

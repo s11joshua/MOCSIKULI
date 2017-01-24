@@ -165,10 +165,13 @@ public class ScenarioSummary {
 				}
 				LoanCounter = LoanCounter + 3;
 				NonSplitloanCounter ++;
+				Helper.ScreenDump(TestExecution.TestExecutionFolder, "ScenarioSummary");
 			}
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
+			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
 	}

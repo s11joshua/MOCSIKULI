@@ -29,7 +29,7 @@ public class Apply {
 		ManualApply = new Pattern(Imagefolderlocation + "ManualApply.PNG");
 	}
 	
-	public static boolean CaptureTypeOfLodgement(JSONObject RawFile){
+	public static boolean CaptureTypeOfLodgement(JSONObject RawFile) {
 		JSONObject LodgementType = (JSONObject) RawFile.get("Apply");
 		try {
 			App.pause(2);
@@ -55,13 +55,19 @@ public class Apply {
 			}
 			else{
 				System.out.println("Invalid Options for the Lodgementype");
+				Helper.WriteToTxtFile("Invalid Options for the Lodgementype", TestExecution.TestExecutionFolder + "logs.txt");
 				return false;
 			}
-			
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "ApplyScreen_BeforeSubmission");
 			//screen.click(ApplicationSubmit);
+			//App.pause(15);
+			//Helper.ScreenDump(TestExecution.TestExecutionFolder, "ApplyScreen_AfterSubmission");
+			
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
+			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
 	}

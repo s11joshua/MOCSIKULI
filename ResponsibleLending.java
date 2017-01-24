@@ -81,6 +81,7 @@ public class ResponsibleLending {
 					Helper.Keystrokeenter(1);
 				}else{
 					System.out.println("Invalid Parameter Passed for PreferredLoanterm in ResponsibleLending-PreferredLoanterm");
+					Helper.WriteToTxtFile("Invalid Parameter Passed for PreferredLoanterm in ResponsibleLending-PreferredLoanterm", TestExecution.TestExecutionFolder + "logs.txt");
 					return false;
 				}
 			}
@@ -91,6 +92,7 @@ public class ResponsibleLending {
 					Helper.Keystrokeenter(1);
 				}else{
 					System.out.println("Invalid Parameter Passed for PreferredLoanRepayment in ResponsibleLending-PreferredLoanRepayment");
+					Helper.WriteToTxtFile("Invalid Parameter Passed for PreferredLoanRepayment in ResponsibleLending-PreferredLoanRepayment", TestExecution.TestExecutionFolder + "logs.txt");
 					return false;
 				}
 			}
@@ -125,6 +127,7 @@ public class ResponsibleLending {
 				if(ExpectedChanges.get("MeassuresAcceptable") != null && ExpectedChanges.get("MeassuresAcceptable").toString().equals("No")){
 					screen.click(MeassuresAcceptable);
 					System.out.println("This application will not be successful, due to foreseeable changesto their financial circumstances that may impact the loan repayments.");
+					Helper.WriteToTxtFile("This application will not be successful, due to foreseeable changesto their financial circumstances that may impact the loan repayments.", TestExecution.TestExecutionFolder + "logs.txt");
 					return false;
 				}
 				
@@ -193,6 +196,7 @@ public class ResponsibleLending {
 					screen.click(CustomerHasSufficientInsuranceCover);
 				}else{
 					System.out.println("Invalid parameter passed for NoActionRequired sub values in ResponsibleLending-PersonalInsurance-NoActionRequired");
+					Helper.WriteToTxtFile("Invalid parameter passed for NoActionRequired sub values in ResponsibleLending-PersonalInsurance-NoActionRequired", TestExecution.TestExecutionFolder + "logs.txt");
 					return false;
 				}
 			}
@@ -262,11 +266,13 @@ public class ResponsibleLending {
 				
 			}
 			
-			
-						
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "CaptureResponsibleLending");
 			return true;
+			
 		} catch (FindFailed e) {
 			e.printStackTrace();
+			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
 		

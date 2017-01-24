@@ -213,7 +213,11 @@ public class ClientInformation {
 							Helper.Keystrokedown(Integer.parseInt(CustomerInformation.get("ResidentialStatus").toString())-1);
 							Helper.Keystrokeenter(1);
 						}
-					}else return false;
+					}else{
+						System.out.println("Invalid parameter passed for customer type");
+						Helper.WriteToTxtFile("Invalid parameter passed for customer type", TestExecution.TestExecutionFolder + "logs.txt");
+						return false;
+					}
 					
 					
 					screen.find(TitleandFirstName).right(Offset[1]).click();
@@ -265,10 +269,13 @@ public class ClientInformation {
 					screen.waitVanish(FindClientOKbutton);
 					
 				}
+				Helper.ScreenDump(TestExecution.TestExecutionFolder, "CustomerCreation");
 			}
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
+			Helper.WriteToTxtFile(e.toString(),TestExecution.TestExecutionFolder + "logs.txt");
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
 	}
@@ -293,8 +300,11 @@ public class ClientInformation {
 			App.pause(2);
 			screen.click(ScenarioLoanOkbutton);
 			App.pause(10);
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "SaveScenario");
 			return true;
-		} catch (FindFailed e) {e.printStackTrace();
+		} catch (FindFailed e) {
+			e.printStackTrace();
+			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
 			return false;
 		}
 	}
@@ -313,6 +323,8 @@ public class ClientInformation {
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
+			Helper.WriteToTxtFile(e.toString(),TestExecution.TestExecutionFolder + "logs.txt");
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
 	}
@@ -369,6 +381,8 @@ public class ClientInformation {
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
+			Helper.WriteToTxtFile(e.toString(),TestExecution.TestExecutionFolder + "logs.txt");
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
 	}
@@ -385,6 +399,7 @@ public class ClientInformation {
 				}
 			}else{
 				System.out.println("Invalid Parameter passed for HouseholdOfApplicant in Customerinformation-CustomerLivingExpenses-HouseholdOfApplicant");
+				Helper.WriteToTxtFile("Invalid Parameter passed for HouseholdOfApplicant in Customerinformation-CustomerLivingExpenses-HouseholdOfApplicant",TestExecution.TestExecutionFolder + "logs.txt");
 				return false;
 			}
 			
@@ -436,10 +451,13 @@ public class ClientInformation {
 			}
 			
 			screen.waitVanish(HousholdDetailsSave);
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "HouseHoldDetails");
 			return true;
 			
 		} catch (FindFailed e) {
 			e.printStackTrace();
+			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
 		
@@ -514,11 +532,14 @@ public class ClientInformation {
 				}
 				screen.click(IncomeOKbutton);
 				screen.waitVanish(IncomeOKbutton);
+				Helper.ScreenDump(TestExecution.TestExecutionFolder, "IncomeDetails");
 			}
 			
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
+			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
 	}
@@ -622,12 +643,15 @@ public class ClientInformation {
 				}
 				screen.click(CommitmentOKbutton);
 				screen.waitVanish(CommitmentOKbutton);
+				Helper.ScreenDump(TestExecution.TestExecutionFolder, "FinancialCommitments");
 			}
 			
 			return true;
 			
 		} catch (FindFailed e) {
 			e.printStackTrace();
+			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
 	}
