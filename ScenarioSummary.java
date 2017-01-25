@@ -162,10 +162,12 @@ public class ScenarioSummary {
 					
 					counter ++;
 					TotalLoanCounter ++;
+					Helper.ScreenDump(TestExecution.TestExecutionFolder, "ScenarioSummary");
 				}
 				LoanCounter = LoanCounter + 3;
 				NonSplitloanCounter ++;
-				Helper.ScreenDump(TestExecution.TestExecutionFolder, "ScenarioSummary");
+				
+				Helper.WriteToTxtFile("Scenario Summary was successful", TestExecution.TestExecutionFolder + "logs.txt");
 			}
 			return true;
 		} catch (FindFailed e) {

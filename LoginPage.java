@@ -34,14 +34,12 @@ public class LoginPage {
 					App.open("C:\\Program Files\\mortgage choice\\DiscoverySysTest\\bin\\Discovery.exe");
 					App.pause(3);
 					App.focus("Discovery");
-					Helper.ScreenDump(TestExecution.TestExecutionFolder, "Discoverylaunch");
 					return true;
 			}
 			else if (DiscoveryAppLocation == "ProductionInstance"){
 					App.open("C:\\Program Files (x86)\\Mortgage Choice\\Discovery\\bin\\Discovery.exe");
 					App.pause(3);
 					App.focus("Discovery");
-					Helper.ScreenDump(TestExecution.TestExecutionFolder, "Discoverylaunch");
 					return true;
 			}
 			else
@@ -62,9 +60,11 @@ public class LoginPage {
 			String Discoverypassword = LoginDetails.get("DiscoveryPassword").toString();
 			String TestEnvironment = EnvironmentDetails.get("DiscoveryDatabase").toString();
 			
+				
 			try
 			{
 				screen.wait(username,30);
+				Helper.ScreenDump(TestExecution.TestExecutionFolder, "Discoverylaunch");
 				screen.click(username);
 				Helper.Keystrokebackspace(30);
 				Helper.Keystrokedelete(30);
@@ -79,6 +79,7 @@ public class LoginPage {
 				Helper.Keystrokeenter(1);
 				screen.click(login);
 				Helper.ScreenDump(TestExecution.TestExecutionFolder, "DiscoveryLogin");
+				Helper.WriteToTxtFile("Login was succecssful", TestExecution.TestExecutionFolder + "logs.txt");
 				return true;
 			}
 			catch (FindFailed e){

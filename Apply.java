@@ -58,10 +58,12 @@ public class Apply {
 				Helper.WriteToTxtFile("Invalid Options for the Lodgementype", TestExecution.TestExecutionFolder + "logs.txt");
 				return false;
 			}
+			
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "ApplyScreen_BeforeSubmission");
 			//screen.click(ApplicationSubmit);
 			//App.pause(15);
 			//Helper.ScreenDump(TestExecution.TestExecutionFolder, "ApplyScreen_AfterSubmission");
+			Helper.WriteToTxtFile("Application was submitted successfully", TestExecution.TestExecutionFolder + "logs.txt");
 			
 			return true;
 		} catch (FindFailed e) {

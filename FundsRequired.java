@@ -258,6 +258,7 @@ public class FundsRequired {
 				}
 			}
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "FundsRequired");
+			Helper.WriteToTxtFile("Transactions were created successfully", TestExecution.TestExecutionFolder + "logs.txt");
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();

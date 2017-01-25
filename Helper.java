@@ -15,8 +15,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.sikuli.script.App;
@@ -25,7 +23,7 @@ import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 
 public class Helper {
-	
+
 	public static void Keystrokebackspace(int repeatcount)
 	{	
 		try {Robot robot = new Robot();
@@ -39,6 +37,7 @@ public class Helper {
 		} catch (AWTException e1) {e1.printStackTrace();}
 		
 	}
+
 	public static void Keystrokedelete(int repeatcount)
 	{	
 		try {Robot robot = new Robot();
@@ -52,6 +51,7 @@ public class Helper {
 		} catch (AWTException e1) {e1.printStackTrace();}
 		
 	}
+
 	public static void Keystroketab(int repeatcount)
 	{	
 		try {Robot robot = new Robot();
@@ -66,7 +66,7 @@ public class Helper {
 		} catch (AWTException e1) {e1.printStackTrace();}
 		
 	}
-	
+
 	public static void Keystrokeenter(int repeatcount)
 	{	
 		try {Robot robot = new Robot();
@@ -80,7 +80,7 @@ public class Helper {
 		} catch (AWTException e1) {e1.printStackTrace();}
 		
 	}
-	
+
 	public static void Keystrokedown(int repeatcount)
 	{	
 		try {Robot robot = new Robot();
@@ -95,7 +95,7 @@ public class Helper {
 		} catch (AWTException e1) {e1.printStackTrace();}
 		
 	}
-	
+
 	public static void Keystrokeup(int repeatcount)
 	{	
 		try {Robot robot = new Robot();
@@ -214,6 +214,7 @@ public class Helper {
 		}
 		return counter;
 	}
+
 	public static void ScreenDump(String FilePathinSikuliformat, String Screenshotname){
 		Screen screen = new Screen();
 		//screen.capture().save("C:\\Sikuli Images\\", "TestFile");
@@ -276,6 +277,26 @@ public class Helper {
 			return false;
 		}
 		
+	}
+	
+	public static boolean MoveFiles(String SourceFile, String TargetFile){
+		try {
+			Files.move(Paths.get(SourceFile), Paths.get(TargetFile));
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public static boolean CopyFiles(String SourceFile, String TargetFile){
+		try {
+			Files.copy(Paths.get(SourceFile), Paths.get(TargetFile));
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	public static boolean ReadAllTextFilesInDirectory(String DirectoryPath){

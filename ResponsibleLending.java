@@ -267,6 +267,7 @@ public class ResponsibleLending {
 			}
 			
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "CaptureResponsibleLending");
+			Helper.WriteToTxtFile("Responsible Lending Successful", TestExecution.TestExecutionFolder + "logs.txt");
 			return true;
 			
 		} catch (FindFailed e) {

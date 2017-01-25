@@ -270,6 +270,7 @@ public class ClientInformation {
 					
 				}
 				Helper.ScreenDump(TestExecution.TestExecutionFolder, "CustomerCreation");
+				Helper.WriteToTxtFile("Client added successfully to the Scenario",TestExecution.TestExecutionFolder + "logs.txt");
 			}
 			return true;
 		} catch (FindFailed e) {
@@ -280,35 +281,6 @@ public class ClientInformation {
 		}
 	}
 
-    public static boolean SaveScenario(){
-		
-		try {
-			App.pause(3);
-			screen.click(ScenarioSave);
-			App.pause(3);
-			App.focus("Sceanrio Details");
-			screen.click(ScenarioLoanConsultant);//Family & Friends
-			Helper.Keystrokedown(1);
-			Helper.Keystrokeenter(1);
-			screen.click(ScenarioLeadSourceMajor);//Family & Friends
-			Helper.Keystrokedown(1);
-			Helper.Keystrokeenter(1);
-			Helper.Keystrokedown(1);
-			Helper.Keystroketab(1);
-			Helper.Keystrokedown(1);
-			Helper.Keystrokeenter(1);
-			App.pause(2);
-			screen.click(ScenarioLoanOkbutton);
-			App.pause(10);
-			Helper.ScreenDump(TestExecution.TestExecutionFolder, "SaveScenario");
-			return true;
-		} catch (FindFailed e) {
-			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
-			return false;
-		}
-	}
-	
 	public static boolean SelectPostCode(String Suburb, String Postcode){
 		Screen screen = new Screen();
 		try{
@@ -444,6 +416,7 @@ public class ClientInformation {
 				Helper.Keystrokeenter(1);
 			}
 			
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "HouseHoldDetails");
 			screen.click(HousholdDetailsSave);
 						
 			if (screen.exists(WarningSavebutton) != null){
@@ -451,7 +424,7 @@ public class ClientInformation {
 			}
 			
 			screen.waitVanish(HousholdDetailsSave);
-			Helper.ScreenDump(TestExecution.TestExecutionFolder, "HouseHoldDetails");
+			Helper.WriteToTxtFile("House Hold Details saved successfully", TestExecution.TestExecutionFolder + "logs.txt");
 			return true;
 			
 		} catch (FindFailed e) {
@@ -530,9 +503,11 @@ public class ClientInformation {
 					Helper.Keystrokedown(Integer.parseInt(Incomevalues.get("Taxed").toString()) - 1);
 					Helper.Keystrokeenter(1);
 				}
+				
+				Helper.ScreenDump(TestExecution.TestExecutionFolder, "IncomeDetails");
 				screen.click(IncomeOKbutton);
 				screen.waitVanish(IncomeOKbutton);
-				Helper.ScreenDump(TestExecution.TestExecutionFolder, "IncomeDetails");
+				Helper.WriteToTxtFile("Income Details saved successfully", TestExecution.TestExecutionFolder + "logs.txt");
 			}
 			
 			return true;
@@ -641,9 +616,10 @@ public class ClientInformation {
 					}
 					
 				}
+				Helper.ScreenDump(TestExecution.TestExecutionFolder, "FinancialCommitments");
 				screen.click(CommitmentOKbutton);
 				screen.waitVanish(CommitmentOKbutton);
-				Helper.ScreenDump(TestExecution.TestExecutionFolder, "FinancialCommitments");
+				Helper.WriteToTxtFile("Financial Commitments Saved Successfully", TestExecution.TestExecutionFolder + "logs.txt");
 			}
 			
 			return true;

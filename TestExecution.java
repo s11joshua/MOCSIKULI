@@ -29,7 +29,7 @@ public class TestExecution {
 	public String TimeStamp;
 	public static String TestExecutionFolder;
 	
-	public void InitializeTestExecution(){
+	public void InitializeTestFramework(){
 		Settings.OcrTextSearch = true;
 		Settings.OcrTextRead = true;
 		Settings.setShowActions(true);
@@ -62,30 +62,38 @@ public class TestExecution {
 	
 	@Before
 	public void setUp() throws Exception {
-		InitializeTestExecution();
-		Helper.ReadFromTxtFile("C:\\ResultsFolder\\DynamicsTestResult2016-12-19_07-30-00-AM.txt");
+		InitializeTestFramework();
 	}
 	
 	@ Test
 	public void TestCase001() throws Exception{
 		String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
 		TestExecutionFolder = TESTSETUP(TestCaseName);
-		teststeps(TestDataFolderRoot + TestCaseName + ".txt");
+		assertTrue(teststeps(TestExecutionFolder + TestCaseName + ".txt"));
 	}	
 	@ Test
 	public void TestCase002() throws Exception{
 		String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
 		TestExecutionFolder = TESTSETUP(TestCaseName);
-		teststeps(TestDataFolderRoot + TestCaseName + ".txt");
+		assertTrue(teststeps(TestExecutionFolder + TestCaseName + ".txt"));
 	}
 	
 	@After
 	public void tearDown() throws Exception {
+		try {
+			Runtime.getRuntime().exec("taskkill /F /IM " + "Tonto.exe");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public boolean teststeps(String testdata){
 		
 		JSONTestData = JSON.ReadTestData(testdata);
+		if (JSONTestData == null){
+			Helper.WriteToTxtFile("Not able to locate the JSON data file in the test data directory",  TestExecutionFolder + "logs.txt");
+			return false;
+		}
 		
 		assertTrue (LoginPage.LaunchDiscoveryApplicaiton("TestInstance"));
 		assertTrue (LoginPage.LogintoDiscovery(JSONTestData));
@@ -117,6 +125,8 @@ public class TestExecution {
 		Helper.CreateDirectory(ExecutionFolder,CurrentTestFolderName);
 		String CurrentTestFolerPath = ExecutionFolder + CurrentTestFolderName + "\\";
 		Helper.WriteToTxtFile("ExecutionFolderCreated",  CurrentTestFolerPath + "logs.txt");
+		Helper.CopyFiles(TestDataFolderRoot + TestCaseName + ".txt" , CurrentTestFolerPath + TestCaseName + ".txt");
+		Helper.MoveFiles(TestDataFolderRoot + TestCaseName + ".txt" , TestDataFolderRoot + "Archive\\" + TestCaseName + "_" + TimeStamp + ".txt");
 		return CurrentTestFolerPath;
 	}
 	

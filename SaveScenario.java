@@ -108,6 +108,7 @@ public class SaveScenario {
 			screen.waitVanish(OkButton,15);
 			App.pause(10); // this is for the pop up screen to disappear
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "SaveScenario");
+			Helper.WriteToTxtFile("Scenario Saved Successfully", TestExecution.TestExecutionFolder + "logs.txt");
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
@@ -122,6 +123,7 @@ public class SaveScenario {
 		try {
 			screen.wait(Savebutton);
 			screen.click(Savebutton);
+			Helper.WriteToTxtFile("Scenario Saved Successfully", TestExecution.TestExecutionFolder + "logs.txt");
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();

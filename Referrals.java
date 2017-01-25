@@ -80,6 +80,7 @@ public class Referrals {
 				}
 			}
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Referrals");
+			Helper.WriteToTxtFile("Referrals successful", TestExecution.TestExecutionFolder + "logs.txt");
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();

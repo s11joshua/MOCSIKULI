@@ -290,10 +290,9 @@ public class LoanStructure {
 							return false;
 						}
 					}
-					
+					Helper.ScreenDump(TestExecution.TestExecutionFolder, "LoanStructure");
 				}
-				
-				Helper.ScreenDump(TestExecution.TestExecutionFolder, "LoanStructure");
+				Helper.WriteToTxtFile("Loan Structure created successfully", TestExecution.TestExecutionFolder + "logs.txt");
 			}
 			return true;
 		} catch (FindFailed e) {

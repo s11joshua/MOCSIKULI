@@ -48,6 +48,7 @@ public class QualifyLenders {
 				return false;
 			}else{
 				Helper.ScreenDump(TestExecution.TestExecutionFolder, "QualifyLender");
+				Helper.WriteToTxtFile("Qualify lenders successful", TestExecution.TestExecutionFolder + "logs.txt");
 				return true;
 			}
 			
