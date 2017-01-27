@@ -15,6 +15,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.sikuli.script.App;
@@ -23,7 +26,8 @@ import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 
 public class Helper {
-
+	static Log logger = LogFactory.getLog(Helper.class);
+	
 	public static void Keystrokebackspace(int repeatcount)
 	{	
 		try {Robot robot = new Robot();

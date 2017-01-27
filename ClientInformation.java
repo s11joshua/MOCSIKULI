@@ -1,5 +1,8 @@
 
 import java.util.Iterator;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.sikuli.script.App;
@@ -8,6 +11,8 @@ import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 
 public class ClientInformation {
+	static Log logger = LogFactory.getLog(ClientInformation.class);
+	
 	public static int Offset[] = {0,10,50,100,200,500,1000};
 	public static Screen screen = new Screen();
 	

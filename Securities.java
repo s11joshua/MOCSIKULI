@@ -3,6 +3,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.sikuli.script.FindFailed;
@@ -12,6 +14,7 @@ import org.sikuli.script.Screen;
 
 public class Securities {
 	
+	static Log logger = LogFactory.getLog(Securities.class);
 	public static Screen screen = new Screen();
 	public static int Offset[] = {0,10,50,100,200,500,1000};
 	

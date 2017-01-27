@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.io.FileNotFoundException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -11,7 +13,7 @@ import org.json.simple.parser.ParseException;
 
 
 public class JSON {
-
+	static Log logger = LogFactory.getLog(JSON.class);
 	public static JSONObject ReadTestData(String TestDataFilePath){
 		JSONParser Parser = new JSONParser();
 		

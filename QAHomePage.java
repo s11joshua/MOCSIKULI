@@ -1,5 +1,7 @@
 import java.util.Iterator;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.sikuli.script.App;
@@ -9,6 +11,8 @@ import org.sikuli.script.Screen;
 
 
 public class QAHomePage {
+	
+	static Log logger = LogFactory.getLog(QAHomePage.class);
 	public static Screen screen = new Screen();
 	static Pattern clientsearch;
 	static Pattern quickqualify;

@@ -7,6 +7,8 @@ import org.junit.runners.MethodSorters;
 import static org.junit.Assert.*;
 import org.sikuli.script.App;
 import org.sikuli.script.Screen;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -17,6 +19,7 @@ import org.sikuli.basics.Settings;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestExecution {
+	static Log logger = LogFactory.getLog(TestExecution.class);
 	
 	public JSONObject JSONTestData;
 	public String TestEnvironment;
@@ -67,16 +70,17 @@ public class TestExecution {
 	
 	@ Test
 	public void TestCase001() throws Exception{
-		XMLParser.ReturnXMLFileContentinJSONFormat("C:\\DiscoveryAutomation\\Payload.xml");
-		//String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
-		//TestExecutionFolder = TESTSETUP(TestCaseName);
-		//assertTrue(teststeps(TestExecutionFolder + TestCaseName + ".txt"));
+		
+		String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
+		TestExecutionFolder = TESTSETUP(TestCaseName);
+		assertTrue(teststeps(TestExecutionFolder + TestCaseName + ".txt"));
 	}	
+	
 	@ Test
 	public void TestCase002() throws Exception{
-		//String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
-		//TestExecutionFolder = TESTSETUP(TestCaseName);
-		//assertTrue(teststeps(TestExecutionFolder + TestCaseName + ".txt"));
+		String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
+		TestExecutionFolder = TESTSETUP(TestCaseName);
+		assertTrue(teststeps(TestExecutionFolder + TestCaseName + ".txt"));
 	}
 	
 	@After
@@ -112,7 +116,6 @@ public class TestExecution {
 		//assertTrue (Apply.CaptureTypeOfLodgement(JSONTestData));
 		assertTrue (SaveScenario.Save(JSONTestData));
 		assertTrue (Helper.ForceKillApplication("Tonto.exe"));
-		System.out.println(XMLParser.ReturnXMLFileContentinJSONFormat(""));
 		return true;
 	}
 	

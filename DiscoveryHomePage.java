@@ -1,3 +1,5 @@
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.sikuli.script.App;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
@@ -5,6 +7,7 @@ import org.sikuli.script.Screen;
 
 
 public class DiscoveryHomePage {
+	static Log logger = LogFactory.getLog(DiscoveryHomePage.class);
 	public static Screen screen = new Screen();
 	public static int Offset[] = {0,10,50,100,200,500,1000};
 	static Pattern qashortcut;

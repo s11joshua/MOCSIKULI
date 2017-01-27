@@ -1,4 +1,6 @@
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
 import org.sikuli.script.App;
 import org.sikuli.script.FindFailed;
@@ -8,6 +10,7 @@ import org.sikuli.script.Screen;
 
 public class ResponsibleLending {
 	
+	static Log logger = LogFactory.getLog(ResponsibleLending.class);
 	public static Screen screen = new Screen();
 	public static int Offset[] = {0,10,50,100,200,500,1000};
 	static Pattern ExpectedChanges;

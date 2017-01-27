@@ -13,7 +13,7 @@ public class XMLParser {
   
 
 	public static org.json.JSONObject ReturnXMLFileContentinJSONFormat(String XMLFilePath){
- 
+		
 	File inputFile = new File(XMLFilePath);
  
 	try {
