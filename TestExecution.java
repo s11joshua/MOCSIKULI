@@ -109,12 +109,11 @@ public class TestExecution {
 		assertTrue (Securities.CaptureSecurities(JSONTestData));
 		assertTrue (LoanStructure.CaptureLoanStructure(JSONTestData));
 		assertTrue (QualifyLenders.ActionOnQulifyLenders());
-		assertTrue (SaveScenario.SaveAsNewLead(JSONTestData));
 		assertTrue (ScenarioSummary.SelectLenderandProduct(JSONTestData));
+		assertTrue (SaveScenario.SaveAsNewLead(JSONTestData));
 		assertTrue (ResponsibleLending.CaptureResponsibleLending(JSONTestData));
 		//assertTrue (Referrals.CaptureReferrals(JSONTestData));
 		//assertTrue (Apply.CaptureTypeOfLodgement(JSONTestData));
-		assertTrue (SaveScenario.Save(JSONTestData));
 		assertTrue (Helper.ForceKillApplication("Tonto.exe"));
 		return true;
 	}
