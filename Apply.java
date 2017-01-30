@@ -57,17 +57,17 @@ public class Apply {
 				screen.click(ManualApply);
 			}
 			else{
-				System.out.println("Invalid Options for the Lodgementype");
+				logger.error("Invalid Options for the Lodgementype");
 				Helper.WriteToTxtFile("Invalid Options for the Lodgementype", TestExecution.TestExecutionFolder + "logs.txt");
 				return false;
 			}
 			
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "ApplyScreen_BeforeSubmission");
-			//screen.click(ApplicationSubmit);
-			//App.pause(15);
-			//Helper.ScreenDump(TestExecution.TestExecutionFolder, "ApplyScreen_AfterSubmission");
+			screen.click(ApplicationSubmit);
+			App.pause(15);
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "ApplyScreen_AfterSubmission");
+			logger.info("Application was submitted successfully");
 			Helper.WriteToTxtFile("Application was submitted successfully", TestExecution.TestExecutionFolder + "logs.txt");
-			
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();

@@ -184,20 +184,20 @@ public class ClientInformation {
 	}
 	
 	public static boolean CaptureClientDetails(JSONObject RawFile){
-		
+		logger.debug("Entering CaptureClientDetails");
 		int counter = 0;
 		JSONArray CustomerInformation_Array = (JSONArray) RawFile.get("Customerinformation");
 		
 		try {
-			
+			logger.debug("Focus on application QA");
 			App.focus("Qualifier Analyser");
 			screen.wait(titlelabel,30);
 			Iterator<JSONObject> CustomerInformationArray = CustomerInformation_Array.iterator();
 			
 			while (CustomerInformationArray.hasNext()){
+				logger.debug("Looping through the number of customer");
 				JSONObject CustomerInformation = CustomerInformationArray.next();
-				//System.out.println(CustomerInformation.toString());
-								
+												
 				if (CustomerInformation.get("NewCustomer").toString().equals("Yes")){
 					counter++;
 					if (counter > 1) {
@@ -224,29 +224,63 @@ public class ClientInformation {
 						return false;
 					}
 					
+					if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("Title") != null && Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerNames").get("Title").toString()) >= 1){
+						screen.find(TitleandFirstName).right(Offset[1]).click();
+						Helper.Keystrokedown(Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerNames").get("Title").toString()));
+						Helper.Keystrokeenter(1);
+					}
+					if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("FirstName") != null){
+						screen.find(TitleandFirstName).right(Offset[4]).click();
+						screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("FirstName").toString());
+					}else{
+						logger.error("Invalid parameter passed for customer first name.");
+						return false;
+					}
+						
+					if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("LastName") != null){
+						screen.find(LastName).right(Offset[1]).click();
+						screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("LastName").toString());
+					}else{
+						logger.error("Invalid parameter passed for customer last name.");
+						return false;
+					}
 					
-					screen.find(TitleandFirstName).right(Offset[1]).click();
-					Helper.Keystrokedown(Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerNames").get("Title").toString()));
-					Helper.Keystrokeenter(1);
-					screen.find(TitleandFirstName).right(Offset[4]).click();
-					screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("FirstName").toString());
-					screen.find(LastName).right(Offset[1]).click();
-					screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("LastName").toString());
-					screen.find(DateOfBirth).right(Offset[1]).click();
-					screen.type(CustomerInformation.get("DOB").toString());
-					screen.find(PreferredContactMethod).right(Offset[2]).click();
-					Helper.Keystrokedown(Integer.parseInt(CustomerInformation.get("PreferredContactMethod").toString()));
-					Helper.Keystrokeenter(1);
-					screen.find(BusPhone).right(Offset[4]).click();
-					screen.type(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("BusinessPhone").toString());
-					screen.find(HomePhone).right(Offset[4]).click();
-					screen.type(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("HomePhone").toString());
-					screen.find(MobilePhone).right(Offset[4]).click();
-					screen.type(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("Mobile").toString());
-					screen.find(EmailId).right(Offset[4]).click();
-					screen.type(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("EmailId").toString());
-					screen.find(Addressline1).right(Offset[4]).click();
-					screen.type(JSON.GetTestData(CustomerInformation, "CustomerAddress").get("AddressLine1").toString());
+					if(CustomerInformation.get("DOB") != null){
+						screen.find(DateOfBirth).right(Offset[1]).click();
+						screen.type(CustomerInformation.get("DOB").toString());
+					}
+					if(CustomerInformation.get("PreferredContactMethod") != null && Integer.parseInt(CustomerInformation.get("PreferredContactMethod").toString()) >= 1){
+						screen.find(PreferredContactMethod).right(Offset[2]).click();
+						Helper.Keystrokedown(Integer.parseInt(CustomerInformation.get("PreferredContactMethod").toString()));
+						Helper.Keystrokeenter(1);
+						
+						if(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("BusinessPhone") != null){
+							screen.find(BusPhone).right(Offset[4]).click();
+							screen.type(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("BusinessPhone").toString());
+						}
+						if(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("HomePhone") != null){
+							screen.find(HomePhone).right(Offset[4]).click();
+							screen.type(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("HomePhone").toString());
+						}
+						if(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("Mobile") != null){
+							screen.find(MobilePhone).right(Offset[4]).click();
+							screen.type(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("Mobile").toString());
+						}
+						if(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("EmailId") != null){
+							screen.find(EmailId).right(Offset[4]).click();
+							screen.type(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("EmailId").toString());
+						}
+					}
+					else{
+						logger.error("Invalid parameter passed for preferred contact method");
+						return false;
+					}
+					
+					if(JSON.GetTestData(CustomerInformation, "CustomerAddress").get("AddressLine1") != null){
+						screen.find(Addressline1).right(Offset[4]).click();
+						screen.type(JSON.GetTestData(CustomerInformation, "CustomerAddress").get("AddressLine1").toString());
+					}
+					
 					if (JSON.GetTestData(CustomerInformation, "CustomerAddress").get("AddressLine2") != null){
 						Helper.Keystroketab(1);
 						screen.type(JSON.GetTestData(CustomerInformation, "CustomerAddress").get("AddressLine2").toString());
@@ -255,8 +289,12 @@ public class ClientInformation {
 					if (SelectPostCode(JSON.GetTestData(CustomerInformation, "CustomerAddress").get("Suburb").toString(),JSON.GetTestData(CustomerInformation, "CustomerAddress").get("PostCode").toString()) != true){
 						return false;
 					}
-					screen.find(MoveInDate).right(Offset[4]).click();
-					screen.type(JSON.GetTestData(CustomerInformation, "CustomerAddress").get("MoveInDate").toString());
+					
+					if(JSON.GetTestData(CustomerInformation, "CustomerAddress").get("MoveInDate") != null){
+						screen.find(MoveInDate).right(Offset[4]).click();
+						screen.type(JSON.GetTestData(CustomerInformation, "CustomerAddress").get("MoveInDate").toString());
+					}
+					
 					if (IncomeExpenses(CustomerInformation) != true){
 						return false;
 					}
@@ -264,15 +302,34 @@ public class ClientInformation {
 					
 				} else if(CustomerInformation.get("NewCustomer").toString().equals("No")){
 					counter++;
+					logger.debug("Entering condition for selecting existing customer.");
+					
 					screen.click(AddExistingCustomer);
 					screen.wait(ExistingCustomerSurname,30);
-					screen.find(ExistingCustomerSurname).below(10).click();
-					screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("LastName").toString());
-					screen.find(ExistingCustomerFirstname).below(10).click();
-					screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("FirstName").toString());
+					
+					if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("LastName") != null){
+						screen.find(ExistingCustomerSurname).below(10).click();
+						screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("LastName").toString());
+					}else{
+						logger.error("Invalid parameter passed for customer last name for existing customer.");
+						return false;
+					}
+					
+					if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("FirstName") != null){
+						screen.find(ExistingCustomerFirstname).below(10).click();
+						screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("FirstName").toString());
+					}else{
+						logger.error("Invalid parameter passed for customer first name for existing customer.");
+						return false;
+					}
+					
 					screen.click(FindClientOKbutton);
 					screen.waitVanish(FindClientOKbutton);
 					
+				}
+				else{
+					logger.error("Invalid parameter passed for customer information, is the customer a new customer or an existing customer.");
+					return false;
 				}
 				Helper.ScreenDump(TestExecution.TestExecutionFolder, "CustomerCreation");
 				Helper.WriteToTxtFile("Client added successfully to the Scenario",TestExecution.TestExecutionFolder + "logs.txt");
@@ -280,7 +337,7 @@ public class ClientInformation {
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(),TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
@@ -300,7 +357,7 @@ public class ClientInformation {
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(),TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
@@ -308,7 +365,7 @@ public class ClientInformation {
 	
 	public static boolean IncomeExpenses(JSONObject CustomerInformation){
 		try {
-			
+			logger.debug("Entering Income & expenses section.");
 			if (JSON.GetTestData(CustomerInformation, "CustomerDependents").get("NumberOfDependents") != null){
 				if(Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerDependents").get("NumberOfDependents").toString()) >= 1){
 					screen.find(NumberOfChildern).right(Offset[2]).click();
@@ -358,7 +415,7 @@ public class ClientInformation {
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(),TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
@@ -367,6 +424,7 @@ public class ClientInformation {
 	public static boolean HouseHoldDetails(JSONObject CustomerInformation){
 		
 		try {
+			logger.debug("Entering HouseHold details section.");
 			
 			if(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("HouseholdOfApplicant") != null && Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("HouseholdOfApplicant").toString()) >= 1){
 				if (Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerLivingExpenses").get("HouseholdOfApplicant").toString()) > 1){
@@ -375,8 +433,7 @@ public class ClientInformation {
 					Helper.Keystrokeenter(1);
 				}
 			}else{
-				System.out.println("Invalid Parameter passed for HouseholdOfApplicant in Customerinformation-CustomerLivingExpenses-HouseholdOfApplicant");
-				Helper.WriteToTxtFile("Invalid Parameter passed for HouseholdOfApplicant in Customerinformation-CustomerLivingExpenses-HouseholdOfApplicant",TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error("Invalid Parameter passed for HouseholdOfApplicant in Customerinformation-CustomerLivingExpenses-HouseholdOfApplicant");
 				return false;
 			}
 			
@@ -434,7 +491,7 @@ public class ClientInformation {
 			
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
@@ -445,7 +502,7 @@ public class ClientInformation {
 	public static boolean Income(JSONObject CustomerInformation){
 		try {
 			//Clearing the default income section.
-		
+			logger.debug("Entering the income Section.");
 			int Counter = 1;
 			while(Counter <= 4){
 				screen.find(IncomeDeletebutton).left(Offset[2]).click();
@@ -518,7 +575,7 @@ public class ClientInformation {
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
@@ -528,7 +585,7 @@ public class ClientInformation {
 		try {
 			
 			//Clearing the default commitment section.
-			
+			logger.debug("Entering Financial Commitments sections");
 			int Counter = 1;
 			while(Counter <= 7){
 				screen.find(CommitmentDeletebutton).above(Offset[1]).click();
@@ -631,7 +688,7 @@ public class ClientInformation {
 			
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}

@@ -28,7 +28,7 @@ public class DiscoveryHomePage {
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}

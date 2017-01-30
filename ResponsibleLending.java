@@ -70,6 +70,7 @@ public class ResponsibleLending {
 	}
 	
 	public static boolean CaptureResponsibleLending(JSONObject RawFile){
+		logger.debug("Entering Capture Responsible Lending section");
 		JSONObject ResponsibleLendingValues = (JSONObject) RawFile.get("ResponsibleLending");
 		
 		try {
@@ -83,8 +84,7 @@ public class ResponsibleLending {
 					Helper.ClearTextBoxandEnterValue(ResponsibleLendingValues.get("PreferredLoanterm").toString());
 					Helper.Keystrokeenter(1);
 				}else{
-					System.out.println("Invalid Parameter Passed for PreferredLoanterm in ResponsibleLending-PreferredLoanterm");
-					Helper.WriteToTxtFile("Invalid Parameter Passed for PreferredLoanterm in ResponsibleLending-PreferredLoanterm", TestExecution.TestExecutionFolder + "logs.txt");
+					logger.error("Invalid Parameter Passed for PreferredLoanterm in ResponsibleLending-PreferredLoanterm");
 					return false;
 				}
 			}
@@ -94,8 +94,7 @@ public class ResponsibleLending {
 					Helper.ClearTextBoxandEnterValue(ResponsibleLendingValues.get("PreferredLoanRepayment").toString());
 					Helper.Keystrokeenter(1);
 				}else{
-					System.out.println("Invalid Parameter Passed for PreferredLoanRepayment in ResponsibleLending-PreferredLoanRepayment");
-					Helper.WriteToTxtFile("Invalid Parameter Passed for PreferredLoanRepayment in ResponsibleLending-PreferredLoanRepayment", TestExecution.TestExecutionFolder + "logs.txt");
+					logger.error("Invalid Parameter Passed for PreferredLoanRepayment in ResponsibleLending-PreferredLoanRepayment");
 					return false;
 				}
 			}
@@ -129,8 +128,7 @@ public class ResponsibleLending {
 				
 				if(ExpectedChanges.get("MeassuresAcceptable") != null && ExpectedChanges.get("MeassuresAcceptable").toString().equals("No")){
 					screen.click(MeassuresAcceptable);
-					System.out.println("This application will not be successful, due to foreseeable changesto their financial circumstances that may impact the loan repayments.");
-					Helper.WriteToTxtFile("This application will not be successful, due to foreseeable changesto their financial circumstances that may impact the loan repayments.", TestExecution.TestExecutionFolder + "logs.txt");
+					logger.error("This application will not be successful, due to foreseeable changesto their financial circumstances that may impact the loan repayments.");
 					return false;
 				}
 				
@@ -198,8 +196,7 @@ public class ResponsibleLending {
 				}else if(JSON.GetTestData(Insurance, "NoActionRequired").get("SufficientInsuranceCover") != null && JSON.GetTestData(Insurance, "NoActionRequired").get("SufficientInsuranceCover").toString().equals("Check")){
 					screen.click(CustomerHasSufficientInsuranceCover);
 				}else{
-					System.out.println("Invalid parameter passed for NoActionRequired sub values in ResponsibleLending-PersonalInsurance-NoActionRequired");
-					Helper.WriteToTxtFile("Invalid parameter passed for NoActionRequired sub values in ResponsibleLending-PersonalInsurance-NoActionRequired", TestExecution.TestExecutionFolder + "logs.txt");
+					logger.error("Invalid parameter passed for NoActionRequired sub values in ResponsibleLending-PersonalInsurance-NoActionRequired");
 					return false;
 				}
 			}
@@ -275,7 +272,7 @@ public class ResponsibleLending {
 			
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}

@@ -43,6 +43,7 @@ public class Referrals {
 	}
 	
 	public static boolean CaptureReferrals(JSONObject RawFile){
+		logger.debug("Entering Capture referrals section");
 		JSONObject ReferralsData = JSON.GetTestData(RawFile, "Referrals");
 		try{
 			App.pause(1);
@@ -85,9 +86,10 @@ public class Referrals {
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Referrals");
 			Helper.WriteToTxtFile("Referrals successful", TestExecution.TestExecutionFolder + "logs.txt");
 			return true;
+			
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}

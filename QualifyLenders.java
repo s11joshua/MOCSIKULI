@@ -1,5 +1,6 @@
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.json.simple.JSONObject;
 import org.sikuli.script.App;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
@@ -31,7 +32,7 @@ public class QualifyLenders {
 		Qualifiedsymbol = new Pattern(Imagefolderlocation + "QualifiedLoan.PNG" );
 	}
 
-	public static boolean ActionOnQulifyLenders()
+	public static boolean ActionOnQulifyLenders(JSONObject RawFile)
 	{
 		try {
 			screen.click(QualifyLendersNvaigation);
@@ -46,8 +47,8 @@ public class QualifyLenders {
 			Helper.Keystrokeenter(1);
 			
 			if (screen.exists(Qualifiedsymbol) == null){
-				System.out.println("The loan application was not successful, because it was not qualified by any lenders.");
-				Helper.WriteToTxtFile("The loan application was not successful, because it was not qualified by any lenders.", TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error("The loan application was not successful, because it was not qualified by any lenders.");
+				SaveScenario.SaveAsNewLead(RawFile);
 				return false;
 			}else{
 				Helper.ScreenDump(TestExecution.TestExecutionFolder, "QualifyLender");
@@ -57,7 +58,7 @@ public class QualifyLenders {
 			
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}

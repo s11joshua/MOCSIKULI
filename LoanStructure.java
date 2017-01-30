@@ -65,6 +65,7 @@ public class LoanStructure {
 	}
 	
 	public static boolean CaptureLoanStructure(JSONObject RawFile){
+		logger.debug("Entering capture loan structure");
 		JSONObject Loans = (JSONObject) RawFile.get("LoanStructure");
 		JSONArray Loan = (JSONArray) Loans.get("Loan");
 		JSONArray FundsRequired = (JSONArray) RawFile.get("FundsRequired");
@@ -85,8 +86,7 @@ public class LoanStructure {
 							App.pause(2);
 						}
 					}else{
-						System.out.println("Invalid Parameter Passed for IncludeCapitalisedLMI in LoanStructure");
-						Helper.WriteToTxtFile("Invalid Parameter Passed for IncludeCapitalisedLMI in LoanStructure", TestExecution.TestExecutionFolder + "logs.txt");
+						logger.error("Invalid Parameter Passed for IncludeCapitalisedLMI in LoanStructure");
 						return false;
 					}
 				}
@@ -165,13 +165,11 @@ public class LoanStructure {
 							}	
 						}
 						else{
-							System.out.println("Invalid parameter passed for InterestType in LoanStructure-loan-splitvalues");
-							Helper.WriteToTxtFile("Invalid parameter passed for InterestType in LoanStructure-loan-splitvalues", TestExecution.TestExecutionFolder + "logs.txt");
+							logger.error("Invalid parameter passed for InterestType in LoanStructure-loan-splitvalues");
 							return false;
 						}
 					}else{
-						System.out.println("null value passed for InterestType in LoanStructure-loan-splitvalues");
-						Helper.WriteToTxtFile("Null value passed for InterestType in LoanStructure-loan-splitvalues", TestExecution.TestExecutionFolder + "logs.txt");
+						logger.error("null value passed for InterestType in LoanStructure-loan-splitvalues");
 						return false;
 					}
 					
@@ -189,8 +187,7 @@ public class LoanStructure {
 							Helper.Keystrokeenter(1);
 						}						
 					}else{
-						System.out.println("Invalid Parameter passed for RepaymentType in LoanStructure-loan-splitvalues");
-						Helper.WriteToTxtFile("Invalid Parameter passed for RepaymentType in LoanStructure-loan-splitvalues", TestExecution.TestExecutionFolder + "logs.txt");
+						logger.error("Invalid Parameter passed for RepaymentType in LoanStructure-loan-splitvalues");
 						return false;
 					}
 					
@@ -208,8 +205,7 @@ public class LoanStructure {
 								Helper.Keystrokeenter(1);
 							}
 						}else{
-							System.out.println("Invalid Parameter passed for ReasonforInterestOnly in LoanStructure-loan-splitvalues");
-							Helper.WriteToTxtFile("Invalid Parameter passed for ReasonforInterestOnly in LoanStructure-loan-splitvalues", TestExecution.TestExecutionFolder + "logs.txt");
+							logger.error("Invalid Parameter passed for ReasonforInterestOnly in LoanStructure-loan-splitvalues");
 							return false;
 						}
 						
@@ -230,8 +226,7 @@ public class LoanStructure {
 						Helper.ClearTextBoxandEnterValue(SplitValues.get("TermInYears").toString());
 						Helper.Keystrokeenter(1);
 					}else{
-						System.out.println("Invalid Parameter passed for TermInYears in LoanStructure-loan-splitvalues");
-						Helper.WriteToTxtFile("Invalid Parameter passed for TermInYears in LoanStructure-loan-splitvalues", TestExecution.TestExecutionFolder + "logs.txt");
+						logger.error("Invalid Parameter passed for TermInYears in LoanStructure-loan-splitvalues");
 						return false;
 					}
 					
@@ -256,10 +251,8 @@ public class LoanStructure {
 								InterestOnlyMonthFlag = false;
 							}
 						}else {
-							System.out.println("Invalid Parameter passed for Interest Only Period in LoanStructure-loan-InterestOnlyPeriod");
-							System.out.println("The String should always end with a 'Y' or 'M' if the payment type is 'Intereset Only', 'LOC' or 'Intereset In Advance'.");
-							Helper.WriteToTxtFile("Invalid Parameter passed for Interest Only Period in LoanStructure-loan-InterestOnlyPeriod", TestExecution.TestExecutionFolder + "logs.txt");
-							Helper.WriteToTxtFile("The String should always end with a 'Y' or 'M' if the payment type is 'Intereset Only', 'LOC' or 'Intereset In Advance'.", TestExecution.TestExecutionFolder + "logs.txt");
+							logger.error("Invalid Parameter passed for Interest Only Period in LoanStructure-loan-InterestOnlyPeriod, "
+							+ "		The String should always end with a 'Y' or 'M' if the payment type is 'Intereset Only', 'LOC' or 'Intereset In Advance'.");
 							return false;
 						}
 					}
@@ -286,10 +279,8 @@ public class LoanStructure {
 								FixedInterestMonthFlag = false;
 							}
 						}else {
-							System.out.println("Invalid Parameter passed for Fixed Interest Period in LoanStructure-loan-FixedInterestPeriod");
-							System.out.println("The String should always end with a 'Y' or 'M' if the interest type is 'Fixed'");
-							Helper.WriteToTxtFile("Invalid Parameter passed for Fixed Interest Period in LoanStructure-loan-FixedInterestPeriod", TestExecution.TestExecutionFolder + "logs.txt");
-							Helper.WriteToTxtFile("The String should always end with a 'Y' or 'M' if the interest type is 'Fixed'", TestExecution.TestExecutionFolder + "logs.txt");
+							logger.error("Invalid Parameter passed for Fixed Interest Period in LoanStructure-loan-FixedInterestPeriod, "
+							+ "The String should always end with a 'Y' or 'M' if the interest type is 'Fixed'");
 							return false;
 						}
 					}
@@ -300,7 +291,7 @@ public class LoanStructure {
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}

@@ -89,6 +89,7 @@ public class ScenarioSummary {
 	
 	public static boolean SelectLenderandProduct(JSONObject RawFile){
 		
+		logger.debug("Entering select lender and product section");
 		JSONObject Summary = (JSONObject) RawFile.get("ScenarioSummary");
 		Pattern SplitArray[] = {LoanScroll,Loan1_1,Loan1_2,Loan1_3,Loan2_1,Loan2_2,Loan2_3,Loan3_1,Loan3_2,Loan3_3,Loan4_1,Loan4_2,Loan4_3,Loan5_1,Loan5_2,Loan5_3};
 		Pattern NonSplitLoanArray[] = {LoanStructure.Loan1,LoanStructure.Loan2,LoanStructure.Loan3,LoanStructure.Loan4,LoanStructure.Loan5};
@@ -175,7 +176,7 @@ public class ScenarioSummary {
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}

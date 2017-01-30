@@ -109,6 +109,7 @@ public class FundsRequired {
 	}
 	
 	public static boolean CaptureTransaction(JSONObject RawFile){
+		logger.debug("Entering Capture Transaction");
 		int counter = 0;
 		JSONArray FundsRequired_Array = (JSONArray) RawFile.get("FundsRequired");
 		Iterator<JSONObject> FundsRequiredArray = FundsRequired_Array.iterator();
@@ -129,8 +130,7 @@ public class FundsRequired {
 						Helper.Keystrokeenter(1);
 					}
 				}else{
-					System.out.println("Invalid Parameter Passed for transaction type");
-					Helper.WriteToTxtFile("Invalid Parameter Passed for transaction type", TestExecution.TestExecutionFolder + "logs.txt");
+					logger.error("Invalid Parameter Passed for transaction type");
 					return false;
 				}
 				
@@ -151,8 +151,7 @@ public class FundsRequired {
 						}
 					}			
 				}else{
-					System.out.println("Invalid Parameter Passed for UseofFunds");
-					Helper.WriteToTxtFile("Invalid Parameter Passed for UseofFunds", TestExecution.TestExecutionFolder + "logs.txt");
+					logger.error("Invalid Parameter Passed for UseofFunds");
 					return false;
 				}
 	
@@ -171,8 +170,7 @@ public class FundsRequired {
 						}			
 					}
 				}else{
-					System.out.println("Invalid Parameter Passed for LoanPurpose");
-					Helper.WriteToTxtFile("Invalid Parameter Passed for LoanPurpose", TestExecution.TestExecutionFolder + "logs.txt");
+					logger.error("Invalid Parameter Passed for LoanPurpose");
 					return false;
 				}
 				
@@ -189,8 +187,7 @@ public class FundsRequired {
 						Helper.Keystrokeenter(1);
 					}
 				}else{
-					System.out.println("Invalid Parameter Passed for PropertyType");
-					Helper.WriteToTxtFile("Invalid Parameter Passed for PropertyType", TestExecution.TestExecutionFolder + "logs.txt");
+					logger.error("Invalid Parameter Passed for PropertyType");
 					return false;
 				}
 				
@@ -200,8 +197,7 @@ public class FundsRequired {
 					Helper.Keystrokeenter(1);
 					
 				}else{
-					System.out.println("Invalid Parameter Passed for Location");
-					Helper.WriteToTxtFile("Invalid Parameter Passed for Location", TestExecution.TestExecutionFolder + "logs.txt");
+					logger.error("Invalid Parameter Passed for Location");
 					return false;
 				}
 				
@@ -217,8 +213,7 @@ public class FundsRequired {
 						Helper.Keystrokeenter(1);
 					}
 				}else{
-					System.out.println("Invalid Parameter Passed for state");
-					Helper.WriteToTxtFile("Invalid Parameter Passed for state", TestExecution.TestExecutionFolder + "logs.txt");
+					logger.error("Invalid Parameter Passed for state");
 					return false;
 				}
 				
@@ -228,7 +223,8 @@ public class FundsRequired {
 				
 				if (AdditionalValuesFundsRequired(FundsRequiredValues) != true){
 					return false;
-				};
+				}
+				
 				if(Integer.parseInt(FundsRequiredValues.get("TransactionType").toString()) == 1 || Integer.parseInt(FundsRequiredValues.get("TransactionType").toString()) == 3){
 					if (JSON.GetTestData(FundsRequiredValues, "Bridging").get("Bridging").toString().equals("Check")){
 						if (Bridging(JSON.GetTestData(FundsRequiredValues, "Bridging")) != true){
@@ -260,12 +256,14 @@ public class FundsRequired {
 					screen.click(CapitaliseLMI);
 				}
 			}
+			
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "FundsRequired");
 			Helper.WriteToTxtFile("Transactions were created successfully", TestExecution.TestExecutionFolder + "logs.txt");
 			return true;
+		
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
@@ -273,6 +271,7 @@ public class FundsRequired {
 	}
 	
 	public static boolean AdditionalValuesFundsRequired(JSONObject FundsRequiredPayLoad){
+		
 		switch(Integer.parseInt(FundsRequiredPayLoad.get("TransactionType").toString())){
 		case 1:
 			return NewPurchase(FundsRequiredPayLoad);
@@ -285,7 +284,7 @@ public class FundsRequired {
 		case 5:
 			return Refinance(FundsRequiredPayLoad);
 		default:
-			Helper.WriteToTxtFile("Invalid parameter passed for Transaction Type ", TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error("Invalid parameter passed for Transaction Type.");
 			return false;
 			
 		}
@@ -294,6 +293,7 @@ public class FundsRequired {
 	}
 	
 	public static boolean NewPurchase(JSONObject FundsRequiredPayLoad){
+		logger.debug("Entering transaction New Purchase");
 		JSONObject NewPurchase = (JSONObject) FundsRequiredPayLoad.get("NewPurchase");
 		
 		try {
@@ -307,21 +307,23 @@ public class FundsRequired {
 				Helper.ClearTextBoxandEnterValue(NewPurchase.get("PurchasePrice").toString());
 				Helper.Keystrokeenter(1);
 			}else{
-				Helper.WriteToTxtFile("Invalid parameter passed for Purchase Price", TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error("Invalid parameter passed for Purchase Price.");
 				return false;
 			}
+			
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Transaction NewPurchase");
 			return true;
+			
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
 	}
 	
 	public static boolean NewLoanPersonalUse(JSONObject FundsRequiredPayLoad){
-		
+		logger.debug("Entering transaction New loan personal use");
 		JSONObject NewLoanPersonalUse = (JSONObject) FundsRequiredPayLoad.get("NewPersonalLoanUse");
 		
 		try {
@@ -330,7 +332,7 @@ public class FundsRequired {
 				Helper.ClearTextBoxandEnterValue(NewLoanPersonalUse.get("FundsRequested").toString());
 				Helper.Keystrokeenter(1);
 			}else{
-				Helper.WriteToTxtFile("Invalid parameter passed from transaction type", TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error("Invalid parameter passed for new loan personal use, funds requested field");
 				return false;
 			}
 			if (NewLoanPersonalUse.get("ReasonforCashOut") != null && Integer.parseInt(NewLoanPersonalUse.get("ReasonforCashOut").toString()) > 0){
@@ -358,14 +360,14 @@ public class FundsRequired {
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
 	}
 	
 	public static boolean Bridging(JSONObject BridgingValues){
-		
+		logger.debug("Entering bridging section");
 		try {
 			
 			screen.click(Bridging);
@@ -398,9 +400,10 @@ public class FundsRequired {
 			}
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Transaction Bridging");
 			return true;
+			
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
@@ -408,6 +411,7 @@ public class FundsRequired {
 	}
 	
 	public static boolean Construction(JSONObject FundsRequiredPayLoad){
+		logger.debug("Entering Construction transaction section");
 		JSONObject Construction = (JSONObject) FundsRequiredPayLoad.get("Construction");
 		try {
 			if (Construction.get("FHO").toString().equals("Yes")){
@@ -423,8 +427,7 @@ public class FundsRequired {
 				Helper.ClearTextBoxandEnterValue(Construction.get("LandValue").toString());
 				Helper.Keystrokeenter(1);
 			}else{
-				System.out.println("Invalid Parameter passed for LandValue!");
-				Helper.WriteToTxtFile("Invalid Parameter passed for LandValue!", TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error("Invalid Parameter passed for LandValue!");
 				return false;
 			}
 			if (Construction.get("ConstructionCosts") != null && Double.parseDouble(Construction.get("ConstructionCosts").toString()) > 0){
@@ -432,8 +435,7 @@ public class FundsRequired {
 				Helper.ClearTextBoxandEnterValue(Construction.get("ConstructionCosts").toString());
 				Helper.Keystrokeenter(1);
 			}else{
-				System.out.println("Invalid Parameter passed for ConstructionCost!");
-				Helper.WriteToTxtFile("Invalid Parameter passed for ConstructionCost!", TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error("Invalid Parameter passed for ConstructionCost!");
 				return false;
 			}
 			if (FundsRequiredPayLoad.get("UseofFunds").toString().equals("2")){
@@ -476,14 +478,14 @@ public class FundsRequired {
 		
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
 	}
 	
 	public static boolean Increaseexistinglender(JSONObject FundsRequiredPayLoad){
-
+		logger.debug("Entering Increase existing lender transaction type section.");
 		JSONObject Increaseexistinglender = (JSONObject) FundsRequiredPayLoad.get("Increaseexistinglender");
 		try {
 			if (Increaseexistinglender.get("LoanIncreaseAmount") != null && Double.parseDouble(Increaseexistinglender.get("LoanIncreaseAmount").toString()) > 0){
@@ -500,8 +502,7 @@ public class FundsRequired {
 				Helper.Keystrokedown(Integer.parseInt((Increaseexistinglender.get("ReasonforIncrease").toString())));
 				Helper.Keystrokeenter(1);
 			}else{
-				System.out.println("Invalid parameter passed for ReasonforIncrease");
-				Helper.WriteToTxtFile("Invalid parameter passed for ReasonforIncrease", TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error("Invalid parameter passed for ReasonforIncrease");
 				return false;
 			}
 			if (Increaseexistinglender.get("LoanBalance") != null && Double.parseDouble(Increaseexistinglender.get("LoanBalance").toString()) > 0){
@@ -509,8 +510,7 @@ public class FundsRequired {
 				Helper.ClearTextBoxandEnterValue(Increaseexistinglender.get("LoanBalance").toString());
 				Helper.Keystrokeenter(1);
 			}else{
-				System.out.println("Invalid parameter passed for LoanBalance");
-				Helper.WriteToTxtFile("Invalid parameter passed for LoanBalance", TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error("Invalid parameter passed for LoanBalance");
 				return false;
 			}
 			if (Increaseexistinglender.get("LoanLimit") != null && Double.parseDouble(Increaseexistinglender.get("LoanLimit").toString()) > 0){
@@ -519,8 +519,7 @@ public class FundsRequired {
 				Helper.ClearTextBoxandEnterValue(Increaseexistinglender.get("LoanLimit").toString());
 				Helper.Keystrokeenter(1);
 			}else{
-				System.out.println("Invalid parameter passed for LoanLimit");
-				Helper.WriteToTxtFile("Invalid parameter passed for LoanLimit", TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error("Invalid parameter passed for LoanLimit");
 				return false;
 			}
 			if (Increaseexistinglender.get("SecurityValue") != null && Double.parseDouble(Increaseexistinglender.get("SecurityValue").toString()) > 0){
@@ -528,8 +527,7 @@ public class FundsRequired {
 				Helper.ClearTextBoxandEnterValue(Increaseexistinglender.get("SecurityValue").toString());
 				Helper.Keystrokeenter(1);
 			}else{
-				System.out.println("Invalid parameter passed for SecurityValue");
-				Helper.WriteToTxtFile("Invalid parameter passed for SecurityValue", TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error("Invalid parameter passed for SecurityValue");
 				return false;
 			}
 			if (Increaseexistinglender.get("SecuredLimt") != null && Double.parseDouble(Increaseexistinglender.get("SecuredLimt").toString()) > 0){
@@ -546,8 +544,7 @@ public class FundsRequired {
 					Helper.ClearTextBoxandEnterValue(Increaseexistinglender.get("LMIPremiumCredit").toString());
 					Helper.Keystrokeenter(1);
 				}else{
-					System.out.println("Invalid parameter passed for LMIPremiumCredit");
-					Helper.WriteToTxtFile("Invalid parameter passed for LMIPremiumCredit", TestExecution.TestExecutionFolder + "logs.txt");
+					logger.error("Invalid parameter passed for LMIPremiumCredit");
 					return false;
 				} 
 			}
@@ -557,8 +554,7 @@ public class FundsRequired {
 					Helper.ClearTextBoxandEnterValue(Increaseexistinglender.get("NumberofDebts").toString());
 					Helper.Keystrokeenter(1);
 				}else{
-					System.out.println("Invalid parameter passed for NumberofDebts");
-					Helper.WriteToTxtFile("Invalid parameter passed for NumberofDebts", TestExecution.TestExecutionFolder + "logs.txt");
+					logger.error("Invalid parameter passed for NumberofDebts");
 					return false;
 				}
 			}
@@ -566,7 +562,7 @@ public class FundsRequired {
 			return true;
 		}catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
@@ -574,7 +570,7 @@ public class FundsRequired {
 	}
 	
 	public static boolean Refinance(JSONObject FundsRequiredPayLoad){
-
+		logger.debug("Entering Refinance transaction type section.");
 		
 		JSONObject Refinance = (JSONObject) FundsRequiredPayLoad.get("Refinance");
 		try{
@@ -583,8 +579,7 @@ public class FundsRequired {
 				Helper.ClearTextBoxandEnterValue(Refinance.get("RefinanceAmount").toString());
 				Helper.Keystrokeenter(1);
 			}else{
-				System.out.println("Invalid parameter passed for RefinanceAmount");
-				Helper.WriteToTxtFile("Invalid parameter passed for RefinanceAmount", TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error("Invalid parameter passed for RefinanceAmount");
 				return false;
 			}
 			if (Refinance.get("CashOut") != null && Double.parseDouble(Refinance.get("CashOut").toString()) > 0){
@@ -592,8 +587,7 @@ public class FundsRequired {
 				Helper.ClearTextBoxandEnterValue(Refinance.get("CashOut").toString());
 				Helper.Keystrokeenter(1);
 			}else{
-				System.out.println("Invalid parameter passed for CashOut");
-				Helper.WriteToTxtFile("Invalid parameter passed for CashOut", TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error("Invalid parameter passed for CashOut");
 				return false;
 			}
 			if (Refinance.get("ReasonforCashOut") != null && Integer.parseInt(Refinance.get("ReasonforCashOut").toString()) > 0){
@@ -601,8 +595,7 @@ public class FundsRequired {
 				Helper.Keystrokedown(Integer.parseInt((Refinance.get("ReasonforCashOut").toString())));
 				Helper.Keystrokeenter(1);
 			}else{
-				System.out.println("Invalid parameter passed for ReasonforCashOut");
-				Helper.WriteToTxtFile("Invalid parameter passed for ReasonforCashOut", TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error("Invalid parameter passed for ReasonforCashOut");
 				return false;
 			}
 			if (Refinance.get("ConsolidationAmount") != null && Double.parseDouble(Refinance.get("ConsolidationAmount").toString()) > 0){
@@ -610,8 +603,7 @@ public class FundsRequired {
 				Helper.ClearTextBoxandEnterValue(Refinance.get("ConsolidationAmount").toString());
 				Helper.Keystrokeenter(1);
 			}else{
-				System.out.println("Invalid parameter passed for ConsolidationAmount");
-				Helper.WriteToTxtFile("Invalid parameter passed for ConsolidationAmount", TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error("Invalid parameter passed for ConsolidationAmount");
 				return false;
 			}
 			if (FundsRequiredPayLoad.get("UseofFunds").toString().equals("2")){
@@ -620,8 +612,7 @@ public class FundsRequired {
 					Helper.ClearTextBoxandEnterValue(Refinance.get("NumberofDebts").toString());
 					Helper.Keystrokeenter(1);
 				}else{
-					System.out.println("Invalid parameter passed for NumberofDebts");
-					Helper.WriteToTxtFile("Invalid parameter passed for NumberofDebts", TestExecution.TestExecutionFolder + "logs.txt");
+					logger.error("Invalid parameter passed for NumberofDebts");
 					return false;
 				}
 			}
@@ -630,8 +621,7 @@ public class FundsRequired {
 				Helper.ClearTextBoxandEnterValue(Refinance.get("SecurityValue").toString());
 				Helper.Keystrokeenter(1);
 			}else{
-				System.out.println("Invalid parameter passed for SecurityValue");
-				Helper.WriteToTxtFile("Invalid parameter passed for SecurityValue", TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error("Invalid parameter passed for SecurityValue");
 				return false;
 			}
 			if (Refinance.get("SecuredLimt") != null && Double.parseDouble(Refinance.get("SecuredLimt").toString()) > 0){
@@ -642,9 +632,10 @@ public class FundsRequired {
 			}
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Transaction Refinance");
 			return true;
+			
 		}catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}

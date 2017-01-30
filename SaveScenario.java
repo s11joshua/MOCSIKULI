@@ -40,6 +40,7 @@ public class SaveScenario {
 	}
 	
 	public static boolean SaveAsNewLead(JSONObject RawFile){
+		logger.debug("Entering save as new lead section");
 		JSONObject SaveScenarioDetails = JSON.GetTestData(RawFile, "SaveScenario");		
 		try {
 			screen.wait(Savebutton);
@@ -81,8 +82,7 @@ public class SaveScenario {
 				Helper.Keystrokedown(Integer.parseInt(SaveScenarioDetails.get("LeadSourceMajor").toString()));
 				Helper.Keystrokeenter(1);
 			}else{
-				System.out.println("Invalid Parameter passed for LeadSourceMajor in SaveScenario");
-				Helper.WriteToTxtFile("Invalid Parameter passed for LeadSourceMajor in SaveScenario", TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error("Invalid Parameter passed for LeadSourceMajor in SaveScenario");
 				return false;
 			}
 			if (SaveScenarioDetails.get("LeadSourceMinor") != null && Integer.parseInt(SaveScenarioDetails.get("LeadSourceMinor").toString()) >=1 ){
@@ -90,8 +90,7 @@ public class SaveScenario {
 				Helper.Keystrokedown(Integer.parseInt(SaveScenarioDetails.get("LeadSourceMinor").toString()));
 				Helper.Keystrokeenter(1);
 			}else{
-				System.out.println("Invalid Parameter passed for LeadSourceMinor in SaveScenario");
-				Helper.WriteToTxtFile("Invalid Parameter passed for LeadSourceMinor in SaveScenario", TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error("Invalid Parameter passed for LeadSourceMinor in SaveScenario");
 				return false;
 			}
 			if (SaveScenarioDetails.get("FOLead") != null ){
@@ -100,8 +99,7 @@ public class SaveScenario {
 					Helper.Keystrokedown(Integer.parseInt(SaveScenarioDetails.get("FOLead").toString()));
 					Helper.Keystrokeenter(1);
 				}else{
-					System.out.println("Invalid Parameter passed for FOLead in SaveScenario");
-					Helper.WriteToTxtFile("Invalid Parameter passed for FOLead in SaveScenario", TestExecution.TestExecutionFolder + "logs.txt");
+					logger.error("Invalid Parameter passed for FOLead in SaveScenario");
 					return false;
 				}				
 			}
@@ -113,9 +111,10 @@ public class SaveScenario {
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "SaveScenario");
 			Helper.WriteToTxtFile("Scenario Saved Successfully", TestExecution.TestExecutionFolder + "logs.txt");
 			return true;
+			
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
@@ -123,6 +122,7 @@ public class SaveScenario {
 	}
 	
 	public static boolean Save(JSONObject RawFile){
+		logger.debug("Entering save application section");
 		try {
 			screen.wait(Savebutton);
 			screen.click(Savebutton);
@@ -130,7 +130,7 @@ public class SaveScenario {
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}

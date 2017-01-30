@@ -82,6 +82,8 @@ public class Securities {
 	}
 	
 	public static boolean CaptureSecurities(JSONObject RawFile){
+		
+		logger.debug("Entering Capture Securities section");
 		int counter = 0;
 		JSONObject Security = (JSONObject) RawFile.get("Securities");
 		JSONArray Securities_Array = (JSONArray) Security.get("SecurityDetails");
@@ -128,7 +130,7 @@ public class Securities {
 						Helper.Keystrokedown(Integer.parseInt(SecuritiesDetails.get("Lender").toString()));
 						Helper.Keystrokeenter(1);
 					}else{
-						System.out.println("Invalid Parameter passed for Lender in securities section");
+						logger.error("Invalid Parameter passed for Lender in securities section");
 					}
 					
 				}
@@ -186,8 +188,7 @@ public class Securities {
 					}else if (SecuritiesDetails.get("Hectares") != null && SecuritiesDetails.get("Hectares").toString().equals("Yes")){
 						screen.click(Hectares);
 					}else{
-						System.out.println("Invalid parameter for the land-floor size unit");
-						Helper.WriteToTxtFile("Invalid parameter for the land-floor size unit", TestExecution.TestExecutionFolder + "logs.txt");
+						logger.error("Invalid parameter for the land-floor size unit");
 						return false;
 					}
 					
@@ -199,12 +200,12 @@ public class Securities {
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		} catch (ParseException e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}

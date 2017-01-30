@@ -35,6 +35,7 @@ public class LoginPage {
 		
 		public static boolean LaunchDiscoveryApplicaiton(String DiscoveryAppLocation)
 		{
+			logger.debug("Launching the discovery application");
 			if (DiscoveryAppLocation == "TestInstance"){
 					App.open("C:\\Program Files\\mortgage choice\\DiscoverySysTest\\bin\\Discovery.exe");
 					App.pause(3);
@@ -49,7 +50,7 @@ public class LoginPage {
 			}
 			else
 			{
-				Helper.WriteToTxtFile("Invalid parameter passed for Instance of Discovery ", TestExecution.TestExecutionFolder + "logs.txt");	
+				logger.error("Invalid parameter passed for Instance of Discovery ");	
 				return false;
 			}
 			
@@ -89,7 +90,7 @@ public class LoginPage {
 			}
 			catch (FindFailed e){
 				e.printStackTrace();
-				Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error(e.toString());
 				Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 				return false;
 			}

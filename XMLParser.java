@@ -26,12 +26,15 @@ public class XMLParser {
 	      
 	  } catch (FileNotFoundException e) {
 		  e.printStackTrace();
+		  logger.error(e.toString());
 	      return null;
 	  } catch (IOException e) {
 	      e.printStackTrace();
+	      logger.error(e.toString());
 	      return null;
 	  } catch (JSONException e) {
 	  	  e.printStackTrace();
+	  	  logger.error(e.toString());
 	   	  return null;
 	  }
 	      

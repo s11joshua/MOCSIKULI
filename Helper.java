@@ -38,7 +38,10 @@ public class Helper {
 		}
 		while(counter <= repeatcount);
 			
-		} catch (AWTException e1) {e1.printStackTrace();}
+		} catch (AWTException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		}
 		
 	}
 
@@ -52,7 +55,10 @@ public class Helper {
 		}
 		while(counter <= repeatcount);
 			
-		} catch (AWTException e1) {e1.printStackTrace();}
+		} catch (AWTException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		}
 		
 	}
 
@@ -67,7 +73,10 @@ public class Helper {
 		}
 		while(counter <= repeatcount);
 			
-		} catch (AWTException e1) {e1.printStackTrace();}
+		} catch (AWTException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		}
 		
 	}
 
@@ -81,7 +90,10 @@ public class Helper {
 		}
 		while(counter <= repeatcount);
 			
-		} catch (AWTException e1) {e1.printStackTrace();}
+		} catch (AWTException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		}
 		
 	}
 
@@ -96,7 +108,10 @@ public class Helper {
 		}
 		while(counter <= repeatcount);
 			
-		} catch (AWTException e1) {e1.printStackTrace();}
+		} catch (AWTException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		}
 		
 	}
 
@@ -111,7 +126,10 @@ public class Helper {
 		}
 		while(counter <= repeatcount);
 			
-		} catch (AWTException e1) {e1.printStackTrace();}
+		} catch (AWTException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		}
 		
 	}
 	
@@ -125,7 +143,10 @@ public class Helper {
 		}
 		while(counter <= repeatcount);
 			
-		} catch (AWTException e1) {e1.printStackTrace();}
+		} catch (AWTException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		}
 	}
 	
 	public static void ClearTextBoxandEnterValue(String value)
@@ -146,7 +167,10 @@ public class Helper {
 		while(counter1 <= 5);
 		screen.type(value);
 		Helper.Keystrokeenter(1);
-		} catch (AWTException e1) {e1.printStackTrace();}
+		} catch (AWTException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		}
 		
 	}
 	
@@ -168,7 +192,10 @@ public class Helper {
 		}
 		while(counter1 <= RepeatCount);
 		
-		} catch (AWTException e1) {e1.printStackTrace();}
+		} catch (AWTException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		}
 		
 	}
 	
@@ -192,7 +219,10 @@ public class Helper {
 		}
 		while(counter1 <= RepeatCount);
 		
-		} catch (AWTException e1) {e1.printStackTrace();}
+		} catch (AWTException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		}
 		
 	}
 	
@@ -200,10 +230,11 @@ public class Helper {
 		//Tonto.exe
 		try {
 			Runtime.getRuntime().exec("taskkill /F /IM " + ApplicationName);
+			logger.info("Application Successfully force Killed");
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
-			Helper.WriteToTxtFile(e.toString(), TestExecution.TestExecutionFolder + "logs.txt");
+			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			return false;
 		}
@@ -221,7 +252,6 @@ public class Helper {
 
 	public static void ScreenDump(String FilePathinSikuliformat, String Screenshotname){
 		Screen screen = new Screen();
-		//screen.capture().save("C:\\Sikuli Images\\", "TestFile");
 		screen.capture().save(FilePathinSikuliformat, Screenshotname);
 	}
 	
@@ -265,9 +295,11 @@ public class Helper {
 	public static boolean CreateFile(String path, String Filename){
 		try {
 			Files.createFile(Paths.get(path + Filename));
+			logger.info("The following file '" + Filename +"' was created successfully in the follwoing directory, " + path);
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
+			logger.error(e.toString());
 			return false;
 		}
 	}
@@ -275,9 +307,11 @@ public class Helper {
 	public static boolean CreateDirectory(String RootFolder, String DirectoryName){
 		try {
 			Files.createDirectories(Paths.get(RootFolder + DirectoryName));
+			logger.info("The following directory '" + DirectoryName +"' was created successfully in the root folder, " + RootFolder);
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
+			logger.error(e.toString());
 			return false;
 		}
 		
@@ -286,9 +320,11 @@ public class Helper {
 	public static boolean MoveFiles(String SourceFile, String TargetFile){
 		try {
 			Files.move(Paths.get(SourceFile), Paths.get(TargetFile));
+			logger.info("The following file'" + SourceFile + "' was moved successfully to the following target folder: " + TargetFile);
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
+			logger.error(e.toString());
 			return false;
 		}
 	}
@@ -296,9 +332,11 @@ public class Helper {
 	public static boolean CopyFiles(String SourceFile, String TargetFile){
 		try {
 			Files.copy(Paths.get(SourceFile), Paths.get(TargetFile));
+			logger.info("The following file'" + SourceFile + "' was copied successfully to the following target folder: " + TargetFile);
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
+			logger.error(e.toString());
 			return false;
 		}
 	}

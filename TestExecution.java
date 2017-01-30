@@ -72,15 +72,30 @@ public class TestExecution {
 	public void TestCase001() throws Exception{
 		
 		String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
+		logger.info("Entering Test Case: " + TestCaseName);
 		TestExecutionFolder = TESTSETUP(TestCaseName);
 		assertTrue(teststeps(TestExecutionFolder + TestCaseName + ".txt"));
+		logger.info("Existing Test Case: " + TestCaseName);
 	}	
 	
 	@ Test
 	public void TestCase002() throws Exception{
+	
 		String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
+		logger.info("Entering Test Case: " + TestCaseName);
 		TestExecutionFolder = TESTSETUP(TestCaseName);
 		assertTrue(teststeps(TestExecutionFolder + TestCaseName + ".txt"));
+		logger.info("Existing Test Case: " + TestCaseName);
+	}
+	
+	@ Test
+	public void TestCase003() throws Exception{
+		
+		String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
+		logger.info("Entering Test Case: " + TestCaseName);
+		TestExecutionFolder = TESTSETUP(TestCaseName);
+		assertTrue(teststeps(TestExecutionFolder + TestCaseName + ".txt"));
+		logger.info("Existing Test Case: " + TestCaseName);
 	}
 	
 	@After
@@ -89,6 +104,7 @@ public class TestExecution {
 			Runtime.getRuntime().exec("taskkill /F /IM " + "Tonto.exe");
 		} catch (IOException e) {
 			e.printStackTrace();
+			logger.error(e.toString());
 		}
 	}
 	
@@ -96,6 +112,7 @@ public class TestExecution {
 		
 		JSONTestData = JSON.ReadTestData(testdata);
 		if (JSONTestData == null){
+			logger.error("No relavent test data file for the following test: " + testdata.substring(testdata.length()-15).substring(0, 11));
 			Helper.WriteToTxtFile("Not able to locate the JSON data file in the test data directory",  TestExecutionFolder + "logs.txt");
 			return false;
 		}
@@ -108,12 +125,13 @@ public class TestExecution {
 		assertTrue (FundsRequired.CaptureTransaction(JSONTestData));
 		assertTrue (Securities.CaptureSecurities(JSONTestData));
 		assertTrue (LoanStructure.CaptureLoanStructure(JSONTestData));
-		assertTrue (QualifyLenders.ActionOnQulifyLenders());
+		assertTrue (QualifyLenders.ActionOnQulifyLenders(JSONTestData));
 		assertTrue (ScenarioSummary.SelectLenderandProduct(JSONTestData));
 		assertTrue (SaveScenario.SaveAsNewLead(JSONTestData));
 		assertTrue (ResponsibleLending.CaptureResponsibleLending(JSONTestData));
 		//assertTrue (Referrals.CaptureReferrals(JSONTestData));
-		//assertTrue (Apply.CaptureTypeOfLodgement(JSONTestData));
+		assertTrue (SaveScenario.Save(JSONTestData));
+		assertTrue (Apply.CaptureTypeOfLodgement(JSONTestData));
 		assertTrue (Helper.ForceKillApplication("Tonto.exe"));
 		return true;
 	}
@@ -123,6 +141,7 @@ public class TestExecution {
 			Runtime.getRuntime().exec("taskkill /F /IM " + "Tonto.exe");
 		} catch (IOException e) {
 			e.printStackTrace();
+			logger.error(e.toString());
 		}
 		TimeStamp = new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
 		String CurrentTestFolderName =  TestCaseName + "_" + TimeStamp;

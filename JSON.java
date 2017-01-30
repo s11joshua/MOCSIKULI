@@ -22,12 +22,15 @@ public class JSON {
 			return JSONFile;
 		} catch (FileNotFoundException e) {
 				e.printStackTrace();
+				logger.error(e.toString());
 				return null;
 			} catch (IOException e) {
 				e.printStackTrace();
+				logger.error(e.toString());
 				return null;
 			} catch (ParseException e) {
 				e.printStackTrace();
+				logger.error(e.toString());
 				return null;
 			}
 		
