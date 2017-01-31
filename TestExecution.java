@@ -82,21 +82,21 @@ public class TestExecution {
 	public void TestCase001() throws Exception{
 		
 		String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
-		logger.info("Entering Test Case: " + TestCaseName);
+		logger.info("Test execution started for Test Case: " + TestCaseName);
 		TestExecutionFolder = TESTSETUP(TestCaseName);
 		
 		if (TestExecutionFolder != null){
 			if (teststeps(TestExecutionFolder + TestCaseName + ".txt") != true){
 				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
-				logger.info("Existing Test Case: " + TestCaseName);
+				logger.info("Test execution aborted for " + TestCaseName);
 				assertTrue(false);
 			}else{
 				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
-				logger.info("Existing Test Case: " + TestCaseName);
+				logger.info("Test execution sucessfully completed for : " + TestCaseName);
 				assertTrue(true);
 			}
 		}else{
-			logger.info("Existing Test Case: " + TestCaseName);
+			logger.info("Test execution aborted for: " + TestCaseName);
 			assertTrue(false);
 		}
 	}	
@@ -105,21 +105,21 @@ public class TestExecution {
 	public void TestCase002() throws Exception{
 	
 		String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
-		logger.info("Entering Test Case: " + TestCaseName);
+		logger.info("Test execution started for Test Case: " + TestCaseName);
 		TestExecutionFolder = TESTSETUP(TestCaseName);
 		
 		if (TestExecutionFolder != null){
 			if (teststeps(TestExecutionFolder + TestCaseName + ".txt") != true){
 				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
-				logger.info("Existing Test Case: " + TestCaseName);
+				logger.info("Test execution aborted for " + TestCaseName);
 				assertTrue(false);
 			}else{
 				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
-				logger.info("Existing Test Case: " + TestCaseName);
+				logger.info("Test execution sucessfully completed for : " + TestCaseName);
 				assertTrue(true);
 			}
 		}else{
-			logger.info("Existing Test Case: " + TestCaseName);
+			logger.info("Test execution aborted for: " + TestCaseName);
 			assertTrue(false);
 		}
 	}
@@ -127,28 +127,27 @@ public class TestExecution {
 	@ Test
 	public void TestCase003() throws Exception{
 		
-		
 		String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
-		logger.info("Entering Test Case: " + TestCaseName);
+		logger.info("Test execution started for Test Case: " + TestCaseName);
 		TestExecutionFolder = TESTSETUP(TestCaseName);
 		
 		if (TestExecutionFolder != null){
-			if (teststeps(TestExecutionFolder + TestCaseName + ".txt") == true){
+			if (teststeps(TestExecutionFolder + TestCaseName + ".txt") != true){
 				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
-				logger.info("Existing Test Case: " + TestCaseName);
-				assertTrue(true);
+				logger.info("Test execution aborted for " + TestCaseName);
+				assertTrue(false);
 			}else{
 				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
-				logger.info("Existing Test Case: " + TestCaseName);
-				assertTrue(false);
+				logger.info("Test execution sucessfully completed for : " + TestCaseName);
+				assertTrue(true);
 			}
 		}else{
-			logger.info("Existing Test Case: " + TestCaseName);
+			logger.info("Test execution aborted for: " + TestCaseName);
 			assertTrue(false);
 		}	
 	}
 	
-	@After
+	//@After
 	public void tearDown() throws Exception {
 		try {
 			Runtime.getRuntime().exec("taskkill /F /IM " + "Tonto.exe");

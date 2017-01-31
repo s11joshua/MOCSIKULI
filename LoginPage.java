@@ -85,6 +85,7 @@ public class LoginPage {
 				Helper.Keystrokeenter(1);
 				screen.click(login);
 				Helper.ScreenDump(TestExecution.TestExecutionFolder, "DiscoveryLogin");
+				logger.info("Login was succecssful");
 				Helper.WriteToTxtFile("Login was succecssful", TestExecution.TestExecutionFolder + "logs.txt");
 				return true;
 			}

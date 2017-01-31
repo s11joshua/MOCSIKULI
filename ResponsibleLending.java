@@ -267,6 +267,7 @@ public class ResponsibleLending {
 			}
 			
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "CaptureResponsibleLending");
+			logger.info("Responsible Lending section completed successfully");
 			Helper.WriteToTxtFile("Responsible Lending Successful", TestExecution.TestExecutionFolder + "logs.txt");
 			return true;
 			

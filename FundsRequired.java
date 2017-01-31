@@ -258,6 +258,7 @@ public class FundsRequired {
 			}
 			
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "FundsRequired");
+			logger.info("Transactions were created successfully");
 			Helper.WriteToTxtFile("Transactions were created successfully", TestExecution.TestExecutionFolder + "logs.txt");
 			return true;
 		
@@ -329,6 +330,7 @@ public class FundsRequired {
 		try {
 			if (NewLoanPersonalUse.get("FundsRequested") != null){
 				screen.find(FundsRequested).right(Offset[3]).click();
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(NewLoanPersonalUse.get("FundsRequested").toString());
 				Helper.Keystrokeenter(1);
 			}else{
@@ -342,18 +344,22 @@ public class FundsRequired {
 			}
 			if (NewLoanPersonalUse.get("SecurityValue")!= null){
 				screen.find(SecurityValue).right(Offset[2]).click();
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(NewLoanPersonalUse.get("SecurityValue").toString());
 			}
 			if (NewLoanPersonalUse.get("LoanBalance")!= null){
 				screen.find(LoanBalance).right(Offset[2]).click();
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(NewLoanPersonalUse.get("LoanBalance").toString());
 			}
 			if (NewLoanPersonalUse.get("LoanLimit") != null){
 				screen.find(LoanLimit).right(Offset[2]).click();
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(NewLoanPersonalUse.get("LoanLimit").toString());
 			}
 			if (NewLoanPersonalUse.get("NumberofDebts") != null && Integer.parseInt(NewLoanPersonalUse.get("NumberofDebts").toString()) == 1){
 				screen.find(NumberofDebts).right(Offset[2]).click();
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(NewLoanPersonalUse.get("NumberofDebts").toString());
 			}
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Transaction NewLoanPersonalUse");
@@ -376,7 +382,7 @@ public class FundsRequired {
 				Helper.Keystroketab(2);
 				screen.click(BridgingExistingLMI);
 				screen.find(BridgingExistingLMI).right(Offset[4]).click();
-				//Helper.Keystroketab(6);
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(BridgingValues.get("BridgingExistingLMIvalue").toString());
 			}else if (BridgingValues.get("Refinance").toString().equals("Uncheck")){
 				screen.click(Refinance);
@@ -384,18 +390,22 @@ public class FundsRequired {
 			
 			if (BridgingValues.get("BridgingSecurityValue") != null){
 				screen.find(SecurityValue).right(Offset[2]).click();
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(BridgingValues.get("BridgingSecurityValue").toString());
 			}
 			if (BridgingValues.get("BridgingLoanBalance") != null){
 				Helper.Keystroketab(1);
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(BridgingValues.get("BridgingLoanBalance").toString());
 			}
 			if (BridgingValues.get("BridgingSellingCostsCashOut") != null){
 				screen.find(SellingCostCashOut).right(Offset[2]).click();
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(BridgingValues.get("BridgingSellingCostsCashOut").toString());
 			}
 			if (BridgingValues.get("BridgingCapitalisedinterest") != null){
 				screen.find(CapitalisedInterest).right(Offset[2]).click();
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(BridgingValues.get("BridgingCapitalisedinterest").toString());
 			}
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Transaction Bridging");
@@ -424,6 +434,7 @@ public class FundsRequired {
 			}
 			if (Construction.get("LandValue") != null && Double.parseDouble(Construction.get("LandValue").toString()) > 0){
 				screen.find(LandValue).right(Offset[2]).click();
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(Construction.get("LandValue").toString());
 				Helper.Keystrokeenter(1);
 			}else{
@@ -432,6 +443,7 @@ public class FundsRequired {
 			}
 			if (Construction.get("ConstructionCosts") != null && Double.parseDouble(Construction.get("ConstructionCosts").toString()) > 0){
 				screen.find(ConstructionCosts).right(Offset[2]).click();
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(Construction.get("ConstructionCosts").toString());
 				Helper.Keystrokeenter(1);
 			}else{
@@ -452,6 +464,7 @@ public class FundsRequired {
 			
 				if (Construction.get("LoanBalance") != null && Double.parseDouble(Construction.get("LoanBalance").toString()) > 0){
 					screen.find(LoanBalance).right(Offset[2]).click();
+					Helper.ClearTextBox(10,(float) 0.2);
 					Helper.ClearTextBoxandEnterValue(Construction.get("LoanBalance").toString());
 					Helper.Keystrokeenter(1);
 				}
@@ -459,6 +472,7 @@ public class FundsRequired {
 				if (Construction.get("ExistingLMI").toString().equals("Check")){
 					screen.click(ExistingLMI);
 					screen.find(ExistingLMI).right(Offset[4]).click();
+					Helper.ClearTextBox(10,(float) 0.2);
 					Helper.ClearTextBoxandEnterValue(Construction.get("ExistingLMIvalue").toString());
 					Helper.Keystrokeenter(1);
 				}
@@ -467,6 +481,7 @@ public class FundsRequired {
 				if (Construction.get("LoanBalance") != Construction.get("LoanLimit")){
 					screen.find(LoanLimit).right(Offset[2]).click();
 					Helper.ClearTextBox(15);
+					Helper.ClearTextBox(10,(float) 0.2);
 					Helper.ClearTextBoxandEnterValue(Construction.get("LoanLimit").toString());
 					Helper.Keystrokeenter(1);
 				}
@@ -490,11 +505,11 @@ public class FundsRequired {
 		try {
 			if (Increaseexistinglender.get("LoanIncreaseAmount") != null && Double.parseDouble(Increaseexistinglender.get("LoanIncreaseAmount").toString()) > 0){
 				screen.find(LoanIncreaseAmount).right(Offset[2]).click();
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(Increaseexistinglender.get("LoanIncreaseAmount").toString());
 				Helper.Keystrokeenter(1);
 			}else{
-				System.out.println("Invalid parameter passed for LoanIncreaseAmount");
-				Helper.WriteToTxtFile("Invalid parameter passed for LoanIncreaseAmount", TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error("Invalid parameter passed for LoanIncreaseAmount");
 				return false;
 			}
 			if (Increaseexistinglender.get("ReasonforIncrease") != null && Integer.parseInt(Increaseexistinglender.get("ReasonforIncrease").toString()) > 0){
@@ -507,6 +522,7 @@ public class FundsRequired {
 			}
 			if (Increaseexistinglender.get("LoanBalance") != null && Double.parseDouble(Increaseexistinglender.get("LoanBalance").toString()) > 0){
 				screen.find(LoanBalance).right(Offset[2]).click();
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(Increaseexistinglender.get("LoanBalance").toString());
 				Helper.Keystrokeenter(1);
 			}else{
@@ -516,6 +532,7 @@ public class FundsRequired {
 			if (Increaseexistinglender.get("LoanLimit") != null && Double.parseDouble(Increaseexistinglender.get("LoanLimit").toString()) > 0){
 				screen.find(LoanLimit).right(Offset[2]).click();
 				Helper.ClearTextBox(15);
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(Increaseexistinglender.get("LoanLimit").toString());
 				Helper.Keystrokeenter(1);
 			}else{
@@ -524,6 +541,7 @@ public class FundsRequired {
 			}
 			if (Increaseexistinglender.get("SecurityValue") != null && Double.parseDouble(Increaseexistinglender.get("SecurityValue").toString()) > 0){
 				screen.find(SecurityValue).right(Offset[2]).click();
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(Increaseexistinglender.get("SecurityValue").toString());
 				Helper.Keystrokeenter(1);
 			}else{
@@ -533,6 +551,7 @@ public class FundsRequired {
 			if (Increaseexistinglender.get("SecuredLimt") != null && Double.parseDouble(Increaseexistinglender.get("SecuredLimt").toString()) > 0){
 				screen.find(SecuredLimt).right(Offset[2]).click();
 				Helper.ClearTextBox(15);
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(Increaseexistinglender.get("SecuredLimt").toString());
 				Helper.Keystrokeenter(1);
 			}
@@ -541,6 +560,7 @@ public class FundsRequired {
 				screen.click(ExistingLMI);
 				if (Increaseexistinglender.get("LMIPremiumCredit") != null && Double.parseDouble(Increaseexistinglender.get("LMIPremiumCredit").toString()) > 0){
 					screen.find(LMIPremiumCredit).right(Offset[2]).click();
+					Helper.ClearTextBox(10,(float) 0.2);
 					Helper.ClearTextBoxandEnterValue(Increaseexistinglender.get("LMIPremiumCredit").toString());
 					Helper.Keystrokeenter(1);
 				}else{
@@ -551,6 +571,7 @@ public class FundsRequired {
 			if (FundsRequiredPayLoad.get("UseofFunds").toString().equals("1")){
 				if (Increaseexistinglender.get("NumberofDebts") != null && Integer.parseInt(Increaseexistinglender.get("NumberofDebts").toString()) > 0){
 					screen.find(NumberofDebts).right(Offset[2]).click();
+					Helper.ClearTextBox(10,(float) 0.2);
 					Helper.ClearTextBoxandEnterValue(Increaseexistinglender.get("NumberofDebts").toString());
 					Helper.Keystrokeenter(1);
 				}else{
@@ -576,6 +597,7 @@ public class FundsRequired {
 		try{
 			if (Refinance.get("RefinanceAmount") != null && Double.parseDouble(Refinance.get("RefinanceAmount").toString()) > 0){
 				screen.find(RefinanceAmount).right(Offset[2]).click();
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(Refinance.get("RefinanceAmount").toString());
 				Helper.Keystrokeenter(1);
 			}else{
@@ -584,6 +606,7 @@ public class FundsRequired {
 			}
 			if (Refinance.get("CashOut") != null && Double.parseDouble(Refinance.get("CashOut").toString()) > 0){
 				screen.find(CashOut).right(Offset[2]).click();
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(Refinance.get("CashOut").toString());
 				Helper.Keystrokeenter(1);
 			}else{
@@ -600,6 +623,7 @@ public class FundsRequired {
 			}
 			if (Refinance.get("ConsolidationAmount") != null && Double.parseDouble(Refinance.get("ConsolidationAmount").toString()) > 0){
 				screen.find(ConsolidationAmount).right(Offset[3]).click();
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(Refinance.get("ConsolidationAmount").toString());
 				Helper.Keystrokeenter(1);
 			}else{
@@ -609,6 +633,7 @@ public class FundsRequired {
 			if (FundsRequiredPayLoad.get("UseofFunds").toString().equals("2")){
 				if (Refinance.get("NumberofDebts") != null && Integer.parseInt(Refinance.get("NumberofDebts").toString()) > 0){
 					screen.find(NumberofDebts).right(Offset[2]).click();
+					Helper.ClearTextBox(10,(float) 0.2);
 					Helper.ClearTextBoxandEnterValue(Refinance.get("NumberofDebts").toString());
 					Helper.Keystrokeenter(1);
 				}else{
@@ -618,6 +643,7 @@ public class FundsRequired {
 			}
 			if (Refinance.get("SecurityValue") != null && Double.parseDouble(Refinance.get("SecurityValue").toString()) > 0){
 				screen.find(SecurityValue).right(Offset[2]).click();
+				Helper.ClearTextBox(10,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(Refinance.get("SecurityValue").toString());
 				Helper.Keystrokeenter(1);
 			}else{
@@ -626,7 +652,7 @@ public class FundsRequired {
 			}
 			if (Refinance.get("SecuredLimt") != null && Double.parseDouble(Refinance.get("SecuredLimt").toString()) > 0){
 				screen.find(SecuredLimt).right(Offset[2]).click();
-				Helper.ClearTextBox(15);
+				Helper.ClearTextBox(15,(float) 0.2);
 				Helper.ClearTextBoxandEnterValue(Refinance.get("SecuredLimt").toString());
 				Helper.Keystrokeenter(1);
 			}

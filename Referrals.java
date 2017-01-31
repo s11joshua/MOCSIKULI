@@ -84,6 +84,7 @@ public class Referrals {
 				}
 			}
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Referrals");
+			logger.info("Referrals section completed successfully");
 			Helper.WriteToTxtFile("Referrals successful", TestExecution.TestExecutionFolder + "logs.txt");
 			return true;
 			

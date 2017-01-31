@@ -196,6 +196,8 @@ public class Securities {
 			
 				Helper.ScreenDump(TestExecution.TestExecutionFolder, "Securities");
 			}
+			
+			logger.info("Securities Created successfully");
 			Helper.WriteToTxtFile("Securities Created successfully", TestExecution.TestExecutionFolder + "logs.txt");
 			return true;
 		} catch (FindFailed e) {

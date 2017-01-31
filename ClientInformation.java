@@ -332,7 +332,8 @@ public class ClientInformation {
 					return false;
 				}
 				Helper.ScreenDump(TestExecution.TestExecutionFolder, "CustomerCreation");
-				Helper.WriteToTxtFile("Client added successfully to the Scenario",TestExecution.TestExecutionFolder + "logs.txt");
+				logger.info("Clients added successfully to the Scenario");
+				Helper.WriteToTxtFile("Clients added successfully to the Scenario",TestExecution.TestExecutionFolder + "logs.txt");
 			}
 			return true;
 		} catch (FindFailed e) {

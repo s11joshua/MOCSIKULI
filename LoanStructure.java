@@ -286,6 +286,7 @@ public class LoanStructure {
 					}
 					Helper.ScreenDump(TestExecution.TestExecutionFolder, "LoanStructure");
 				}
+				logger.info("Loan Structure created successfully");
 				Helper.WriteToTxtFile("Loan Structure created successfully", TestExecution.TestExecutionFolder + "logs.txt");
 			}
 			return true;

@@ -154,7 +154,6 @@ public class ScenarioSummary {
 						screen.click(SplitArray[0]);
 						screen.click(SplitArray[0]);
 					}
-					System.out.println(Count);
 					if (Count > 1){
 						screen.click(SplitArray[LoanCounter + counter]);
 					}else{
@@ -170,7 +169,7 @@ public class ScenarioSummary {
 				}
 				LoanCounter = LoanCounter + 3;
 				NonSplitloanCounter ++;
-				
+				logger.info("Scenario Summary section was successful");
 				Helper.WriteToTxtFile("Scenario Summary was successful", TestExecution.TestExecutionFolder + "logs.txt");
 			}
 			return true;

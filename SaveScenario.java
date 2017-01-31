@@ -109,7 +109,8 @@ public class SaveScenario {
 			screen.waitVanish(OkButton,15);
 			App.pause(10); // this is for the pop up screen to disappear
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "SaveScenario");
-			Helper.WriteToTxtFile("Scenario Saved Successfully", TestExecution.TestExecutionFolder + "logs.txt");
+			logger.info("Scenario Saved as a new lead successfully");
+			Helper.WriteToTxtFile("Scenario Saved as a new lead successfully", TestExecution.TestExecutionFolder + "logs.txt");
 			return true;
 			
 		} catch (FindFailed e) {
@@ -126,6 +127,8 @@ public class SaveScenario {
 		try {
 			screen.wait(Savebutton);
 			screen.click(Savebutton);
+			App.pause(10);
+			logger.info("Scenario Saved Successfully");
 			Helper.WriteToTxtFile("Scenario Saved Successfully", TestExecution.TestExecutionFolder + "logs.txt");
 			return true;
 		} catch (FindFailed e) {
