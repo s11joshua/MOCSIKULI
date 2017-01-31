@@ -198,7 +198,7 @@ public class ClientInformation {
 				logger.debug("Looping through the number of customer");
 				JSONObject CustomerInformation = CustomerInformationArray.next();
 												
-				if (CustomerInformation.get("NewCustomer").toString().equals("Yes")){
+				if (CustomerInformation.get("NewCustomer").toString() != null && CustomerInformation.get("NewCustomer").toString().equals("Yes")){
 					counter++;
 					if (counter > 1) {
 					screen.click(AddNewCustomer);
@@ -300,7 +300,7 @@ public class ClientInformation {
 					}
 					
 					
-				} else if(CustomerInformation.get("NewCustomer").toString().equals("No")){
+				} else if(CustomerInformation.get("NewCustomer").toString() != null && CustomerInformation.get("NewCustomer").toString().equals("No")){
 					counter++;
 					logger.debug("Entering condition for selecting existing customer.");
 					

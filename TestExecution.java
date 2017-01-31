@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -14,6 +15,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.sikuli.basics.Debug;
 import org.sikuli.basics.Settings;
 
 
@@ -28,6 +30,7 @@ public class TestExecution {
 	public String TestDataFolderRoot;
 	public String TestFolder;
 	public String RootFolder;
+	public String LogFolder;
 	public String ExecutionFolder;
 	public String TimeStamp;
 	public static String TestExecutionFolder;
@@ -36,6 +39,11 @@ public class TestExecution {
 		Settings.OcrTextSearch = true;
 		Settings.OcrTextRead = true;
 		Settings.setShowActions(true);
+		//Debug.setDebugLevel(1);
+		Settings.UserLogs = true;
+		Settings.LogTime = true;
+		
+		
 		
 		TestEnvironment = "LendingSupportSIT";
 		DiscoveryUserName = "santhony.replica";
@@ -43,7 +51,9 @@ public class TestExecution {
 		
 		TestDataFolderRoot = "C:\\DiscoveryAutomation\\TestData\\";
 		//Helper.CreateDirectory("C:\\","DiscoveryAutomation\\TestExecution\\");
-	    RootFolder = "C:\\DiscoveryAutomation\\TestExecution\\";
+		LogFolder = "C:\\DiscoveryAutomation\\Logs\\";
+		Debug.setLogFile(LogFolder + "Sikuli.log");
+		RootFolder = "C:\\DiscoveryAutomation\\TestExecution\\";
 	    TestFolder =  new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
 	    Helper.CreateDirectory(RootFolder,TestFolder);
 	    ExecutionFolder = RootFolder + TestFolder +"\\";
@@ -74,8 +84,21 @@ public class TestExecution {
 		String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
 		logger.info("Entering Test Case: " + TestCaseName);
 		TestExecutionFolder = TESTSETUP(TestCaseName);
-		assertTrue(teststeps(TestExecutionFolder + TestCaseName + ".txt"));
-		logger.info("Existing Test Case: " + TestCaseName);
+		
+		if (TestExecutionFolder != null){
+			if (teststeps(TestExecutionFolder + TestCaseName + ".txt") != true){
+				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
+				logger.info("Existing Test Case: " + TestCaseName);
+				assertTrue(false);
+			}else{
+				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
+				logger.info("Existing Test Case: " + TestCaseName);
+				assertTrue(true);
+			}
+		}else{
+			logger.info("Existing Test Case: " + TestCaseName);
+			assertTrue(false);
+		}
 	}	
 	
 	@ Test
@@ -84,18 +107,45 @@ public class TestExecution {
 		String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
 		logger.info("Entering Test Case: " + TestCaseName);
 		TestExecutionFolder = TESTSETUP(TestCaseName);
-		assertTrue(teststeps(TestExecutionFolder + TestCaseName + ".txt"));
-		logger.info("Existing Test Case: " + TestCaseName);
+		
+		if (TestExecutionFolder != null){
+			if (teststeps(TestExecutionFolder + TestCaseName + ".txt") != true){
+				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
+				logger.info("Existing Test Case: " + TestCaseName);
+				assertTrue(false);
+			}else{
+				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
+				logger.info("Existing Test Case: " + TestCaseName);
+				assertTrue(true);
+			}
+		}else{
+			logger.info("Existing Test Case: " + TestCaseName);
+			assertTrue(false);
+		}
 	}
 	
 	@ Test
 	public void TestCase003() throws Exception{
 		
+		
 		String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
 		logger.info("Entering Test Case: " + TestCaseName);
 		TestExecutionFolder = TESTSETUP(TestCaseName);
-		assertTrue(teststeps(TestExecutionFolder + TestCaseName + ".txt"));
-		logger.info("Existing Test Case: " + TestCaseName);
+		
+		if (TestExecutionFolder != null){
+			if (teststeps(TestExecutionFolder + TestCaseName + ".txt") == true){
+				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
+				logger.info("Existing Test Case: " + TestCaseName);
+				assertTrue(true);
+			}else{
+				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
+				logger.info("Existing Test Case: " + TestCaseName);
+				assertTrue(false);
+			}
+		}else{
+			logger.info("Existing Test Case: " + TestCaseName);
+			assertTrue(false);
+		}	
 	}
 	
 	@After
@@ -111,46 +161,52 @@ public class TestExecution {
 	public boolean teststeps(String testdata){
 		
 		JSONTestData = JSON.ReadTestData(testdata);
-		if (JSONTestData == null){
-			logger.error("No relavent test data file for the following test: " + testdata.substring(testdata.length()-15).substring(0, 11));
-			Helper.WriteToTxtFile("Not able to locate the JSON data file in the test data directory",  TestExecutionFolder + "logs.txt");
-			return false;
-		}
 		
-		assertTrue (LoginPage.LaunchDiscoveryApplicaiton("TestInstance"));
-		assertTrue (LoginPage.LogintoDiscovery(JSONTestData));
-		assertTrue (DiscoveryHomePage.NavigatetoQualifyandAnalize());
-		assertTrue (QAHomePage.QuickQualify(JSONTestData));
-		assertTrue (ClientInformation.CaptureClientDetails(JSONTestData));
-		assertTrue (FundsRequired.CaptureTransaction(JSONTestData));
-		assertTrue (Securities.CaptureSecurities(JSONTestData));
-		assertTrue (LoanStructure.CaptureLoanStructure(JSONTestData));
-		assertTrue (QualifyLenders.ActionOnQulifyLenders(JSONTestData));
-		assertTrue (ScenarioSummary.SelectLenderandProduct(JSONTestData));
-		assertTrue (SaveScenario.SaveAsNewLead(JSONTestData));
-		assertTrue (ResponsibleLending.CaptureResponsibleLending(JSONTestData));
-		//assertTrue (Referrals.CaptureReferrals(JSONTestData));
-		assertTrue (SaveScenario.Save(JSONTestData));
-		assertTrue (Apply.CaptureTypeOfLodgement(JSONTestData));
-		assertTrue (Helper.ForceKillApplication("Tonto.exe"));
+		if (LoginPage.LaunchDiscoveryApplicaiton("TestInstance") == false){return false;}
+		if (LoginPage.LogintoDiscovery(JSONTestData) == false){return false;}
+		if (DiscoveryHomePage.NavigatetoQualifyandAnalize() == false){return false;}
+		if (QAHomePage.QuickQualify(JSONTestData) == false){return false;}
+		if(ClientInformation.CaptureClientDetails(JSONTestData) == false){return false;}
+		if (FundsRequired.CaptureTransaction(JSONTestData) == false){return false;}
+		if (Securities.CaptureSecurities(JSONTestData) == false){return false;}
+		if (LoanStructure.CaptureLoanStructure(JSONTestData) == false){return false;}
+		if (QualifyLenders.ActionOnQulifyLenders(JSONTestData) == false){return false;}
+		if (ScenarioSummary.SelectLenderandProduct(JSONTestData) == false){return false;}
+		if (SaveScenario.SaveAsNewLead(JSONTestData) == false){return false;}
+		if (ResponsibleLending.CaptureResponsibleLending(JSONTestData) == false){return false;}
+		//if (Referrals.CaptureReferrals(JSONTestData) == false){return false;}
+		if (SaveScenario.Save(JSONTestData) == false){return false;}
+		if (Apply.CaptureTypeOfLodgement(JSONTestData) == false){return false;}
+		if (Helper.ForceKillApplication("Tonto.exe") == false){return false;}
 		return true;
 	}
 	
 	public String TESTSETUP(String TestCaseName){
+		
 		try {
 			Runtime.getRuntime().exec("taskkill /F /IM " + "Tonto.exe");
 		} catch (IOException e) {
 			e.printStackTrace();
 			logger.error(e.toString());
 		}
-		TimeStamp = new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
-		String CurrentTestFolderName =  TestCaseName + "_" + TimeStamp;
-		Helper.CreateDirectory(ExecutionFolder,CurrentTestFolderName);
-		String CurrentTestFolerPath = ExecutionFolder + CurrentTestFolderName + "\\";
-		Helper.WriteToTxtFile("ExecutionFolderCreated",  CurrentTestFolerPath + "logs.txt");
-		Helper.CopyFiles(TestDataFolderRoot + TestCaseName + ".txt" , CurrentTestFolerPath + TestCaseName + ".txt");
-		Helper.MoveFiles(TestDataFolderRoot + TestCaseName + ".txt" , TestDataFolderRoot + "Archive\\" + TestCaseName + "_" + TimeStamp + ".txt");
-		return CurrentTestFolerPath;
+		
+		TestExecutionFolder = null;
+		
+		File f = new File(TestDataFolderRoot + TestCaseName + ".txt" );
+		
+		if(f.exists() && !f.isDirectory()) { 
+			TimeStamp = new SimpleDateFormat("HHmmss").format(Calendar.getInstance().getTime());
+			String CurrentTestFolderName =  TestCaseName + "_" + TimeStamp;
+			Helper.CreateDirectory(ExecutionFolder,CurrentTestFolderName);
+			String CurrentTestFolerPath = ExecutionFolder + CurrentTestFolderName + "\\";
+			Helper.WriteToTxtFile("ExecutionFolderCreated",  CurrentTestFolerPath + "logs.txt");
+			Helper.CopyFiles(TestDataFolderRoot + TestCaseName + ".txt" , CurrentTestFolerPath + TestCaseName + ".txt");
+			Helper.MoveFiles(TestDataFolderRoot + TestCaseName + ".txt" , TestDataFolderRoot + "Archive\\" + TestCaseName + "_" + TimeStamp + ".txt");
+			return CurrentTestFolerPath;	
+		}else{
+			return null;
+		}
+	
 	}
 	
 }
