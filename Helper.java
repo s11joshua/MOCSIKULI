@@ -1,3 +1,4 @@
+package Discovery;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
@@ -8,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -15,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -360,6 +363,25 @@ public class Helper {
 		    System.err.println(x);
 		    return false;
 		}
+	}
+	
+	public String GetConfigParameter(String ParameterKey){
+		Properties prop = new Properties();
+		String propFileName = "config.properties";
+		InputStream inputStream;
+		inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+		
+		try{
+			if (inputStream != null) {
+				prop.load(inputStream);
+			}else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}	
+		}catch (IOException e) {
+			e.printStackTrace();
+		}			 
+		
+		return prop.getProperty(ParameterKey);
 	}
 	
 }

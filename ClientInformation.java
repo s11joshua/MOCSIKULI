@@ -1,3 +1,4 @@
+package Discovery;
 
 import java.util.Iterator;
 
@@ -331,6 +332,7 @@ public class ClientInformation {
 					logger.error("Invalid parameter passed for customer information, is the customer a new customer or an existing customer.");
 					return false;
 				}
+				
 				Helper.ScreenDump(TestExecution.TestExecutionFolder, "CustomerCreation");
 				logger.info("Clients added successfully to the Scenario");
 				Helper.WriteToTxtFile("Clients added successfully to the Scenario",TestExecution.TestExecutionFolder + "logs.txt");

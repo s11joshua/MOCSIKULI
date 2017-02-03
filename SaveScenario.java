@@ -1,5 +1,9 @@
+package Discovery;
+import java.util.Iterator;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.sikuli.script.App;
 import org.sikuli.script.FindFailed;
@@ -21,6 +25,7 @@ public class SaveScenario {
 	static Pattern OpportunityName;
 	static Pattern ScenarioName;
 	static Pattern Savebutton;
+	static Pattern JointClentOK;
 
 	public SaveScenario(){
 		new SaveScenario("C:\\Sikuli Images\\SaveScenario\\");
@@ -37,6 +42,7 @@ public class SaveScenario {
 		OpportunityName = new Pattern(Imagefolderlocation + "OpportunityName.PNG");
 		ScenarioName = new Pattern(Imagefolderlocation + "ScenarioName.PNG");
 		Savebutton = new Pattern(Imagefolderlocation + "ScenarioSave.PNG");
+		JointClentOK = new Pattern(Imagefolderlocation + "JointClientOk.PNG");
 	}
 	
 	public static boolean SaveAsNewLead(JSONObject RawFile){
@@ -45,13 +51,21 @@ public class SaveScenario {
 		try {
 			screen.wait(Savebutton);
 			screen.click(Savebutton);
+			
+			
 			if(JSON.GetTestData(RawFile, "EnvironmentDetails").get("Replicadatabase").toString().equals("Yes")){
 				screen.wait(NoButton);
 				screen.click(NoButton);
 			}
-			App.pause(2);
-			App.focus("Sceanrio Details");
 			
+			if(IsJointClient(RawFile) == true){
+				screen.wait(JointClentOK);
+				screen.click(JointClentOK);
+			}
+			
+			App.pause(4);
+			App.focus("Sceanrio Details");
+						
 			//Not implemented LinkLeadtoScenario which is there in the JSON File, all save are assumed to be new lead.
 			
 			if (SaveScenarioDetails.get("LoanConsultant") != null && Integer.parseInt(SaveScenarioDetails.get("LoanConsultant").toString()) >=1 ){
@@ -135,6 +149,24 @@ public class SaveScenario {
 			e.printStackTrace();
 			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
+			return false;
+		}
+	}
+	
+	public static boolean IsJointClient(JSONObject RawFile){
+		int Counter = 0;
+		JSONArray CustomerInformation_Array = (JSONArray) RawFile.get("Customerinformation");
+		Iterator<JSONObject> CustomerInformationArray = CustomerInformation_Array.iterator();
+		
+		while (CustomerInformationArray.hasNext()){
+			JSONObject CustomerInformation = CustomerInformationArray.next();
+			if (CustomerInformation.get("CustomerType").toString().equals("Individual")){
+				Counter++;
+			}
+		}
+		if (Counter >= 2){
+			return true;
+		}else{
 			return false;
 		}
 	}

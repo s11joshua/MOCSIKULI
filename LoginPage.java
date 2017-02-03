@@ -1,9 +1,7 @@
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-
+package Discovery;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.json.simple.JSONArray;
+
 import org.json.simple.JSONObject;
 import org.sikuli.script.App;
 import org.sikuli.script.FindFailed;
@@ -35,7 +33,7 @@ public class LoginPage {
 		
 		public static boolean LaunchDiscoveryApplicaiton(String DiscoveryAppLocation)
 		{
-			logger.debug("Launching the discovery application");
+			logger.info("Launching the discovery application");
 			if (DiscoveryAppLocation == "TestInstance"){
 					App.open("C:\\Program Files\\mortgage choice\\DiscoverySysTest\\bin\\Discovery.exe");
 					App.pause(3);
@@ -59,13 +57,32 @@ public class LoginPage {
 		
 		public static boolean LogintoDiscovery(JSONObject RawFile)
 		{	
+			logger.info("Logging into Discovery");
+			Helper Config = new Helper();
+			String Discoveryusername = null;
+			String Discoverypassword = null;
+			String TestEnvironment = null;
+			
 			JSONObject LoginDetails = JSON.GetTestData(RawFile, "UserDetails");
 			JSONObject EnvironmentDetails = JSON.GetTestData(RawFile, "EnvironmentDetails");
+						
+			if (LoginDetails.get("DiscoveryUsername") == null){
+				Discoveryusername = Config.GetConfigParameter("DiscoveryUsername");
+			}else{
+				Discoveryusername = LoginDetails.get("DiscoveryUsername").toString();
+			}
 			
-			String Discoveryusername = LoginDetails.get("DiscoveryUsername").toString();
-			String Discoverypassword = LoginDetails.get("DiscoveryPassword").toString();
-			String TestEnvironment = EnvironmentDetails.get("DiscoveryDatabase").toString();
+			if (LoginDetails.get("DiscoveryPassword") == null){
+				Discoverypassword = Config.GetConfigParameter("DiscoveryPassword");
+			}else{
+				Discoverypassword = LoginDetails.get("DiscoveryPassword").toString();
+			}
 			
+			if (LoginDetails.get("DiscoveryDatabase") == null){
+				TestEnvironment = Config.GetConfigParameter("DiscoveryDatabase");
+			}else{			
+				TestEnvironment = EnvironmentDetails.get("DiscoveryDatabase").toString();
+			}
 				
 			try
 			{

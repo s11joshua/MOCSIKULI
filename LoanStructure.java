@@ -1,3 +1,4 @@
+package Discovery;
 import org.sikuli.script.App;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;

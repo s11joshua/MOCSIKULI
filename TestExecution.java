@@ -1,13 +1,24 @@
+package Discovery;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Properties;
 
 import org.junit.runners.MethodSorters;
+import org.openqa.selenium.WebDriver;
+
 import static org.junit.Assert.*;
 import org.sikuli.script.App;
 import org.sikuli.script.Screen;
+
+import Dynamics.DynamicsLeadsPage;
+import Dynamics.DynamicsLoginPage;
+import Dynamics.Selenium;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
@@ -21,6 +32,7 @@ import org.sikuli.basics.Settings;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestExecution {
+	
 	static Log logger = LogFactory.getLog(TestExecution.class);
 	
 	public JSONObject JSONTestData;
@@ -71,6 +83,9 @@ public class TestExecution {
 		new ResponsibleLending();
 		new Referrals();
 		new Apply();
+		new Selenium();
+		new DynamicsLeadsPage();
+		
 	}
 	
 	@Before
@@ -78,74 +93,34 @@ public class TestExecution {
 		InitializeTestFramework();
 	}
 	
-	@ Test
+	//@Test
 	public void TestCase001() throws Exception{
-		
-		String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
-		logger.info("Test execution started for Test Case: " + TestCaseName);
-		TestExecutionFolder = TESTSETUP(TestCaseName);
-		
-		if (TestExecutionFolder != null){
-			if (teststeps(TestExecutionFolder + TestCaseName + ".txt") != true){
-				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
-				logger.info("Test execution aborted for " + TestCaseName);
-				assertTrue(false);
-			}else{
-				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
-				logger.info("Test execution sucessfully completed for : " + TestCaseName);
-				assertTrue(true);
-			}
-		}else{
-			logger.info("Test execution aborted for: " + TestCaseName);
-			assertTrue(false);
-		}
+		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));
 	}	
 	
-	@ Test
+	//@Test
 	public void TestCase002() throws Exception{
-	
-		String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
-		logger.info("Test execution started for Test Case: " + TestCaseName);
-		TestExecutionFolder = TESTSETUP(TestCaseName);
-		
-		if (TestExecutionFolder != null){
-			if (teststeps(TestExecutionFolder + TestCaseName + ".txt") != true){
-				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
-				logger.info("Test execution aborted for " + TestCaseName);
-				assertTrue(false);
-			}else{
-				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
-				logger.info("Test execution sucessfully completed for : " + TestCaseName);
-				assertTrue(true);
-			}
-		}else{
-			logger.info("Test execution aborted for: " + TestCaseName);
-			assertTrue(false);
-		}
+		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));	
 	}
 	
-	@ Test
+	//@Test
 	public void TestCase003() throws Exception{
-		
-		String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
-		logger.info("Test execution started for Test Case: " + TestCaseName);
-		TestExecutionFolder = TESTSETUP(TestCaseName);
-		
-		if (TestExecutionFolder != null){
-			if (teststeps(TestExecutionFolder + TestCaseName + ".txt") != true){
-				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
-				logger.info("Test execution aborted for " + TestCaseName);
-				assertTrue(false);
-			}else{
-				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
-				logger.info("Test execution sucessfully completed for : " + TestCaseName);
-				assertTrue(true);
-			}
-		}else{
-			logger.info("Test execution aborted for: " + TestCaseName);
-			assertTrue(false);
-		}	
+		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));		
 	}
+	
+	//@Test
+	public void TestCase004() throws Exception{
+		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));		
+	}
+	
+	@Test
+	public void TestCase005() throws Exception{
+		//assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));
+		Selenium.LogintoDynamics();
+		Selenium.CreateQuicklead(new Object(){}.getClass().getEnclosingMethod().getName());
+	}
+	
+	
 	
 	//@After
 	public void tearDown() throws Exception {
@@ -157,7 +132,28 @@ public class TestExecution {
 		}
 	}
 	
-	public boolean teststeps(String testdata){
+	public boolean TestExecutor(String TestCaseName){
+		//String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
+		logger.info("Test execution started for Test Case: " + TestCaseName);
+		TestExecutionFolder = TestSetup(TestCaseName);
+		
+		if (TestExecutionFolder != null){
+			if (TestSteps(TestExecutionFolder + TestCaseName + ".txt") != true){
+				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
+				logger.info("Test execution aborted for " + TestCaseName);
+				return false;
+			}else{
+				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
+				logger.info("Test execution sucessfully completed for : " + TestCaseName);
+				return true;
+			}
+		}else{
+			logger.info("Test execution aborted for: " + TestCaseName);
+			return false;
+		}
+	}
+	
+	public boolean TestSteps(String testdata){
 		
 		JSONTestData = JSON.ReadTestData(testdata);
 		
@@ -173,14 +169,14 @@ public class TestExecution {
 		if (ScenarioSummary.SelectLenderandProduct(JSONTestData) == false){return false;}
 		if (SaveScenario.SaveAsNewLead(JSONTestData) == false){return false;}
 		if (ResponsibleLending.CaptureResponsibleLending(JSONTestData) == false){return false;}
-		//if (Referrals.CaptureReferrals(JSONTestData) == false){return false;}
+		if (Referrals.CaptureReferrals(JSONTestData) == false){return false;}
 		if (SaveScenario.Save(JSONTestData) == false){return false;}
 		if (Apply.CaptureTypeOfLodgement(JSONTestData) == false){return false;}
 		if (Helper.ForceKillApplication("Tonto.exe") == false){return false;}
 		return true;
 	}
 	
-	public String TESTSETUP(String TestCaseName){
+	public String TestSetup(String TestCaseName){
 		
 		try {
 			Runtime.getRuntime().exec("taskkill /F /IM " + "Tonto.exe");
@@ -206,6 +202,6 @@ public class TestExecution {
 			return null;
 		}
 	
-	}
+	}	
 	
 }

@@ -1,3 +1,4 @@
+package Discovery;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
@@ -57,8 +58,8 @@ public class Apply {
 				screen.click(ManualApply);
 			}
 			else{
-				logger.error("Invalid Options for the Lodgementype");
-				Helper.WriteToTxtFile("Invalid Options for the Lodgementype", TestExecution.TestExecutionFolder + "logs.txt");
+				logger.error("Invalid Options for the Lodgement type");
+				Helper.WriteToTxtFile("Invalid Options for the Lodgement type", TestExecution.TestExecutionFolder + "logs.txt");
 				return false;
 			}
 			
