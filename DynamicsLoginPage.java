@@ -8,6 +8,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
+import Discovery.Helper;
+import Discovery.TestExecution;
+
 public class DynamicsLoginPage {
 	
 	static Log logger = LogFactory.getLog(DynamicsLoginPage.class);
@@ -36,9 +39,11 @@ public class DynamicsLoginPage {
 			TXTPassword.sendKeys(Password);
 			BTNSignIn.click();
 			logger.info("Dynamics Login Completed Successfully");
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "DynamicsLogin");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 			logger.error(e.toString());
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 		}
 		return true;
 	}

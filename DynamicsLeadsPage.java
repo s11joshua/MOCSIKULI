@@ -8,6 +8,7 @@ import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 
 import Discovery.Helper;
+import Discovery.TestExecution;
 
 public class DynamicsLeadsPage {
 	static Log logger = LogFactory.getLog(DynamicsLeadsPage.class);
@@ -70,20 +71,22 @@ public class DynamicsLeadsPage {
 				//screen.type(CustomerContacts.get("EmailId").toString());
 				screen.type("suresh.anthony@mortgagechoice.com.au");
 				Helper.Keystrokeenter(1);
-				logger.info("Quick Lead Created Successfully");
 				Thread.sleep(2000);
 				screen.click(Savelead);
 			}else{
 				logger.warn("No Email Id provided, so cannot send customer enquiry form");
 			}
 			screen.wait(SavedSuccessfully, 30);
-			logger.info("Lead created sucessfully");
-			screen.wait(ViewLead, 30).click();
+			logger.info("Quick Lead Created Successfully");
+			screen.wait(ViewLead, 30).click();			
 			screen.wait(QualifyLead, 30).click();
-			if (screen.exists(PopUpOk,5) != null){
+			if (screen.exists(PopUpOk,30) != null){
 				screen.click(PopUpOk);
 			}
-			screen.wait(SendInvite,30);
+			if(screen.wait(SendInvite,30) == null){
+				logger.error("Lead was not Qualified sucessfully");
+				return false;
+			}
 			logger.info("Lead Qualified sucessfully");
 			Thread.sleep(5000);
 			screen.wait(OpportunityTypeDropdown,30);
@@ -96,9 +99,12 @@ public class DynamicsLeadsPage {
 				screen.wait(PopUpOk,30).click();
 			}
 			screen.wait(PopUpOk,30).click();
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "DynamicsQuickLead");
+			logger.info("Quick Lead Created Sucessfully");
 			return true;
 		} catch (FindFailed | InterruptedException e) {
 			e.printStackTrace();
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			logger.error(e.toString());
 			return false;
 		}
