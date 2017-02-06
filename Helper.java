@@ -1,5 +1,7 @@
 package Discovery;
 import java.awt.AWTException;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
@@ -23,6 +25,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.monte.screenrecorder.ScreenRecorder;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.App;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
@@ -30,6 +37,7 @@ import org.sikuli.script.Screen;
 
 public class Helper {
 	static Log logger = LogFactory.getLog(Helper.class);
+	public ScreenRecorder screenRecorder;
 	
 	public static void Keystrokebackspace(int repeatcount)
 	{	
@@ -383,5 +391,24 @@ public class Helper {
 		
 		return prop.getProperty(ParameterKey);
 	}
-	
+
+	public static boolean Waitforelement(WebDriver driver, String Findby,String locator, int waittimeinsec){
+		  WebDriverWait wait = new WebDriverWait(driver, waittimeinsec);
+		  switch (Findby)
+          {
+              case "XPath":
+            	  wait.until(ExpectedConditions.elementToBeClickable(By.xpath(locator)));
+                  return true;
+              case "CssSelector":
+            	  wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(locator)));
+                  return true;
+              case "Id":
+            	  wait.until(ExpectedConditions.elementToBeClickable(By.id(locator)));
+                  return true;
+              default:
+                  logger.error("Invalid Findby string passed to Waitforelement method");
+                  return false; 
+          }
+              
+      }
 }

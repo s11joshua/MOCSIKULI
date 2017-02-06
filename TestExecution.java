@@ -116,8 +116,7 @@ public class TestExecution {
 	@Test
 	public void TestCase005() throws Exception{
 		//assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));
-		Selenium.LogintoDynamics();
-		Selenium.CreateQuicklead(new Object(){}.getClass().getEnclosingMethod().getName());
+		Dynamics.JDBCConnection.ConntectDB("suresh.anthony@mortgagechoice.com.au");
 	}
 	
 	
@@ -136,19 +135,23 @@ public class TestExecution {
 		//String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
 		logger.info("Test execution started for Test Case: " + TestCaseName);
 		TestExecutionFolder = TestSetup(TestCaseName);
-		
+		VideoRecorderclass Record = new VideoRecorderclass();
+		Record.startRecording(TestExecutionFolder);
 		if (TestExecutionFolder != null){
 			if (TestSteps(TestExecutionFolder + TestCaseName + ".txt") != true){
 				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
 				logger.info("Test execution aborted for " + TestCaseName);
+				Record.stopRecording();
 				return false;
 			}else{
 				Helper.CopyFiles(LogFolder + "Sikuli.log" , TestExecutionFolder + "Sikuli.log");
 				logger.info("Test execution sucessfully completed for : " + TestCaseName);
+				Record.stopRecording();
 				return true;
 			}
 		}else{
 			logger.info("Test execution aborted for: " + TestCaseName);
+			Record.stopRecording();
 			return false;
 		}
 	}
@@ -156,6 +159,11 @@ public class TestExecution {
 	public boolean TestSteps(String testdata){
 		
 		JSONTestData = JSON.ReadTestData(testdata);
+		if (JSON.GetTestData(JSONTestData, "LeadDetails").get("LeadOrigination").equals("Dynamics")){
+			if(Selenium.CreateQuicklead(JSONTestData) != true){
+				return false;
+			}
+		}
 		
 		if (LoginPage.LaunchDiscoveryApplicaiton("TestInstance") == false){return false;}
 		if (LoginPage.LogintoDiscovery(JSONTestData) == false){return false;}
