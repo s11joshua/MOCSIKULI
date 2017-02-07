@@ -139,7 +139,7 @@ public class ScenarioSummary {
 			Iterator<JSONObject> LoanArray = Loan.iterator();
 			Iterator<JSONObject> FundsRequiredArray = FundsRequired.iterator();
 			int LoanCounter = 1;
-			int NonSplitloanCounter = 1;
+			int NonSplitloanCounter = 0;
 			int TotalLoanCounter = 1;
 			while (FundsRequiredArray.hasNext() && LoanArray.hasNext()){
 				int counter = 0; 

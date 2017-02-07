@@ -33,6 +33,10 @@ public class QAHomePage {
 		JSONObject CustomerInformation = CustomerInformationArray.next();
 		
 		try {
+			logger.debug("Entering the Quick Qualify Screen");
+			App.pause(5);
+			App.focus("Qualifier Analyser");
+			App.pause(5);
 			App.focus("Qualifier Analyser");
 			screen.click(clientsearch);
 			screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("FirstName").toString() + JSON.GetTestData(CustomerInformation, "CustomerNames").get("LastName").toString());

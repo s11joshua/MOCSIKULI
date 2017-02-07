@@ -70,6 +70,7 @@ static Log logger = LogFactory.getLog(VideoRecorderclass.class);
 	public void stopRecording(){
 		try {
 			this.screenRecorder.stop();
+			logger.info("Video Recording Stopped");
 		} catch (IOException e) {
 			e.printStackTrace();
 			logger.warn(e.toString());

@@ -26,6 +26,7 @@ public class DiscoveryHomePage {
 			screen.wait(qashortcut,15);
 			screen.doubleClick(qashortcut);
 			App.pause(15);
+			logger.debug("Completed the double click on the Discovery Home Page");
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();

@@ -115,10 +115,9 @@ public class TestExecution {
 	
 	@Test
 	public void TestCase005() throws Exception{
-		//assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));
-		Dynamics.JDBCConnection.ConntectDB("suresh.anthony@mortgagechoice.com.au");
+		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));
+		//Dynamics.JDBCConnection.GetRedemtionID("suresh.anthony@mortgagechoice.com.au");
 	}
-	
 	
 	
 	//@After
@@ -165,11 +164,10 @@ public class TestExecution {
 			}
 		}
 		
-		if (LoginPage.LaunchDiscoveryApplicaiton("TestInstance") == false){return false;}
 		if (LoginPage.LogintoDiscovery(JSONTestData) == false){return false;}
 		if (DiscoveryHomePage.NavigatetoQualifyandAnalize() == false){return false;}
 		if (QAHomePage.QuickQualify(JSONTestData) == false){return false;}
-		if(ClientInformation.CaptureClientDetails(JSONTestData) == false){return false;}
+		if (ClientInformation.CaptureClientDetails(JSONTestData) == false){return false;}
 		if (FundsRequired.CaptureTransaction(JSONTestData) == false){return false;}
 		if (Securities.CaptureSecurities(JSONTestData) == false){return false;}
 		if (LoanStructure.CaptureLoanStructure(JSONTestData) == false){return false;}
@@ -180,18 +178,18 @@ public class TestExecution {
 		if (Referrals.CaptureReferrals(JSONTestData) == false){return false;}
 		if (SaveScenario.Save(JSONTestData) == false){return false;}
 		if (Apply.CaptureTypeOfLodgement(JSONTestData) == false){return false;}
-		if (Helper.ForceKillApplication("Tonto.exe") == false){return false;}
+		//if (Helper.ForceKillApplication("Tonto.exe") == false){return false;}
 		return true;
 	}
 	
 	public String TestSetup(String TestCaseName){
 		
-		try {
+		/*try {
 			Runtime.getRuntime().exec("taskkill /F /IM " + "Tonto.exe");
 		} catch (IOException e) {
 			e.printStackTrace();
 			logger.error(e.toString());
-		}
+		}*/
 		
 		TestExecutionFolder = null;
 		

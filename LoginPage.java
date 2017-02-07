@@ -31,16 +31,25 @@ public class LoginPage {
 				
 		}
 		
-		public static boolean LaunchDiscoveryApplicaiton(String DiscoveryAppLocation)
-		{
+		public static boolean LaunchDiscoveryApplicaiton()
+		{	
+			Helper Config = new Helper();
+			String DiscoveryAppLocation = Config.GetConfigParameter("DiscoveryInstance").toString();
 			logger.info("Launching the discovery application");
-			if (DiscoveryAppLocation == "TestInstance"){
+			App.open(DiscoveryAppLocation);
+			App.pause(3);
+			App.focus("Discovery");
+			return true;
+			
+			/*if (DiscoveryAppLocation == "SysTest"){
+					logger.info("Launching the discovery application");
 					App.open("C:\\Program Files\\mortgage choice\\DiscoverySysTest\\bin\\Discovery.exe");
 					App.pause(3);
 					App.focus("Discovery");
 					return true;
 			}
-			else if (DiscoveryAppLocation == "ProductionInstance"){
+			else if (DiscoveryAppLocation == "Test"){
+					logger.info("Launching the discovery application");
 					App.open("C:\\Program Files (x86)\\Mortgage Choice\\Discovery\\bin\\Discovery.exe");
 					App.pause(3);
 					App.focus("Discovery");
@@ -48,15 +57,20 @@ public class LoginPage {
 			}
 			else
 			{
-				logger.error("Invalid parameter passed for Instance of Discovery ");	
+				logger.error("Invalid instance of the test environment set in the Config file for Discovery ");	
 				return false;
-			}
+			}*/
 			
 		}
 		
 		
 		public static boolean LogintoDiscovery(JSONObject RawFile)
 		{	
+			
+			if (LaunchDiscoveryApplicaiton() == false){
+				return false;
+			}
+			
 			logger.info("Logging into Discovery");
 			Helper Config = new Helper();
 			String Discoveryusername = null;
