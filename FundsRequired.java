@@ -209,17 +209,6 @@ public class FundsRequired {
 					if (Math.abs(Integer.parseInt(FundsRequiredValues.get("State").toString())) > 1){
 						Helper.Keystrokedown(Math.abs(Integer.parseInt(FundsRequiredValues.get("State").toString()) - 1));
 					}
-					
-					/*if ((Integer.parseInt(FundsRequiredValues.get("State").toString()) - 5) > 0){
-						screen.click(State);
-						Helper.Keystrokedown(Math.abs(Integer.parseInt(FundsRequiredValues.get("State").toString()) - 5));
-						Helper.Keystrokeenter(1);
-					}
-					else if ((Integer.parseInt(FundsRequiredValues.get("State").toString()) - 5) < 0){
-						screen.click(State);
-						Helper.Keystrokeup(Math.abs(Integer.parseInt(FundsRequiredValues.get("State").toString()) - 5));
-						Helper.Keystrokeenter(1);
-					}*/
 				}else{
 					logger.error("Invalid Parameter Passed for state");
 					return false;
