@@ -116,7 +116,7 @@ public class TestExecution {
 	@Test
 	public void TestCase005() throws Exception{
 		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));
-		//Dynamics.JDBCConnection.GetRedemtionID("suresh.anthony@mortgagechoice.com.au");
+		//Dynamics.JDBCConnection.GetRedemtionID("fanie.villiers@devilliersconsulting.com.au");
 	}
 	
 	
@@ -167,9 +167,9 @@ public class TestExecution {
 		if (LoginPage.LogintoDiscovery(JSONTestData) == false){return false;}
 		if (DiscoveryHomePage.NavigatetoQualifyandAnalize() == false){return false;}
 		if (QAHomePage.QuickQualify(JSONTestData) == false){return false;}
-		if (ClientInformation.CaptureClientDetails(JSONTestData) == false){return false;}
+		//if (ClientInformation.CaptureClientDetails(JSONTestData) == false){return false;}
 		if (FundsRequired.CaptureTransaction(JSONTestData) == false){return false;}
-		if (Securities.CaptureSecurities(JSONTestData) == false){return false;}
+		/*if (Securities.CaptureSecurities(JSONTestData) == false){return false;}
 		if (LoanStructure.CaptureLoanStructure(JSONTestData) == false){return false;}
 		if (QualifyLenders.ActionOnQulifyLenders(JSONTestData) == false){return false;}
 		if (ScenarioSummary.SelectLenderandProduct(JSONTestData) == false){return false;}
@@ -177,7 +177,7 @@ public class TestExecution {
 		if (ResponsibleLending.CaptureResponsibleLending(JSONTestData) == false){return false;}
 		if (Referrals.CaptureReferrals(JSONTestData) == false){return false;}
 		if (SaveScenario.Save(JSONTestData) == false){return false;}
-		if (Apply.CaptureTypeOfLodgement(JSONTestData) == false){return false;}
+		if (Apply.CaptureTypeOfLodgement(JSONTestData) == false){return false;}*/
 		//if (Helper.ForceKillApplication("Tonto.exe") == false){return false;}
 		return true;
 	}

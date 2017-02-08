@@ -117,6 +117,7 @@ public class FundsRequired {
 		
 		//JSONObject FundsRequiredValues = (JSONObject) RawFile.get("FundsRequired");
 		try {
+			screen.wait(TransactionType,30);
 			screen.click(FundsRequiredSection);
 			while (FundsRequiredArray.hasNext()){
 				counter++;
@@ -203,7 +204,13 @@ public class FundsRequired {
 				}
 				
 				if ((FundsRequiredValues.get("State") != null) && (Integer.parseInt(FundsRequiredValues.get("State").toString()) >= 1)){
-					if ((Integer.parseInt(FundsRequiredValues.get("State").toString()) - 5) > 0){
+					Helper.Keystroketab(1);
+					Helper.Keystrokeup(8);
+					if (Math.abs(Integer.parseInt(FundsRequiredValues.get("State").toString())) > 1){
+						Helper.Keystrokedown(Math.abs(Integer.parseInt(FundsRequiredValues.get("State").toString()) - 1));
+					}
+					
+					/*if ((Integer.parseInt(FundsRequiredValues.get("State").toString()) - 5) > 0){
 						screen.click(State);
 						Helper.Keystrokedown(Math.abs(Integer.parseInt(FundsRequiredValues.get("State").toString()) - 5));
 						Helper.Keystrokeenter(1);
@@ -212,7 +219,7 @@ public class FundsRequired {
 						screen.click(State);
 						Helper.Keystrokeup(Math.abs(Integer.parseInt(FundsRequiredValues.get("State").toString()) - 5));
 						Helper.Keystrokeenter(1);
-					}
+					}*/
 				}else{
 					logger.error("Invalid Parameter Passed for state");
 					return false;
