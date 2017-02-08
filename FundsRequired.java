@@ -22,7 +22,7 @@ public class FundsRequired {
 	static Pattern LoanPurpose;
 	static Pattern PropertyType;
 	static Pattern Location;
-	static Pattern State;
+	//static Pattern State;
 	static Pattern LinkSecurity;
 	
 	static Pattern PurchasePrice;
@@ -84,7 +84,7 @@ public class FundsRequired {
 		PropertyType =  new Pattern(Imagefolderlocation + "PropertyType.PNG");
 		PurchasePrice =  new Pattern(Imagefolderlocation + "PurchasePrice.PNG");
 		Refinance =  new Pattern(Imagefolderlocation + "Refinance.PNG");
-		State =  new Pattern(Imagefolderlocation + "State.PNG");
+		//State =  new Pattern(Imagefolderlocation + "State.PNG");
 		TransactionType =  new Pattern(Imagefolderlocation + "TransactionType.PNG");
 		UseOfFunds = new Pattern(Imagefolderlocation + "UseOfFunds.PNG");
 		FundsRequested = new Pattern(Imagefolderlocation + "FundsRequested.PNG");
@@ -117,8 +117,8 @@ public class FundsRequired {
 		
 		//JSONObject FundsRequiredValues = (JSONObject) RawFile.get("FundsRequired");
 		try {
-			screen.wait(TransactionType,30);
 			screen.click(FundsRequiredSection);
+			screen.wait(TransactionType,30);
 			while (FundsRequiredArray.hasNext()){
 				counter++;
 					if (counter > 1) {
@@ -676,5 +676,3 @@ public class FundsRequired {
 		
 	}
 }
-	
-	

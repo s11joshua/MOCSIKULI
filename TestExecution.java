@@ -54,18 +54,16 @@ public class TestExecution {
 		//Debug.setDebugLevel(1);
 		Settings.UserLogs = true;
 		Settings.LogTime = true;
+		Helper Config = new Helper();
 		
-		
-		
-		TestEnvironment = "LendingSupportSIT";
-		DiscoveryUserName = "santhony.replica";
-		DiscoveryPassword = "choosey1!";
-		
-		TestDataFolderRoot = "C:\\DiscoveryAutomation\\TestData\\";
+		Helper.MinimizeAllWindows();
 		//Helper.CreateDirectory("C:\\","DiscoveryAutomation\\TestExecution\\");
-		LogFolder = "C:\\DiscoveryAutomation\\Logs\\";
+		
+		TestDataFolderRoot = Config.GetConfigParameter("WQAAutomationFolderPath")+"TestData\\";
+		
+		LogFolder = Config.GetConfigParameter("WQAAutomationFolderPath")+"Logs\\";
 		Debug.setLogFile(LogFolder + "Sikuli.log");
-		RootFolder = "C:\\DiscoveryAutomation\\TestExecution\\";
+		RootFolder = Config.GetConfigParameter("WQAAutomationFolderPath")+"TestExecution\\";
 	    TestFolder =  new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
 	    Helper.CreateDirectory(RootFolder,TestFolder);
 	    ExecutionFolder = RootFolder + TestFolder +"\\";
@@ -167,9 +165,9 @@ public class TestExecution {
 		if (LoginPage.LogintoDiscovery(JSONTestData) == false){return false;}
 		if (DiscoveryHomePage.NavigatetoQualifyandAnalize() == false){return false;}
 		if (QAHomePage.QuickQualify(JSONTestData) == false){return false;}
-		//if (ClientInformation.CaptureClientDetails(JSONTestData) == false){return false;}
+		if (ClientInformation.CaptureClientDetails(JSONTestData) == false){return false;}
 		if (FundsRequired.CaptureTransaction(JSONTestData) == false){return false;}
-		/*if (Securities.CaptureSecurities(JSONTestData) == false){return false;}
+		if (Securities.CaptureSecurities(JSONTestData) == false){return false;}
 		if (LoanStructure.CaptureLoanStructure(JSONTestData) == false){return false;}
 		if (QualifyLenders.ActionOnQulifyLenders(JSONTestData) == false){return false;}
 		if (ScenarioSummary.SelectLenderandProduct(JSONTestData) == false){return false;}
@@ -177,7 +175,7 @@ public class TestExecution {
 		if (ResponsibleLending.CaptureResponsibleLending(JSONTestData) == false){return false;}
 		if (Referrals.CaptureReferrals(JSONTestData) == false){return false;}
 		if (SaveScenario.Save(JSONTestData) == false){return false;}
-		if (Apply.CaptureTypeOfLodgement(JSONTestData) == false){return false;}*/
+		if (Apply.CaptureTypeOfLodgement(JSONTestData) == false){return false;}
 		//if (Helper.ForceKillApplication("Tonto.exe") == false){return false;}
 		return true;
 	}

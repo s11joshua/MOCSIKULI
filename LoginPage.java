@@ -37,7 +37,7 @@ public class LoginPage {
 			String DiscoveryAppLocation = Config.GetConfigParameter("DiscoveryInstance").toString();
 			logger.info("Launching the discovery application");
 			App.open(DiscoveryAppLocation);
-			App.pause(3);
+			App.pause(5);
 			App.focus("Discovery");
 			return true;
 			
@@ -100,7 +100,7 @@ public class LoginPage {
 				
 			try
 			{
-				screen.wait(username,30);
+				screen.wait(username,60);
 				Helper.ScreenDump(TestExecution.TestExecutionFolder, "Discoverylaunch");
 				screen.click(username);
 				Helper.Keystrokebackspace(30);

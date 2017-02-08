@@ -23,7 +23,7 @@ public class DiscoveryHomePage {
 	
 	public static boolean NavigatetoQualifyandAnalize(){
 		try {
-			screen.wait(qashortcut,15);
+			screen.wait(qashortcut,60);
 			screen.doubleClick(qashortcut);
 			App.pause(15);
 			logger.debug("Completed the double click on the Discovery Home Page");

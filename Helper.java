@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.DirectoryStream;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;
 
+import org.apache.commons.exec.ExecuteWatchdog;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONArray;
@@ -411,4 +413,17 @@ public class Helper {
           }
               
       }
+	
+	public static boolean MinimizeAllWindows(){
+		try {
+			Runtime.getRuntime().exec("cmd /c start MinimizeAllWindows.bat");
+			logger.info("All windows in desktop have been minimized");
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			logger.warn("Not able to minimize all windows");
+			return false;
+		}
+		
+	}
 }
