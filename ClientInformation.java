@@ -268,8 +268,18 @@ public class ClientInformation {
 							screen.type(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("Mobile").toString());
 						}
 						if(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("EmailId") != null){
+							if (JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("EmailId").toString().equals("No")){
+								//This is intentional since if we want the Email id to be blank
+								logger.warn("Might not be able to send fact find form unless "
+										+ "email id is specified when creating the lead in dynamics");
+							}else{
+								screen.find(EmailId).right(Offset[4]).click();
+								screen.type(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("EmailId").toString());
+							}
+						}else{
 							screen.find(EmailId).right(Offset[4]).click();
-							screen.type(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("EmailId").toString());
+							screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("FirstName").toString()+"."
+									+JSON.GetTestData(CustomerInformation, "CustomerNames").get("LastName").toString() + "@moctestdomain.com");
 						}
 					}
 					else{

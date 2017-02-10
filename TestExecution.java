@@ -18,6 +18,9 @@ import org.sikuli.script.Screen;
 import Dynamics.DynamicsLeadsPage;
 import Dynamics.DynamicsLoginPage;
 import Dynamics.Selenium;
+import FactFind.FactFindExecutor;
+import FactFind.FactFindLogin;
+import FactFind.PersonalDetails;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -56,7 +59,9 @@ public class TestExecution {
 		Settings.LogTime = true;
 		Helper Config = new Helper();
 		
-		Helper.MinimizeAllWindows();
+		if (Config.GetConfigParameter("MinimizeAllWindow").equals("Yes")){
+			Helper.MinimizeAllWindows();
+		}
 		//Helper.CreateDirectory("C:\\","DiscoveryAutomation\\TestExecution\\");
 		
 		TestDataFolderRoot = Config.GetConfigParameter("WQAAutomationFolderPath")+"TestData\\";
@@ -83,7 +88,8 @@ public class TestExecution {
 		new Apply();
 		new Selenium();
 		new DynamicsLeadsPage();
-		
+		new FactFindLogin();
+		new PersonalDetails();
 	}
 	
 	@Before
@@ -113,10 +119,10 @@ public class TestExecution {
 	
 	@Test
 	public void TestCase005() throws Exception{
-		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));
-		//Dynamics.JDBCConnection.GetRedemtionID("fanie.villiers@devilliersconsulting.com.au");
+		FactFindExecutor.FillFactFind();
+		
+		//assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));
 	}
-	
 	
 	//@After
 	public void tearDown() throws Exception {
@@ -182,12 +188,12 @@ public class TestExecution {
 	
 	public String TestSetup(String TestCaseName){
 		
-		/*try {
+		try {
 			Runtime.getRuntime().exec("taskkill /F /IM " + "Tonto.exe");
 		} catch (IOException e) {
 			e.printStackTrace();
 			logger.error(e.toString());
-		}*/
+		}
 		
 		TestExecutionFolder = null;
 		

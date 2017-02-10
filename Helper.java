@@ -29,7 +29,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.monte.screenrecorder.ScreenRecorder;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.App;
@@ -425,5 +427,16 @@ public class Helper {
 			return false;
 		}
 		
+	}
+	
+	public static void ScroolToView(WebDriver driver, WebElement Element){
+		
+		try {
+			((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", Element);
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		}
 	}
 }

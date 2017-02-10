@@ -18,6 +18,7 @@ public class Apply {
 	static Pattern ApplyOnlineNewApplication;
 	static Pattern CreateNewApplicationFromPrevious;
 	static Pattern ManualApply;
+	static Pattern SuccessResponse;
 
 	
 	public Apply(){
@@ -31,6 +32,7 @@ public class Apply {
 		ApplyOnlineNewApplication = new Pattern(Imagefolderlocation + "ApplyOnlineNewApplication.PNG");
 		CreateNewApplicationFromPrevious = new Pattern(Imagefolderlocation + "CreateNewApplicationFromPrevious.PNG");
 		ManualApply = new Pattern(Imagefolderlocation + "ManualApply.PNG");
+		SuccessResponse = new Pattern(Imagefolderlocation + "SuccessResponse.PNG");
 	}
 	
 	public static boolean CaptureTypeOfLodgement(JSONObject RawFile) {
@@ -65,7 +67,11 @@ public class Apply {
 			
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "ApplyScreen_BeforeSubmission");
 			screen.click(ApplicationSubmit);
-			App.pause(15);
+			
+			if (screen.exists(SuccessResponse,120) != null){
+				return false;
+			}
+			
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "ApplyScreen_AfterSubmission");
 			logger.info("Application was submitted successfully");
 			Helper.WriteToTxtFile("Application was submitted successfully", TestExecution.TestExecutionFolder + "logs.txt");
