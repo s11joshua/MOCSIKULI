@@ -8,6 +8,7 @@ import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 
 import Discovery.Helper;
+import Discovery.JSON;
 import Discovery.TestExecution;
 
 public class DynamicsLeadsPage {
@@ -68,13 +69,20 @@ public class DynamicsLeadsPage {
 			Helper.Keystrokeenter(1);
 			screen.click(Email);
 			if(CustomerContacts.get("EmailId") != null){
-				//screen.type(CustomerContacts.get("EmailId").toString());
-				screen.type("suresh.anthony@mortgagechoice.com.au");
-				Helper.Keystrokeenter(1);
-				Thread.sleep(2000);
-				screen.click(Savelead);
+				if (CustomerContacts.get("EmailId").toString().equals("No")){
+					//This is intentional, if we want the Email id to be blank
+				}
+				else{
+					screen.type(CustomerContacts.get("EmailId").toString());
+					//screen.type("suresh.anthony@mortgagechoice.com.au");
+					Helper.Keystrokeenter(1);
+					Thread.sleep(2000);
+					screen.click(Savelead);
+				}
+				
 			}else{
-				logger.warn("No Email Id provided, so cannot send customer enquiry form");
+				screen.type(CustomerNames.get("FirstName").toString()+"."
+						+CustomerNames.get("LastName").toString() + "@moctestdomain.com");
 			}
 			screen.wait(SavedSuccessfully, 30);
 			logger.info("Quick Lead Created Successfully");

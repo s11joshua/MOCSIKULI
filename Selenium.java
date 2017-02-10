@@ -16,6 +16,7 @@ import org.sikuli.script.Screen;
 
 import Discovery.Helper;
 import Discovery.TestExecution;
+import FactFind.PersonalDetails;
 
 
 public class Selenium {
@@ -47,12 +48,15 @@ public class Selenium {
 		 
 		 	case "IE":
 		 		WebDriver IEdriver = new InternetExplorerDriver();
+		 		PersonalDetails.driver = IEdriver;
 		 		return IEdriver;
 		 	case "Chrome":
 		 		WebDriver Chromedriver = new ChromeDriver();
+		 		PersonalDetails.driver = Chromedriver;
 		 		return Chromedriver;
 		 	case "FireFox":
 		 		WebDriver Firefoxdriver = new FirefoxDriver();
+		 		PersonalDetails.driver = Firefoxdriver;
 		 		return Firefoxdriver;
 		 	default:
 		 		return null;
