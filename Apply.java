@@ -75,6 +75,8 @@ public class Apply {
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "ApplyScreen_AfterSubmission");
 			logger.info("Application was submitted successfully");
 			Helper.WriteToTxtFile("Application was submitted successfully", TestExecution.TestExecutionFolder + "logs.txt");
+			App.pause(30);//This is to wait for broker center to be opened .. this should be changed to dynamically wait for BC to open.
+			
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();

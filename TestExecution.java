@@ -38,7 +38,7 @@ public class TestExecution {
 	
 	static Log logger = LogFactory.getLog(TestExecution.class);
 	
-	public JSONObject JSONTestData;
+	public static JSONObject JSONTestData;
 	public String TestEnvironment;
 	public String DiscoveryUserName;
 	public String DiscoveryPassword;
@@ -89,7 +89,7 @@ public class TestExecution {
 		new Selenium();
 		new DynamicsLeadsPage();
 		new FactFindLogin();
-		new PersonalDetails();
+		//new PersonalDetails();
 	}
 	
 	@Before
@@ -112,16 +112,14 @@ public class TestExecution {
 		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));		
 	}
 	
-	//@Test
+	@Test
 	public void TestCase004() throws Exception{
 		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));		
 	}
 	
-	@Test
+	//@Test
 	public void TestCase005() throws Exception{
-		FactFindExecutor.FillFactFind();
-		
-		//assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));
+		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));
 	}
 	
 	//@After
@@ -163,8 +161,13 @@ public class TestExecution {
 		
 		JSONTestData = JSON.ReadTestData(testdata);
 		if (JSON.GetTestData(JSONTestData, "LeadDetails").get("LeadOrigination").equals("Dynamics")){
-			if(Selenium.CreateQuicklead(JSONTestData) != true){
+			/*if(Selenium.CreateQuicklead() != true){
 				return false;
+			}*/
+			if (JSON.GetTestData(JSONTestData, "LeadDetails").get("SendFactFindInvitaion").equals("Yes")){
+				if(FactFindExecutor.FillFactFind() != true){
+					return false;
+				}
 			}
 		}
 		
