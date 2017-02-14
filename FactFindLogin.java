@@ -18,6 +18,7 @@ public class FactFindLogin {
 	static String RedemtionID = null;	
 		
 	static Pattern AlreadyTaken;
+	static Pattern InvalidID;
 	static Pattern Signin;
 	public static Pattern NextButton;
 	
@@ -28,6 +29,7 @@ public class FactFindLogin {
 	public FactFindLogin(String Imagefolderlocation)
 	{
 		AlreadyTaken = new Pattern (Imagefolderlocation + "AlreadyTaken.PNG");
+		InvalidID = new Pattern (Imagefolderlocation + "InvalidInvitationCode.PNG");
 		Signin = new Pattern (Imagefolderlocation + "SignIn.PNG");
 		NextButton = new Pattern (Imagefolderlocation + "NextButton.PNG");
 	}
@@ -63,8 +65,9 @@ public class FactFindLogin {
 		@FindBy(how = How.XPATH, using = ".//*[@id='submit-signup-local']")
 		static WebElement BTNRegister;
 			
-		public static boolean LoginFactFindFirstTime(String Username) {
-			String UserName = "suresh.anthony@mortgagechoice.com.au";
+		public static boolean LoginFactFindFirstTime(String UserName) {
+			//String UserName = "suresh.anthony@mortgagechoice.com.au";
+			
 			RedemtionID = Dynamics.JDBCConnection.GetRedemtionID(UserName);
 			
 				try {					
@@ -72,19 +75,28 @@ public class FactFindLogin {
 						TABRedeemInvitation.click();
 						TXTInvitationCode.sendKeys(RedemtionID);
 						BTNRedeem.click();
-						TXTUserName.isEnabled();
-						TXTUserName.sendKeys(UserName);
-						TXTPassword.sendKeys("choosey1!");
-						TXTConfirmPassword.sendKeys("choosey1!");
-						BTNRegister.click();
-						if(screen.exists(AlreadyTaken,60) != null){
-							if (Login(UserName,"1qaz=[;.") != true){
+						if(screen.exists(InvalidID,60) != null){
+							if (Login(UserName,"choosey1!") != true){
 								logger.info("Fact Find Login failed");
 								return false;
 							}else{
 								return true;
 							}
 						}
+						TXTUserName.isEnabled();
+						TXTUserName.sendKeys(UserName);
+						TXTPassword.sendKeys("choosey1!");
+						TXTConfirmPassword.sendKeys("choosey1!");
+						BTNRegister.click();
+						if(screen.exists(AlreadyTaken,60) != null){
+							if (Login(UserName,"choosey1!") != true){
+								logger.info("Fact Find Login failed");
+								return false;
+							}else{
+								return true;
+							}
+						}
+						Thread.sleep(10000);
 						screen.click(NextButton);
 						logger.info("Fact Find Login Completed Successfully");
 						return true;
@@ -93,7 +105,7 @@ public class FactFindLogin {
 						return false;
 					}
 					
-				} catch (FindFailed e) {
+				} catch (FindFailed | InterruptedException e) {
 					e.printStackTrace();
 					logger.info("Fact Find Login failed");
 					logger.error(e.toString());
@@ -111,7 +123,7 @@ public class FactFindLogin {
 				TXTPassword.sendKeys(Password);
 				Thread.sleep(5000);
 				screen.click(Signin);
-				screen.click(NextButton);
+				screen.wait(NextButton,30).click();
 				logger.info("Fact Find Login Completed Successfully");
 				return true;
 			} catch (InterruptedException | FindFailed e) {

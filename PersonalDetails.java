@@ -1,7 +1,14 @@
 package FactFind;
 
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Period;
+import java.util.Iterator;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,27 +18,35 @@ import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 import Discovery.Helper;
+import Discovery.JSON;
+import Discovery.TestExecution;
 
 public class PersonalDetails {
 	static Log logger = LogFactory.getLog(PersonalDetails.class);
 	static int Offset[] = {0,10,50,100,200,500,1000};
 	static Screen screen = new Screen();
-	static String RedemtionID = null;
+	//static String RedemtionID = null;
 	public static WebDriver driver = null;
 	
 	static Pattern SavePersonalDetails;
-	static Pattern SaveDependantAge;
+	public static Pattern SaveDependantAge;
 	
-	public PersonalDetails(){
+	/*public PersonalDetails(){
 		new PersonalDetails("C:\\Sikuli Images\\FactFind\\PersonalDetails\\");
 	}
 	public PersonalDetails(String Imagefolderlocation){
-		SavePersonalDetails = new Pattern (Imagefolderlocation + "SavePersonalDetails.PNG");
-		SaveDependantAge = new Pattern (Imagefolderlocation + "SaveandAddtoList.PNG");
-	}
+		//SavePersonalDetails = new Pattern (Imagefolderlocation + "SavePersonalDetails.PNG");
+		//SaveDependantAge = new Pattern (Imagefolderlocation + "SaveandAddtoList.PNG");
+	}*/
 	public PersonalDetails(WebDriver BrowserType){
 		PageFactory.initElements(BrowserType, this);
 	}
+	
+	@FindBy(how = How.XPATH, using = ".//*[@id='Applicant1']")
+	static WebElement Applicant1;
+	
+	@FindBy(how = How.XPATH, using = ".//*[@id='Applicant2']")
+	static WebElement Applicant2;
 	
 	@FindBy(how = How.XPATH, using = ".//*[@id='mc_salutation']")
 	static WebElement Title;
@@ -50,6 +65,9 @@ public class PersonalDetails {
 	
 	@FindBy(how = How.XPATH, using = ".//*[@id='ContactFormView1']/div[2]/div/div/fieldset/table/tbody/tr[2]/td[2]/div[2]/div/input")
 	static WebElement DateOfbirth;
+	
+	@FindBy(how = How.XPATH, using = ".//*[@id='ContactFormView2']/div[2]/div/div/fieldset/table/tbody/tr[2]/td[2]/div[2]/div/input")
+	static WebElement DateOfbirthSpouse;
 	
 	@FindBy(how = How.XPATH, using = ".//*[@id='mc_residencystatus']")
 	static WebElement ResidencyStatus;
@@ -75,8 +93,14 @@ public class PersonalDetails {
 	@FindBy(how = How.XPATH, using = ".//*[@id='ContactFormView1']/div[2]/div/div/fieldset/table/tbody/tr[4]/td[3]/div[2]/div/input")
 	static WebElement LicenceIssued;
 	
+	@FindBy(how = How.XPATH, using = ".//*[@id='ContactFormView2']/div[2]/div/div/fieldset/table/tbody/tr[4]/td[3]/div[2]/div/input")
+	static WebElement LicenceIssuedSpouse;
+	
 	@FindBy(how = How.XPATH, using = ".//*[@id='ContactFormView1']/div[2]/div/div/fieldset/table/tbody/tr[4]/td[4]/div[2]/div/input")
 	static WebElement LicenceExpiry;
+	
+	@FindBy(how = How.XPATH, using = ".//*[@id='ContactFormView2']/div[2]/div/div/fieldset/table/tbody/tr[4]/td[4]/div[2]/div/input")
+	static WebElement LicenceExpirySpouse;
 	
 	@FindBy(how = How.XPATH, using = ".//*[@id='lnkAddDependant']")
 	static WebElement AddDependant;
@@ -84,34 +108,180 @@ public class PersonalDetails {
 	@FindBy(how = How.XPATH, using = ".//*[@id='mc_age']")
 	static WebElement AgeofDependant;
 	
+	@FindBy(how = How.XPATH, using = ".//*[@id='NextButton']")
+	static WebElement NextButtonBottomofthePage;
+	
+	@FindBy(how = How.XPATH, using = ".//*[@id='NextBtn']")
+	static WebElement NextButtonTopofthePage;
+	
+	
+	
 	public static boolean CustomerPersonalDetails(){
+		
+		JSONArray CustomerInformation_Array = (JSONArray) TestExecution.JSONTestData.get("Customerinformation");
+		Iterator<JSONObject> CustomerInformationArray = CustomerInformation_Array.iterator();
+		
+		String FirstCustomerFlag = "Yes";
+		try {
+			
+			screen.wait(FactFindLogin.NextButton,20);
+			while (CustomerInformationArray.hasNext()){
 				
-	try {	
-			screen.wait(FactFindLogin.NextButton,30);
-			Title.click();
-			Helper.Keystrokedown(1);
-			Helper.Keystrokeenter(1);
-			Gender.click();
-			Helper.Keystrokedown(1);
-			Helper.Keystrokeenter(1);
-			DateOfbirth.sendKeys("11/04/1983");
-			LicenceIssued.sendKeys("11/04/2000");
-			LicenceExpiry.sendKeys("11/04/2025");
-			Helper.ScroolToView(driver, AddDependant);
-			AddDependant.click();
-			Thread.sleep(2000);
-			AgeofDependant.sendKeys("2");
-			screen.click(SaveDependantAge);
-			screen.click(FactFindLogin.NextButton);
+				JSONObject CustomerInformation = CustomerInformationArray.next();
+				
+				if (FirstCustomerFlag.equals("Yes") || CustomerInformation.get("IsSpouse").equals("Yes")){
+					
+					if (FirstCustomerFlag.equals("Yes")){
+						Applicant1.click();
+						Thread.sleep(3000);
+						FirstCustomerFlag = "No";
+					} else if(CustomerInformation.get("IsSpouse").equals("Yes")) {
+						Applicant2.click();
+						Thread.sleep(3000);
+					}
+					
+					if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("Title") != null && Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerNames").get("Title").toString()) >= 1){
+						Title.click();
+						Helper.Keystrokeup(9);
+						Helper.Keystrokedown(Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerNames").get("Title").toString()));
+					}
+					
+					if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("MiddleName") != null){
+						MiddleName.click();
+						MiddleName.sendKeys(JSON.GetTestData(CustomerInformation, "CustomerNames").get("MiddleName").toString());
+					}
+					
+					if(CustomerInformation.get("Gender") != null){					
+						if(CustomerInformation.get("Gender").equals("Male") || CustomerInformation.get("Gender").equals("Female")){
+							Gender.click();
+							Gender.sendKeys(CustomerInformation.get("Gender").toString());
+							Helper.Keystrokeenter(1);
+						}
+						else{
+							Gender.click();
+							Gender.sendKeys("Unspecified");
+							Helper.Keystrokeenter(1);
+						}
+					}
+					
+					if(CustomerInformation.get("DOB") != null){					
+						if(CustomerInformation.get("IsSpouse").equals("Yes")){
+							DateOfbirthSpouse.click();
+							DateOfbirthSpouse.sendKeys(CustomerInformation.get("DOB").toString());
+						}else {
+							DateOfbirth.click();
+							DateOfbirth.sendKeys(CustomerInformation.get("DOB").toString());
+						}
+					}
+					
+					if(CustomerInformation.get("ResidentialStatus") != null && Integer.parseInt(CustomerInformation.get("ResidentialStatus").toString()) >= 1){
+						if (Integer.parseInt(CustomerInformation.get("ResidentialStatus").toString()) == 1 || 
+								Integer.parseInt(CustomerInformation.get("ResidentialStatus").toString()) == 2 || 
+									Integer.parseInt(CustomerInformation.get("ResidentialStatus").toString()) == 3){
+							ResidencyStatus.click();
+							Helper.Keystrokeup(3);
+							Helper.Keystrokedown(2);
+							Helper.Keystrokeenter(1);
+						}else if(Integer.parseInt(CustomerInformation.get("ResidentialStatus").toString()) == 4){
+							ResidencyStatus.click();
+							Helper.Keystrokeup(3);
+							Helper.Keystrokedown(1);
+							Helper.Keystrokeenter(1);
+						}else if(Integer.parseInt(CustomerInformation.get("ResidentialStatus").toString()) == 5){
+							ResidencyStatus.click();
+							Helper.Keystrokeup(3);
+							Helper.Keystrokedown(3);
+							Helper.Keystrokeenter(1);
+						}
+					
+					}
+				
+					if(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("Mobile") != null){
+						Mobile.click();
+						Mobile.sendKeys(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("Mobile").toString());
+					}
+					
+					if(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("HomePhone") != null){
+						HomePhone.click();
+						HomePhone.sendKeys(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("HomePhone").toString());
+					}
+					
+					if(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("BusinessPhone") != null){
+						BusinessPhone.click();
+						BusinessPhone.sendKeys(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("BusinessPhone").toString());
+					}
+					
+					JSONObject FactFind = JSON.GetTestData(CustomerInformation, "FactFind");
+					
+					if(JSON.GetTestData(FactFind, "DriversLicense").get("DriversLicenceNumber") != null){
+						DriversLicenceNumber.click();
+						DriversLicenceNumber.sendKeys(JSON.GetTestData(FactFind, "DriversLicense").get("DriversLicenceNumber").toString());
+					}
+						
+					if(JSON.GetTestData(FactFind, "DriversLicense").get("LicenseState") != null){
+						LicenceState.click();
+						LicenceState.sendKeys(JSON.GetTestData(FactFind, "DriversLicense").get("LicenseState").toString());
+						Helper.Keystrokeenter(1);
+					}
+					
+					if(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceIssued") != null){
+						if(CustomerInformation.get("IsSpouse").equals("Yes")){
+							LicenceIssuedSpouse.click();
+							LicenceIssuedSpouse.sendKeys(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceIssued").toString());
+						}else{
+							LicenceIssued.click();
+							LicenceIssued.sendKeys(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceIssued").toString());
+						}
+					}
+					
+					if(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceExpires") != null){
+						if(CustomerInformation.get("IsSpouse").equals("Yes")){
+							LicenceExpirySpouse.click();
+							LicenceExpirySpouse.sendKeys(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceExpires").toString());
+						}else{
+							LicenceExpiry.click();
+							LicenceExpiry.sendKeys(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceExpires").toString());
+						}
+					}
+				
+					Thread.sleep(3000);
+					
+					JSONArray DependantDOBArray = (JSONArray) JSON.GetTestData(CustomerInformation, "CustomerDependents").get("DependentsDOB");
+					Iterator<String> DOBArray = DependantDOBArray.iterator();
+					while (DOBArray.hasNext()){
+						Helper.ScroolToView(driver, AddDependant);	
+						AddDependant.click();
+						Thread.sleep(2000);
+						AgeofDependant.sendKeys(CalculateAge(DOBArray.next().toString()));// we have to pass the actual value of the child this is a dummy value.
+						screen.click(SaveDependantAge);
+					}
+				
+				}
+				
+			}
 			
+			Helper.ScroolToView(driver, NextButtonBottomofthePage);	
+			NextButtonBottomofthePage.click();
+			//screen.click(FactFindLogin.NextButton);
 			return true;
-			
-		} catch (FindFailed | InterruptedException e) {
-			e.printStackTrace();
-			logger.error(e.toString());
-			return false;
-		}
+				
+			} catch (FindFailed | InterruptedException e) {
+				e.printStackTrace();
+				logger.error(e.toString());
+				return false;
+			}
 		
 	}
+	
+	static String CalculateAge(String DOB){
+		LocalDate today = LocalDate.now();
 		
+		String[] str_array = DOB.split("/");
+		
+		LocalDate birthday = LocalDate.of(Integer.parseInt(str_array[2]), Month.of(Integer.parseInt(str_array[1])), Integer.parseInt(str_array[0]));
+		 
+		Period p = Period.between(birthday, today);
+		
+		return Integer.toString(p.getYears());
+	}
 }
