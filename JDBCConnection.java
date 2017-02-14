@@ -26,7 +26,7 @@ public class JDBCConnection {
 				ds.setPassword("tonto123");
 				//ds.setIntegratedSecurity(true);
 				ds.setServerName("10.53.10.144");
-				ds.setPortNumber(1433); 
+				ds.setPortNumber(1433);
 				ds.setDatabaseName("mctorg2_MSCRM");
 				con = ds.getConnection();
 				 

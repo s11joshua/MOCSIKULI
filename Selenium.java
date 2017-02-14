@@ -82,31 +82,23 @@ public class Selenium {
 		
 	}
 	
-	public static boolean CreateQuicklead(JSONObject testdata){
+	public static boolean CreateQuicklead(){
 		
 		if(Selenium.LogintoDynamics() != true){
 			return false;
-		}
-		
-		JSONArray CustomerInformation_Array = (JSONArray) testdata.get("Customerinformation");
-		Iterator<JSONObject> CustomerInformationArray = CustomerInformation_Array.iterator();
-		JSONObject CustomerNames = null;
-		JSONObject CustomerContact = null;
-		
-		while (CustomerInformationArray.hasNext()){
-			JSONObject CustomerInformation = CustomerInformationArray.next();
-			CustomerNames = (JSONObject) CustomerInformation.get("CustomerNames");
-			CustomerContact = (JSONObject) CustomerInformation.get("CustomerContactDetails");
-			break;
 		}
 		
 		try {
 			screen.click(QuickCreate);				
 			screen.click(QuickCreateLead);
 			Thread.sleep(3000);
-			DynamicsLeadsPage.CreateQuickLead(CustomerNames,CustomerContact);
-			driver.close();
-			return true;
+			if (DynamicsLeadsPage.CreateQuickLead() != true){
+				driver.close();
+				return false;
+			}else{
+				driver.close();
+				return true;
+			}
 		} catch (FindFailed | InterruptedException e) {
 			e.printStackTrace();
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");

@@ -1,7 +1,10 @@
 package Dynamics;
 
+import java.util.Iterator;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
@@ -20,6 +23,8 @@ public class DynamicsLeadsPage {
 	static Pattern HomePhone;
 	static Pattern LeadFirstName;
 	static Pattern LeadLastName;
+	static Pattern SpouseFirst;
+	static Pattern SpouseLast;
 	static Pattern LeadSourceMinor;
 	static Pattern Mobile;
 	static Pattern PreferredMethod;
@@ -42,6 +47,8 @@ public class DynamicsLeadsPage {
 		HomePhone = new Pattern(Imagefolderlocation + "HomePhone.PNG");
 		LeadFirstName = new Pattern(Imagefolderlocation + "LeadFirstName.PNG");
 		LeadLastName = new Pattern(Imagefolderlocation + "LeadLastName.PNG");
+		SpouseFirst = new Pattern(Imagefolderlocation + "SpouseFirstName.PNG");
+		SpouseLast = new Pattern(Imagefolderlocation + "SpouseLastName.PNG");
 		LeadSourceMinor = new Pattern(Imagefolderlocation + "LeadSourceMinor.PNG");
 		Mobile = new Pattern(Imagefolderlocation + "Mobile.PNG");
 		PreferredMethod = new Pattern(Imagefolderlocation + "PreferredMethod.PNG");
@@ -55,43 +62,91 @@ public class DynamicsLeadsPage {
 		OpportunityTypeDropdown = new Pattern(Imagefolderlocation + "OpportunityTypeDropdown.PNG");
 	}
 		
-	public static boolean CreateQuickLead(JSONObject CustomerNames,JSONObject CustomerContacts){
+	public static boolean CreateQuickLead(){
+		//JSONObject CustomerNames,JSONObject CustomerContacts
+		String SendFactFindInvite = null;
+		String FactFindInvitation = JSON.GetTestData(TestExecution.JSONTestData,"LeadDetails").get("SendFactFindInvitaion").toString();
+		JSONArray CustomerInformation_Array = (JSONArray) TestExecution.JSONTestData.get("Customerinformation");
+		Iterator<JSONObject> CustomerInformationArray = CustomerInformation_Array.iterator();
 		
+		JSONObject CustomerNames = null;
+		JSONObject CustomerContact = null;
+		String CustomerFirstName = null;
+		String CustomerLastName = null;
+		String CustomerEmailId = null;
+		String SpouseFirstName = null;
+		String SpouseLastName = null;
+		int Numberofcustomer = 0;
+				
 		try {
+		while (CustomerInformationArray.hasNext()){
+			JSONObject CustomerInformation = CustomerInformationArray.next();
+			CustomerNames = (JSONObject) CustomerInformation.get("CustomerNames");
+			if (Numberofcustomer == 0){
+				CustomerFirstName = CustomerNames.get("FirstName").toString();
+				CustomerLastName = CustomerNames.get("LastName").toString();
+				CustomerContact = (JSONObject) CustomerInformation.get("CustomerContactDetails");
+				if(CustomerContact.get("EmailId") != null){
+					CustomerEmailId = CustomerContact.get("EmailId").toString();
+				}
+				Numberofcustomer ++;
+			}else if (Numberofcustomer > 0 && CustomerInformation.get("IsSpouse").equals("Yes") ){
+				SpouseFirstName = CustomerNames.get("FirstName").toString();
+				SpouseLastName = CustomerNames.get("LastName").toString();
+				Numberofcustomer ++;
+			}
+		}
 			screen.click(LeadFirstName);
-			screen.type(CustomerNames.get("FirstName").toString());
+			screen.type(CustomerFirstName);
 			screen.click(LeadLastName);
-			screen.type(CustomerNames.get("LastName").toString());
+			screen.type(CustomerLastName);
+			if (SpouseFirstName != null){
+				screen.click(SpouseFirst);
+				screen.type(SpouseFirstName);
+				Helper.Keystrokeenter(1);
+				if (SpouseLastName != null){
+					screen.click(SpouseLast);
+					screen.type(SpouseLastName);
+					Helper.Keystrokeenter(1);
+				}
+			}
+			
 			screen.click(LeadSourceMinor);
 			screen.type("Family&Friends");
 			Helper.Keystrokeenter(1);
 			Thread.sleep(2000);
 			Helper.Keystrokeenter(1);
 			screen.click(Email);
-			if(CustomerContacts.get("EmailId") != null){
-				if (CustomerContacts.get("EmailId").toString().equals("No")){
+			if(CustomerEmailId != null){
+				if (CustomerEmailId.equals("No")){
 					//This is intentional, if we want the Email id to be blank
+					SendFactFindInvite = "No";
 				}
 				else{
-					screen.type(CustomerContacts.get("EmailId").toString());
-					//screen.type("suresh.anthony@mortgagechoice.com.au");
+					screen.type(CustomerEmailId.toString());
 					Helper.Keystrokeenter(1);
 					Thread.sleep(2000);
 					screen.click(Savelead);
+					SendFactFindInvite = "Yes";
 				}
-				
 			}else{
-				screen.type(CustomerNames.get("FirstName").toString()+"."
-						+CustomerNames.get("LastName").toString() + "@moctestdomain.com");
+				screen.type(CustomerFirstName.toString()+"."
+						+CustomerLastName.toString() + "@moctestdomain.com");
+				Helper.Keystrokeenter(1);
+				Thread.sleep(2000);
+				screen.click(Savelead);
+				SendFactFindInvite = "Yes";
 			}
+						
 			screen.wait(SavedSuccessfully, 30);
 			logger.info("Quick Lead Created Successfully");
 			screen.wait(ViewLead, 30).click();			
 			screen.wait(QualifyLead, 30).click();
-			if (screen.exists(PopUpOk,30) != null){
+			Thread.sleep(30000);
+			if (screen.exists(PopUpOk) != null) {
 				screen.click(PopUpOk);
 			}
-			if(screen.wait(SendInvite,30) == null){
+			if(screen.wait(SendInvite,60) == null){
 				logger.error("Lead was not Qualified sucessfully");
 				return false;
 			}
@@ -101,16 +156,17 @@ public class DynamicsLeadsPage {
 			Helper.Keystrokedown(1);
 			Helper.Keystrokeenter(1);
 			screen.click(SaveOpportunity);
-			Thread.sleep(3000);
-			if(CustomerContacts.get("EmailId") != null){
+			Thread.sleep(10000);
+			if(SendFactFindInvite.equals("Yes") && FactFindInvitation.equals("Yes")){
 				screen.click(SendInvite);
 				screen.wait(PopUpOk,30).click();
+				logger.info("FactFind Invite has been sent to the Customer");
 			}
 			screen.wait(PopUpOk,30).click();
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "DynamicsQuickLead");
 			logger.info("Quick Lead Created Sucessfully");
 			return true;
-		} catch (FindFailed | InterruptedException e) {
+		}catch (FindFailed | InterruptedException e) {
 			e.printStackTrace();
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 			logger.error(e.toString());
