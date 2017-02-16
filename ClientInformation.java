@@ -321,7 +321,7 @@ public class ClientInformation {
 					screen.wait(ExistingCustomerSurname,30);
 					
 					if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("LastName") != null){
-						screen.find(ExistingCustomerSurname).below(10).click();
+						screen.find(ExistingCustomerSurname).below(Offset[1]).click();
 						screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("LastName").toString());
 					}else{
 						logger.error("Invalid parameter passed for customer last name for existing customer.");
@@ -329,7 +329,7 @@ public class ClientInformation {
 					}
 					
 					if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("FirstName") != null){
-						screen.find(ExistingCustomerFirstname).below(10).click();
+						screen.find(ExistingCustomerFirstname).below(Offset[1]).click();
 						screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("FirstName").toString());
 					}else{
 						logger.error("Invalid parameter passed for customer first name for existing customer.");

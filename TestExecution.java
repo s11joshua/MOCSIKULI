@@ -18,6 +18,7 @@ import org.sikuli.script.Screen;
 import Dynamics.DynamicsLeadsPage;
 import Dynamics.DynamicsLoginPage;
 import Dynamics.Selenium;
+import FactFind.AddressDetails;
 import FactFind.FactFindExecutor;
 import FactFind.FactFindLogin;
 import FactFind.PersonalDetails;
@@ -90,6 +91,7 @@ public class TestExecution {
 		new DynamicsLeadsPage();
 		new FactFindLogin();
 		//new PersonalDetails();
+		new AddressDetails();
 	}
 	
 	@Before
