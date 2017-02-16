@@ -11,6 +11,9 @@ import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 
+import Discovery.Helper;
+import Discovery.TestExecution;
+
 public class FactFindLogin {
 	static Log logger = LogFactory.getLog(FactFindLogin.class);
 	static int Offset[] = {0,10,50,100,200,500,1000};
@@ -78,6 +81,7 @@ public class FactFindLogin {
 						if(screen.exists(InvalidID,60) != null){
 							if (Login(UserName,"choosey1!") != true){
 								logger.info("Fact Find Login failed");
+								Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 								return false;
 							}else{
 								return true;
@@ -91,6 +95,7 @@ public class FactFindLogin {
 						if(screen.exists(AlreadyTaken,60) != null){
 							if (Login(UserName,"choosey1!") != true){
 								logger.info("Fact Find Login failed");
+								Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 								return false;
 							}else{
 								return true;
@@ -99,9 +104,11 @@ public class FactFindLogin {
 						Thread.sleep(10000);
 						screen.click(NextButton);
 						logger.info("Fact Find Login Completed Successfully");
+						Helper.ScreenDump(TestExecution.TestExecutionFolder, "FactFindLogin");
 						return true;
 					}else{
 						logger.info("Fact Find Login failed");
+						Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 						return false;
 					}
 					
@@ -109,6 +116,7 @@ public class FactFindLogin {
 					e.printStackTrace();
 					logger.info("Fact Find Login failed");
 					logger.error(e.toString());
+					Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 					return false;
 				}	
 							
@@ -125,9 +133,11 @@ public class FactFindLogin {
 				screen.click(Signin);
 				screen.wait(NextButton,30).click();
 				logger.info("Fact Find Login Completed Successfully");
+				Helper.ScreenDump(TestExecution.TestExecutionFolder, "FactFindLogin");
 				return true;
 			} catch (InterruptedException | FindFailed e) {
 				e.printStackTrace();
+				Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 				logger.error(e.toString());
 				return false;
 			}

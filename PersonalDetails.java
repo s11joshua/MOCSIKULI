@@ -14,6 +14,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.FindFailed;
 import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
@@ -23,13 +25,13 @@ import Discovery.TestExecution;
 
 public class PersonalDetails {
 	static Log logger = LogFactory.getLog(PersonalDetails.class);
-	static int Offset[] = {0,10,50,100,200,500,1000};
-	static Screen screen = new Screen();
+	//static int Offset[] = {0,10,50,100,200,500,1000};
+	//static Screen screen = new Screen();
 	//static String RedemtionID = null;
 	public static WebDriver driver = null;
 	
-	static Pattern SavePersonalDetails;
-	public static Pattern SaveDependantAge;
+	//static Pattern SavePersonalDetails;
+	//public static Pattern SaveDependantAge;
 	
 	/*public PersonalDetails(){
 		new PersonalDetails("C:\\Sikuli Images\\FactFind\\PersonalDetails\\");
@@ -102,11 +104,17 @@ public class PersonalDetails {
 	@FindBy(how = How.XPATH, using = ".//*[@id='ContactFormView2']/div[2]/div/div/fieldset/table/tbody/tr[4]/td[4]/div[2]/div/input")
 	static WebElement LicenceExpirySpouse;
 	
+	@FindBy(how = How.XPATH, using = ".//*[@id='UpdateDetails1Btn']")
+	static WebElement SaveMyDetails;
+		
 	@FindBy(how = How.XPATH, using = ".//*[@id='lnkAddDependant']")
 	static WebElement AddDependant;
 	
 	@FindBy(how = How.XPATH, using = ".//*[@id='mc_age']")
 	static WebElement AgeofDependant;
+	
+	@FindBy(how = How.XPATH, using = ".//*[@id='InsertDependentBtn']")
+	static WebElement SaveDependent;
 	
 	@FindBy(how = How.XPATH, using = ".//*[@id='NextButton']")
 	static WebElement NextButtonBottomofthePage;
@@ -124,18 +132,20 @@ public class PersonalDetails {
 		String FirstCustomerFlag = "Yes";
 		try {
 			
-			screen.wait(FactFindLogin.NextButton,20);
+			WebDriverWait wait = new WebDriverWait(driver, 30);
+			wait.until(ExpectedConditions.elementToBeClickable(NextButtonTopofthePage));			
+			//screen.wait(FactFindLogin.NextButton,20);
 			while (CustomerInformationArray.hasNext()){
 				
 				JSONObject CustomerInformation = CustomerInformationArray.next();
 				
-				if (FirstCustomerFlag.equals("Yes") || CustomerInformation.get("IsSpouse").equals("Yes")){
+				if (FirstCustomerFlag.equals("Yes") || CustomerInformation.get("IsApplicant").equals("Yes")){
 					
 					if (FirstCustomerFlag.equals("Yes")){
 						Applicant1.click();
 						Thread.sleep(3000);
-						FirstCustomerFlag = "No";
-					} else if(CustomerInformation.get("IsSpouse").equals("Yes")) {
+						//
+					} else if(CustomerInformation.get("IsApplicant").equals("Yes")) {
 						Applicant2.click();
 						Thread.sleep(3000);
 					}
@@ -165,12 +175,13 @@ public class PersonalDetails {
 					}
 					
 					if(CustomerInformation.get("DOB") != null){					
-						if(CustomerInformation.get("IsSpouse").equals("Yes")){
-							DateOfbirthSpouse.click();
-							DateOfbirthSpouse.sendKeys(CustomerInformation.get("DOB").toString());
-						}else {
+						if(FirstCustomerFlag.equals("Yes")) {
 							DateOfbirth.click();
 							DateOfbirth.sendKeys(CustomerInformation.get("DOB").toString());
+						}
+						else if(CustomerInformation.get("IsApplicant").equals("Yes")){
+							DateOfbirthSpouse.click();
+							DateOfbirthSpouse.sendKeys(CustomerInformation.get("DOB").toString());
 						}
 					}
 					
@@ -225,22 +236,22 @@ public class PersonalDetails {
 					}
 					
 					if(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceIssued") != null){
-						if(CustomerInformation.get("IsSpouse").equals("Yes")){
-							LicenceIssuedSpouse.click();
-							LicenceIssuedSpouse.sendKeys(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceIssued").toString());
-						}else{
+						if(FirstCustomerFlag.equals("Yes")){
 							LicenceIssued.click();
 							LicenceIssued.sendKeys(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceIssued").toString());
+						}else if(CustomerInformation.get("IsApplicant").equals("Yes")){
+							LicenceIssuedSpouse.click();
+							LicenceIssuedSpouse.sendKeys(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceIssued").toString());
 						}
 					}
 					
 					if(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceExpires") != null){
-						if(CustomerInformation.get("IsSpouse").equals("Yes")){
-							LicenceExpirySpouse.click();
-							LicenceExpirySpouse.sendKeys(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceExpires").toString());
-						}else{
+						if(FirstCustomerFlag.equals("Yes")){
 							LicenceExpiry.click();
 							LicenceExpiry.sendKeys(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceExpires").toString());
+						}else if(CustomerInformation.get("IsApplicant").equals("Yes")){
+							LicenceExpirySpouse.click();
+							LicenceExpirySpouse.sendKeys(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceExpires").toString());
 						}
 					}
 				
@@ -253,21 +264,29 @@ public class PersonalDetails {
 						AddDependant.click();
 						Thread.sleep(2000);
 						AgeofDependant.sendKeys(CalculateAge(DOBArray.next().toString()));// we have to pass the actual value of the child this is a dummy value.
-						screen.click(SaveDependantAge);
+						Helper.ScroolToView(driver, SaveDependent);
+						SaveDependent.click();
+						//screen.click(SaveDependantAge);
 					}
-				
+					FirstCustomerFlag = "No";
 				}
 				
 			}
-			
-			Helper.ScroolToView(driver, NextButtonBottomofthePage);	
+			Applicant1.click();
+			Thread.sleep(5000);
+			Helper.ScroolToView(driver, SaveMyDetails);	
+			SaveMyDetails.click();
+			Thread.sleep(5000);
+			Helper.ScroolToView(driver, NextButtonBottomofthePage);
+			//Thread.sleep(5000);
 			NextButtonBottomofthePage.click();
-			//screen.click(FactFindLogin.NextButton);
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "FactFindPersonalDetails");
 			return true;
 				
-			} catch (FindFailed | InterruptedException e) {
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 				logger.error(e.toString());
+				Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
 				return false;
 			}
 		

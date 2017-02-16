@@ -11,6 +11,7 @@ import org.openqa.selenium.WebDriver;
 import Discovery.ClientInformation;
 import Discovery.Helper;
 import Discovery.JSON;
+import Discovery.LoginPage;
 import Discovery.TestExecution;
 import Dynamics.Selenium;
 
@@ -28,9 +29,11 @@ public class FactFindExecutor {
 		driver.manage().window().maximize();
 		new FactFindLogin(driver);
 		new PersonalDetails(driver);
+		new AddressDetails(driver);
 		
-		FactFindLogin.LoginFactFindFirstTime(ReturnCustomerUserId());
-		PersonalDetails.CustomerPersonalDetails();
+		if (FactFindLogin.LoginFactFindFirstTime(ReturnCustomerUserId()) == false){return false;}
+		if (PersonalDetails.CustomerPersonalDetails() == false){return false;}
+		if (AddressDetails.EnterAddressDetails() == false){return false;}		
 		//driver.close();
 		return true;
 	}
