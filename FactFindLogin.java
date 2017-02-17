@@ -69,8 +69,7 @@ public class FactFindLogin {
 		static WebElement BTNRegister;
 			
 		public static boolean LoginFactFindFirstTime(String UserName) {
-			//String UserName = "suresh.anthony@mortgagechoice.com.au";
-			
+						
 			RedemtionID = Dynamics.JDBCConnection.GetRedemtionID(UserName);
 			
 				try {					

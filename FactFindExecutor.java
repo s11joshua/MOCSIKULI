@@ -16,11 +16,9 @@ import Discovery.TestExecution;
 import Dynamics.Selenium;
 
 public class FactFindExecutor {
-	static Log logger = LogFactory.getLog(Selenium.class);
-	
+	static Log logger = LogFactory.getLog(FactFindExecutor.class);
 	public static WebDriver driver = null;
-	
-	
+		
 	public static boolean FillFactFind(){
 		
 		Helper Config = new Helper();
@@ -30,10 +28,14 @@ public class FactFindExecutor {
 		new FactFindLogin(driver);
 		new PersonalDetails(driver);
 		new AddressDetails(driver);
+		new EmploymentDetails(driver);
+		new FactFindAssets(driver);
 		
 		if (FactFindLogin.LoginFactFindFirstTime(ReturnCustomerUserId()) == false){return false;}
-		if (PersonalDetails.CustomerPersonalDetails() == false){return false;}
-		if (AddressDetails.EnterAddressDetails() == false){return false;}		
+		//if (PersonalDetails.CustomerPersonalDetails() == false){return false;}
+		//if (AddressDetails.EnterAddressDetails() == false){return false;}
+		//if (EmploymentDetails.EnterEmploymentDetails() == false){return false;}
+		if (FactFindAssets.EnterAssetDetails() == false){return false;}
 		//driver.close();
 		return true;
 	}

@@ -23,7 +23,7 @@ import Discovery.TestExecution;
 
 public class AddressDetails {
 	
-	static Log logger = LogFactory.getLog(PersonalDetails.class);
+	static Log logger = LogFactory.getLog(AddressDetails.class);
 	static int Offset[] = {0,10,50,100,200,500,1000};
 	static Screen screen = new Screen();
 	public static WebDriver driver = null;
@@ -104,12 +104,30 @@ public class AddressDetails {
 	@FindBy(how = How.XPATH, using = ".//*[@id='mc_livingarrangement']")
 	static WebElement LivingArrangement;
 	
-	@FindBy(how = How.XPATH, using = ".//*[@id='AddressFormView']/div[2]/div/div/fieldset[3]/table/tbody/tr[1]/td[2]/div[2]/div/input")
-	static WebElement MoveInDate;
+	@FindBy(how = How.XPATH, using = ".//*[@id='mc_addresstype']")
+	static WebElement AddressType;
+	
+	@FindBy(how = How.XPATH, using = ".//*[@id='mc_addressformat']")
+	static WebElement AddressFormat;
 	
 	@FindBy(how = How.XPATH, using = ".//*[@id='AddressFormView']/div[2]/div/div/fieldset[3]/table/tbody/tr[1]/td[3]/div[2]/div/input")
+	static WebElement MoveInDate;
+	
+	@FindBy(how = How.XPATH, using = ".//*[@id='AddressFormView']/div[2]/div/div/fieldset[3]/table/tbody/tr[1]/td[4]/div[2]/div/input")
 	static WebElement MoveOutDate;
 	
+	@FindBy(how = How.XPATH, using = ".//*[@id='mc_isprimaryaddress_0']")
+	static WebElement IsPrincipalResidence_No;
+	
+	@FindBy(how = How.XPATH, using = ".//*[@id='mc_isprimaryaddress_1']")
+	static WebElement IsPrincipalResidence_Yes;
+	
+	@FindBy(how = How.XPATH, using = ".//*[@id='mc_isprincipalmailing_0']")
+	static WebElement IsPrincipalMailing_No;
+	
+	@FindBy(how = How.XPATH, using = ".//*[@id='mc_isprincipalmailing_1']")
+	static WebElement IsPrincipalMailing_Yes;
+		
 	@FindBy(how = How.XPATH, using = ".//*[@id='mc_ismailingsameasresidentialaddress_0']")
 	static WebElement MailingAsSameAsResidential_No;
 	
@@ -250,6 +268,19 @@ public class AddressDetails {
 							Thread.sleep(4000);
 						}
 						
+						if(Address.get("AddressType") != null && Integer.parseInt(Address.get("AddressType").toString()) >= 1){
+							Helper.ScroolToView(driver, AddressType);
+							AddressType.click();
+							Helper.Keystrokedown(Integer.parseInt(Address.get("AddressType").toString()));
+							Helper.Keystrokeenter(1);
+						}
+						
+						if(Address.get("AddressFormat") != null && Integer.parseInt(Address.get("AddressFormat").toString()) >= 1){
+							Helper.ScroolToView(driver, AddressFormat);
+							AddressFormat.click();
+							Helper.Keystrokedown(Integer.parseInt(Address.get("AddressFormat").toString()));
+							Helper.Keystrokeenter(1);
+						}
 						
 						if(Address.get("LivingArrangement") != null && Integer.parseInt(Address.get("LivingArrangement").toString()) >= 1){
 							Helper.ScroolToView(driver, LivingArrangement);
@@ -270,7 +301,25 @@ public class AddressDetails {
 							Helper.ClearTextBox(10, (float)0.3);
 							MoveOutDate.sendKeys(Address.get("DateMovedOut").toString());
 							Thread.sleep(1000);
+						}						
+						if(Address.get("IsPrincipalResidence") != null){
+							if (Address.get("IsPrincipalResidence").toString().equals("Yes")){
+								IsPrincipalResidence_Yes.click();
+								Thread.sleep(1000);
+							}else if(Address.get("IsPrincipalResidence").toString().equals("No")){
+								IsPrincipalResidence_No.click();
+								Thread.sleep(1000);
+							}
 						}
+						if(Address.get("IsPrincipalMailing") != null){
+							if (Address.get("IsPrincipalMailing").toString().equals("Yes")){
+								IsPrincipalMailing_Yes.click();
+								Thread.sleep(1000);
+							}else if(Address.get("IsPrincipalMailing").toString().equals("No")){
+								IsPrincipalMailing_No.click();
+								Thread.sleep(1000);
+							}
+						}						
 						if(Address.get("MailingAddressSame") != null){
 							if (Address.get("MailingAddressSame").toString().equals("Yes")){
 								MailingAsSameAsResidential_Yes.click();
@@ -287,7 +336,9 @@ public class AddressDetails {
 					
 				}
 			}
-			
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "FactFind AddressDetails");
+			NextButtonBottomofthePage.click();
+			logger.info("FactFind Customer address details entered successfully");
 			return true;
 		} catch (InterruptedException | FindFailed e) {
 			e.printStackTrace();

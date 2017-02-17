@@ -25,21 +25,8 @@ import Discovery.TestExecution;
 
 public class PersonalDetails {
 	static Log logger = LogFactory.getLog(PersonalDetails.class);
-	//static int Offset[] = {0,10,50,100,200,500,1000};
-	//static Screen screen = new Screen();
-	//static String RedemtionID = null;
 	public static WebDriver driver = null;
 	
-	//static Pattern SavePersonalDetails;
-	//public static Pattern SaveDependantAge;
-	
-	/*public PersonalDetails(){
-		new PersonalDetails("C:\\Sikuli Images\\FactFind\\PersonalDetails\\");
-	}
-	public PersonalDetails(String Imagefolderlocation){
-		//SavePersonalDetails = new Pattern (Imagefolderlocation + "SavePersonalDetails.PNG");
-		//SaveDependantAge = new Pattern (Imagefolderlocation + "SaveandAddtoList.PNG");
-	}*/
 	public PersonalDetails(WebDriver BrowserType){
 		PageFactory.initElements(BrowserType, this);
 	}
@@ -134,7 +121,7 @@ public class PersonalDetails {
 			
 			WebDriverWait wait = new WebDriverWait(driver, 30);
 			wait.until(ExpectedConditions.elementToBeClickable(NextButtonTopofthePage));			
-			//screen.wait(FactFindLogin.NextButton,20);
+			
 			while (CustomerInformationArray.hasNext()){
 				
 				JSONObject CustomerInformation = CustomerInformationArray.next();
@@ -175,12 +162,14 @@ public class PersonalDetails {
 					}
 					
 					if(CustomerInformation.get("DOB") != null){					
-						if(FirstCustomerFlag.equals("Yes")) {
+						if(FirstCustomerFlag.equals("Yes") ) {
 							DateOfbirth.click();
+							Helper.ClearTextBox(10, (float)0.3);
 							DateOfbirth.sendKeys(CustomerInformation.get("DOB").toString());
 						}
 						else if(CustomerInformation.get("IsApplicant").equals("Yes")){
 							DateOfbirthSpouse.click();
+							Helper.ClearTextBox(10, (float)0.3);
 							DateOfbirthSpouse.sendKeys(CustomerInformation.get("DOB").toString());
 						}
 					}
@@ -238,6 +227,7 @@ public class PersonalDetails {
 					if(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceIssued") != null){
 						if(FirstCustomerFlag.equals("Yes")){
 							LicenceIssued.click();
+							Helper.ClearTextBox(10, (float)0.3);
 							LicenceIssued.sendKeys(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceIssued").toString());
 						}else if(CustomerInformation.get("IsApplicant").equals("Yes")){
 							LicenceIssuedSpouse.click();
@@ -248,6 +238,7 @@ public class PersonalDetails {
 					if(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceExpires") != null){
 						if(FirstCustomerFlag.equals("Yes")){
 							LicenceExpiry.click();
+							Helper.ClearTextBox(10, (float)0.3);
 							LicenceExpiry.sendKeys(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceExpires").toString());
 						}else if(CustomerInformation.get("IsApplicant").equals("Yes")){
 							LicenceExpirySpouse.click();
@@ -278,9 +269,9 @@ public class PersonalDetails {
 			SaveMyDetails.click();
 			Thread.sleep(5000);
 			Helper.ScroolToView(driver, NextButtonBottomofthePage);
-			//Thread.sleep(5000);
 			NextButtonBottomofthePage.click();
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "FactFindPersonalDetails");
+			logger.info("FactFind Customer personal details entered successfully");
 			return true;
 				
 			} catch (InterruptedException e) {
