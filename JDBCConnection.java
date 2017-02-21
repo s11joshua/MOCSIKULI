@@ -1,5 +1,8 @@
 package Dynamics;
 import com.microsoft.sqlserver.jdbc.*;
+
+import Discovery.Helper;
+
 import java.sql.*;
 
 import org.apache.commons.logging.Log;
@@ -17,17 +20,21 @@ public class JDBCConnection {
 			Statement stmt = null;
 			ResultSet rs = null;
 			String RedemtionID = null;
+			Helper Config = new Helper();
 			
 			try {
 				logger.debug("Trying to connect to the dynamics data base.");
 				// Establish the connection. 
 				SQLServerDataSource ds = new SQLServerDataSource();
-				ds.setUser("jm");
-				ds.setPassword("tonto123");
-				//ds.setIntegratedSecurity(true);
-				ds.setServerName("10.53.10.144");
-				ds.setPortNumber(1433);
-				ds.setDatabaseName("mctorg2_MSCRM");
+				if(Config.GetConfigParameter("IntegratedSecurity").toString().equals("Yes")){
+					ds.setIntegratedSecurity(true);
+				}else{
+					ds.setUser(Config.GetConfigParameter("UserName").toString());
+					ds.setPassword(Config.GetConfigParameter("Password").toString());
+				}
+				ds.setServerName(Config.GetConfigParameter("ServerName").toString());
+				ds.setPortNumber(Integer.parseInt(Config.GetConfigParameter("Serverport").toString()));
+				ds.setDatabaseName(Config.GetConfigParameter("DataBaseName").toString());
 				con = ds.getConnection();
 				 
 				logger.debug("Connection to the dynamics database was successful.");
@@ -72,17 +79,21 @@ public class JDBCConnection {
 		Connection con = null;
 		Statement stmt = null;
 		ResultSet rs = null;
+		Helper Config = new Helper();
 		
 		try {
 			logger.debug("Trying to connect to the dynamics data base.");
 			// Establish the connection. 
 			SQLServerDataSource ds = new SQLServerDataSource();
-			ds.setUser(UserName);
-			ds.setPassword(Password);
-			//ds.setIntegratedSecurity(true);
-			ds.setServerName(Servername);
-			ds.setPortNumber(ServerPortNumber); 
-			ds.setDatabaseName(DataBaseName);
+			if(Config.GetConfigParameter("IntegratedSecurity").toString().equals("Yes")){
+				ds.setIntegratedSecurity(true);
+			}else{
+				ds.setUser(Config.GetConfigParameter("UserName").toString());
+				ds.setPassword(Config.GetConfigParameter("Password").toString());
+			}
+			ds.setServerName(Config.GetConfigParameter("ServerName").toString());
+			ds.setPortNumber(Integer.parseInt(Config.GetConfigParameter("Serverport").toString()));
+			ds.setDatabaseName(Config.GetConfigParameter("DataBaseName").toString());
 			con = ds.getConnection();
 			logger.debug("Connection to the dynamics database was successful.");
 			stmt = con.createStatement();

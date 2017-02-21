@@ -90,7 +90,7 @@ public class DynamicsLeadsPage {
 					CustomerEmailId = CustomerContact.get("EmailId").toString();
 				}
 				Numberofcustomer ++;
-			}else if (Numberofcustomer > 0 && CustomerInformation.get("IsSpouse").equals("Yes") ){
+			}else if (Numberofcustomer > 0 && CustomerInformation.get("IsApplicant").equals("Yes") ){
 				SpouseFirstName = CustomerNames.get("FirstName").toString();
 				SpouseLastName = CustomerNames.get("LastName").toString();
 				Numberofcustomer ++;
