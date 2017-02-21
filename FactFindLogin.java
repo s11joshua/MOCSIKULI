@@ -77,7 +77,7 @@ public class FactFindLogin {
 						TABRedeemInvitation.click();
 						TXTInvitationCode.sendKeys(RedemtionID);
 						BTNRedeem.click();
-						if(screen.exists(InvalidID,60) != null){
+						if(screen.exists(InvalidID,20) != null){
 							if (Login(UserName,"choosey1!") != true){
 								logger.info("Fact Find Login failed");
 								Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
@@ -91,7 +91,7 @@ public class FactFindLogin {
 						TXTPassword.sendKeys("choosey1!");
 						TXTConfirmPassword.sendKeys("choosey1!");
 						BTNRegister.click();
-						if(screen.exists(AlreadyTaken,60) != null){
+						if(screen.exists(AlreadyTaken,20) != null){
 							if (Login(UserName,"choosey1!") != true){
 								logger.info("Fact Find Login failed");
 								Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
@@ -100,7 +100,7 @@ public class FactFindLogin {
 								return true;
 							}
 						}
-						Thread.sleep(10000);
+						screen.wait(NextButton,30).click();
 						screen.click(NextButton);
 						logger.info("Fact Find Login Completed Successfully");
 						Helper.ScreenDump(TestExecution.TestExecutionFolder, "FactFindLogin");
@@ -111,7 +111,7 @@ public class FactFindLogin {
 						return false;
 					}
 					
-				} catch (FindFailed | InterruptedException e) {
+				} catch (FindFailed e) {
 					e.printStackTrace();
 					logger.info("Fact Find Login failed");
 					logger.error(e.toString());

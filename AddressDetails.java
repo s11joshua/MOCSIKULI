@@ -32,6 +32,8 @@ public class AddressDetails {
 	static Pattern AddressCannotbeFound;
 	static Pattern AddressCannotbeFoundokButton;
 	static Pattern CountrySearchPopUp;
+	static Pattern CountryFilterforSearch;
+	static Pattern SelectCountry;
 	static Pattern SelectCountryPopup;
 	static Pattern AddressLookUp;
 	
@@ -46,6 +48,8 @@ public class AddressDetails {
 		AddressCannotbeFound = new Pattern (Imagefolderlocation + "AddressCannotbeFound.PNG");
 		AddressCannotbeFoundokButton = new Pattern (Imagefolderlocation + "AddressNotFoundokbutton.PNG");
 		CountrySearchPopUp = new Pattern (Imagefolderlocation + "CountrySearch.PNG");
+		CountryFilterforSearch = new Pattern (Imagefolderlocation + "SearchCountryInPopup.PNG");
+		SelectCountry = new Pattern (Imagefolderlocation + "SelectCountry.PNG");
 		SelectCountryPopup = new Pattern (Imagefolderlocation + "SelectCountryPopup.PNG");
 		AddressLookUp = new Pattern (Imagefolderlocation + "AddressLookUp.PNG");
 	}
@@ -198,36 +202,42 @@ public class AddressDetails {
 							if(Address.get("Unitnumber") != null){
 								Helper.ScroolToView(driver, UnitNumber);
 								UnitNumber.click();
+								UnitNumber.clear();
 								UnitNumber.sendKeys(Address.get("Unitnumber").toString());
 								Thread.sleep(1000);
 							}
 							if(Address.get("StreetNumber") != null){
 								Helper.ScroolToView(driver, StreetNumber);
 								StreetNumber.click();
+								StreetNumber.clear();
 								StreetNumber.sendKeys(Address.get("StreetNumber").toString());
 								Thread.sleep(1000);
 							}
 							if(Address.get("StreetName") != null){
 								Helper.ScroolToView(driver, StreetName);
 								StreetName.click();
+								StreetName.clear();
 								StreetName.sendKeys(Address.get("StreetName").toString());
 								Thread.sleep(1000);
 							}
 							if(Address.get("StreetType") != null){
 								Helper.ScroolToView(driver, StreetType);
 								StreetType.click();
+								StreetType.clear();
 								StreetType.sendKeys(Address.get("StreetType").toString());
 								Thread.sleep(1000);
 							}
 							if(Address.get("PostalDeliveryType") != null){
 								Helper.ScroolToView(driver, PostalDeliveryType);
 								PostalDeliveryType.click();
+								PostalDeliveryType.clear();
 								PostalDeliveryType.sendKeys(Address.get("PostalDeliveryType").toString());
 								Thread.sleep(1000);
 							}
 							if(Address.get("PostalDeliveryNo") != null){
 								Helper.ScroolToView(driver, PostalDeliveryNumber);
 								PostalDeliveryNumber.click();
+								PostalDeliveryNumber.clear();
 								PostalDeliveryNumber.sendKeys(Address.get("PostalDeliveryNo").toString());
 								Thread.sleep(1000);
 							}
@@ -255,11 +265,14 @@ public class AddressDetails {
 								Thread.sleep(3000);
 								screen.click(CountrySearchPopUp);
 								screen.type(Address.get("Country").toString());
-								Helper.Keystrokeenter(1);
 								Thread.sleep(1000);
-								Helper.Keystroketab(5);
-								Helper.Keystrokeenter(1);
+								screen.click(CountryFilterforSearch);
+								Thread.sleep(1000);
+								screen.find(CountryFilterforSearch).below(Offset[1]).click();
+								//Helper.Keystroketab(4);
+								//Helper.Keystrokeenter(1);
 								screen.click(SelectCountryPopup);
+								screen.waitVanish(SelectCountryPopup,10);
 								Thread.sleep(2000);
 							}
 							
@@ -291,14 +304,14 @@ public class AddressDetails {
 						if(Address.get("DateMovedIn") != null){
 							Helper.ScroolToView(driver, MoveInDate);
 							MoveInDate.click();
-							Helper.ClearTextBox(10, (float)0.3);
+							MoveInDate.clear();
 							MoveInDate.sendKeys(Address.get("DateMovedIn").toString());
 							Thread.sleep(1000);
 						}
 						if(Address.get("DateMovedOut") != null){
 							Helper.ScroolToView(driver, MoveOutDate);
 							MoveOutDate.click();
-							Helper.ClearTextBox(10, (float)0.3);
+							MoveOutDate.clear();
 							MoveOutDate.sendKeys(Address.get("DateMovedOut").toString());
 							Thread.sleep(1000);
 						}						

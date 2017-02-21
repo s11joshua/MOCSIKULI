@@ -30,6 +30,8 @@ public class EmploymentDetails {
 	
 	static Pattern AddressCannotbeFoundokButton;
 	static Pattern CountrySearchPopUp;
+	static Pattern CountryFilterforSearch;
+	static Pattern SelectCountry;
 	static Pattern SelectCountryPopup;
 	static Pattern AddressLookUp;
 	
@@ -41,6 +43,8 @@ public class EmploymentDetails {
 		AddressCannotbeFoundokButton = new Pattern (Imagefolderlocation + "AddressNotFoundokbutton.PNG");
 		CountrySearchPopUp = new Pattern (Imagefolderlocation + "CountrySearch.PNG");
 		SelectCountryPopup = new Pattern (Imagefolderlocation + "SelectCountryPopup.PNG");
+		CountryFilterforSearch = new Pattern (Imagefolderlocation + "SearchCountryInPopup.PNG");
+		SelectCountry = new Pattern (Imagefolderlocation + "SelectCountry.PNG");
 		AddressLookUp = new Pattern (Imagefolderlocation + "AddressLookUp.PNG");
 	}
 	
@@ -198,18 +202,21 @@ public class EmploymentDetails {
 						if(employment.get("CompanyName") != null){
 							Helper.ScroolToView(driver, EmployerName);
 							EmployerName.click();
+							EmployerName.clear();
 							EmployerName.sendKeys(employment.get("CompanyName").toString());
 							Thread.sleep(1000);
 						}
 						if(employment.get("JobTitle") != null){
 							Helper.ScroolToView(driver, JobTitle);
 							JobTitle.click();
+							JobTitle.clear();
 							JobTitle.sendKeys(employment.get("JobTitle").toString());
 							Thread.sleep(1000);
 						}
 						if(employment.get("ABN/ACN") != null){
 							Helper.ScroolToView(driver, ABNACNNumber);
 							ABNACNNumber.click();
+							ABNACNNumber.clear();
 							ABNACNNumber.sendKeys(employment.get("ABN/ACN").toString());
 							Thread.sleep(1000);
 						}
@@ -239,18 +246,21 @@ public class EmploymentDetails {
 						if(employment.get("ContactPerson") != null){
 							Helper.ScroolToView(driver, ContactPerson);
 							ContactPerson.click();
+							ContactPerson.clear();
 							ContactPerson.sendKeys(employment.get("ContactPerson").toString());
 							Thread.sleep(1000);
 						}
 						if(employment.get("ContactPhone") != null){
 							Helper.ScroolToView(driver, ContactPhone);
 							ContactPhone.click();
+							ContactPhone.clear();
 							ContactPhone.sendKeys(employment.get("ContactPhone").toString());
 							Thread.sleep(1000);
 						}
 						if(employment.get("GrossIncome") != null){
 							Helper.ScroolToView(driver, GrossIncome);
 							GrossIncome.click();
+							GrossIncome.clear();
 							GrossIncome.sendKeys(employment.get("GrossIncome").toString());
 							Thread.sleep(1000);
 						}
@@ -264,14 +274,14 @@ public class EmploymentDetails {
 						if(employment.get("StartDate") != null){
 							Helper.ScroolToView(driver, StartDate);
 							StartDate.click();
-							Helper.ClearTextBox(10, (float)0.3);
+							StartDate.clear();
 							StartDate.sendKeys(employment.get("StartDate").toString());
 							Thread.sleep(1000);
 						}
 						if(employment.get("EndDate") != null){
 							Helper.ScroolToView(driver, EndDate);
 							EndDate.click();
-							Helper.ClearTextBox(10, (float)0.3);
+							EndDate.clear();
 							EndDate.sendKeys(employment.get("EndDate").toString());
 							Thread.sleep(1000);
 						}
@@ -287,6 +297,7 @@ public class EmploymentDetails {
 							if(employment.get("Unitnumber") != null){
 								Helper.ScroolToView(driver, UnitNumber);
 								UnitNumber.click();
+								UnitNumber.clear();
 								UnitNumber.sendKeys(employment.get("Unitnumber").toString());
 								Thread.sleep(1000);
 							}
@@ -299,12 +310,14 @@ public class EmploymentDetails {
 							if(employment.get("StreetName") != null){
 								Helper.ScroolToView(driver, StreetName);
 								StreetName.click();
+								StreetName.clear();
 								StreetName.sendKeys(employment.get("StreetName").toString());
 								Thread.sleep(1000);
 							}
 							if(employment.get("StreetType") != null){
 								Helper.ScroolToView(driver, StreetType);
 								StreetType.click();
+								StreetType.clear();
 								StreetType.sendKeys(employment.get("StreetType").toString());
 								Thread.sleep(1000);
 							}
@@ -339,10 +352,12 @@ public class EmploymentDetails {
 								Thread.sleep(3000);
 								screen.click(CountrySearchPopUp);
 								screen.type(employment.get("Country").toString());
-								Helper.Keystrokeenter(1);
 								Thread.sleep(1000);
-								Helper.Keystroketab(5);
-								Helper.Keystrokeenter(1);
+								screen.click(CountryFilterforSearch);
+								Thread.sleep(1000);
+								screen.find(CountryFilterforSearch).below(Offset[1]).click();
+								//Helper.Keystroketab(4);
+								//Helper.Keystrokeenter(1);
 								screen.click(SelectCountryPopup);
 								screen.waitVanish(SelectCountryPopup,15);
 							}
@@ -353,7 +368,7 @@ public class EmploymentDetails {
 						}
 						
 						Helper.ScroolToView(driver, EmployerName);//this is to view what has been entered.
-						Thread.sleep(1000);
+						Thread.sleep(2000);
 						Helper.ScroolToView(driver, SaveEmployment);
 						SaveEmployment.click();
 						Thread.sleep(2000);					
@@ -375,6 +390,7 @@ public class EmploymentDetails {
 						if(Otherincome.get("Amount") != null){
 							Helper.ScroolToView(driver, AmountBeforeTax);
 							AmountBeforeTax.click();
+							AmountBeforeTax.clear();
 							AmountBeforeTax.sendKeys(Otherincome.get("Amount").toString());
 							Thread.sleep(1000);
 						}

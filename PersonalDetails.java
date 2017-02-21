@@ -27,6 +27,10 @@ public class PersonalDetails {
 	static Log logger = LogFactory.getLog(PersonalDetails.class);
 	public static WebDriver driver = null;
 	
+	public PersonalDetails(){
+		
+	}
+	
 	public PersonalDetails(WebDriver BrowserType){
 		PageFactory.initElements(BrowserType, this);
 	}
@@ -108,8 +112,7 @@ public class PersonalDetails {
 	
 	@FindBy(how = How.XPATH, using = ".//*[@id='NextBtn']")
 	static WebElement NextButtonTopofthePage;
-	
-	
+		
 	
 	public static boolean CustomerPersonalDetails(){
 		
@@ -131,7 +134,6 @@ public class PersonalDetails {
 					if (FirstCustomerFlag.equals("Yes")){
 						Applicant1.click();
 						Thread.sleep(3000);
-						//
 					} else if(CustomerInformation.get("IsApplicant").equals("Yes")) {
 						Applicant2.click();
 						Thread.sleep(3000);
@@ -145,6 +147,7 @@ public class PersonalDetails {
 					
 					if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("MiddleName") != null){
 						MiddleName.click();
+						MiddleName.clear();
 						MiddleName.sendKeys(JSON.GetTestData(CustomerInformation, "CustomerNames").get("MiddleName").toString());
 					}
 					
@@ -164,12 +167,12 @@ public class PersonalDetails {
 					if(CustomerInformation.get("DOB") != null){					
 						if(FirstCustomerFlag.equals("Yes") ) {
 							DateOfbirth.click();
-							Helper.ClearTextBox(10, (float)0.3);
+							DateOfbirth.clear();
 							DateOfbirth.sendKeys(CustomerInformation.get("DOB").toString());
 						}
 						else if(CustomerInformation.get("IsApplicant").equals("Yes")){
 							DateOfbirthSpouse.click();
-							Helper.ClearTextBox(10, (float)0.3);
+							DateOfbirthSpouse.clear();
 							DateOfbirthSpouse.sendKeys(CustomerInformation.get("DOB").toString());
 						}
 					}
@@ -198,16 +201,19 @@ public class PersonalDetails {
 				
 					if(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("Mobile") != null){
 						Mobile.click();
+						Mobile.clear();
 						Mobile.sendKeys(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("Mobile").toString());
 					}
 					
 					if(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("HomePhone") != null){
 						HomePhone.click();
+						HomePhone.clear();
 						HomePhone.sendKeys(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("HomePhone").toString());
 					}
 					
 					if(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("BusinessPhone") != null){
 						BusinessPhone.click();
+						BusinessPhone.clear();
 						BusinessPhone.sendKeys(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("BusinessPhone").toString());
 					}
 					
@@ -215,6 +221,7 @@ public class PersonalDetails {
 					
 					if(JSON.GetTestData(FactFind, "DriversLicense").get("DriversLicenceNumber") != null){
 						DriversLicenceNumber.click();
+						DriversLicenceNumber.clear();
 						DriversLicenceNumber.sendKeys(JSON.GetTestData(FactFind, "DriversLicense").get("DriversLicenceNumber").toString());
 					}
 						
@@ -227,10 +234,11 @@ public class PersonalDetails {
 					if(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceIssued") != null){
 						if(FirstCustomerFlag.equals("Yes")){
 							LicenceIssued.click();
-							Helper.ClearTextBox(10, (float)0.3);
+							LicenceIssued.clear();
 							LicenceIssued.sendKeys(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceIssued").toString());
 						}else if(CustomerInformation.get("IsApplicant").equals("Yes")){
 							LicenceIssuedSpouse.click();
+							LicenceIssuedSpouse.clear();
 							LicenceIssuedSpouse.sendKeys(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceIssued").toString());
 						}
 					}
@@ -238,10 +246,11 @@ public class PersonalDetails {
 					if(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceExpires") != null){
 						if(FirstCustomerFlag.equals("Yes")){
 							LicenceExpiry.click();
-							Helper.ClearTextBox(10, (float)0.3);
+							LicenceExpiry.clear();
 							LicenceExpiry.sendKeys(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceExpires").toString());
 						}else if(CustomerInformation.get("IsApplicant").equals("Yes")){
 							LicenceExpirySpouse.click();
+							LicenceExpirySpouse.clear();
 							LicenceExpirySpouse.sendKeys(JSON.GetTestData(FactFind, "DriversLicense").get("LicenceExpires").toString());
 						}
 					}

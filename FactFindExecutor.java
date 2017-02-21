@@ -30,13 +30,17 @@ public class FactFindExecutor {
 		new AddressDetails(driver);
 		new EmploymentDetails(driver);
 		new FactFindAssets(driver);
+		new Liabilities(driver);
+		new Insurance(driver);
 		
 		if (FactFindLogin.LoginFactFindFirstTime(ReturnCustomerUserId()) == false){return false;}
-		//if (PersonalDetails.CustomerPersonalDetails() == false){return false;}
-		//if (AddressDetails.EnterAddressDetails() == false){return false;}
-		//if (EmploymentDetails.EnterEmploymentDetails() == false){return false;}
+		if (PersonalDetails.CustomerPersonalDetails() == false){return false;}
+		if (AddressDetails.EnterAddressDetails() == false){return false;}
+		if (EmploymentDetails.EnterEmploymentDetails() == false){return false;}
 		if (FactFindAssets.EnterAssetDetails() == false){return false;}
-		//driver.close();
+		if (Liabilities.EnterLiabilities() == false){return false;}
+		if (Insurance.EnterinsuranceDetails() == false){return false;}
+		driver.close();
 		return true;
 	}
 	

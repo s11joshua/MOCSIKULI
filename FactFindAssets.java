@@ -26,12 +26,16 @@ public class FactFindAssets {
 	static Log logger = LogFactory.getLog(FactFindAssets.class);
 	static int Offset[] = {0,10,50,100,200,500,1000};
 	static Screen screen = new Screen();
-	public static WebDriver driver = null;
+	static WebDriver driver = null;
 	
 	static Pattern AddressLookUp;
 	static Pattern AddressCannotbeFoundokButton;
 	static Pattern CountrySearchPopUp;
+	static Pattern CountryFilterforSearch;
+	static Pattern SelectCountry;
 	static Pattern SelectCountryPopup;
+	static Pattern SuperHeldBy1;
+	static Pattern SuperHeldBy2;
 	
 	public FactFindAssets(){
 		new FactFindAssets("C:\\Sikuli Images\\FactFind\\Assets\\");
@@ -41,6 +45,10 @@ public class FactFindAssets {
 		AddressCannotbeFoundokButton = new Pattern (Imagefolderlocation + "AddressNotFoundokbutton.PNG");
 		CountrySearchPopUp = new Pattern (Imagefolderlocation + "CountrySearch.PNG");
 		SelectCountryPopup = new Pattern (Imagefolderlocation + "SelectCountryPopup.PNG");
+		CountryFilterforSearch = new Pattern (Imagefolderlocation + "SearchCountryInPopup.PNG");
+		SelectCountry = new Pattern (Imagefolderlocation + "SelectCountry.PNG");
+		SuperHeldBy1 = new Pattern (Imagefolderlocation + "HeldBy1stPerson.PNG");
+		SuperHeldBy2 = new Pattern (Imagefolderlocation + "HeldBy2ndPerson.PNG");
 	}
 	public FactFindAssets(WebDriver BrowserType){
 		PageFactory.initElements(BrowserType, this);
@@ -201,31 +209,16 @@ public class FactFindAssets {
 
 	public static boolean EnterAssetDetails(){
 		driver = FactFindExecutor.driver;
-		
-		
-		//--------this is for testing purpose remove once completed with this page-----
-		try {
-			Thread.sleep(5000);
-			Helper.ScroolToView(driver, NextButtonTopofthePage);	
-			NextButtonTopofthePage.click();
-			Thread.sleep(5000);
-			Helper.ScroolToView(driver, NextButtonTopofthePage);	
-			NextButtonTopofthePage.click();
-			Thread.sleep(5000);
-			NextButtonTopofthePage.click();
-			Thread.sleep(5000);
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-			return false;
-		}
-		//--------------------------------------------------------------------
-		
-		
-		//if (AddProperty() == false){return false;}
-		//if (AddSavingsAccount() == false){return false;}
-		//if (AddMotorVehicle() == false){return false;}
+					
+		if (AddProperty() == false){return false;}
+		if (AddSavingsAccount() == false){return false;}
+		if (AddMotorVehicle() == false){return false;}
 		if (AddSuperAnnuation() == false){return false;}
 		if (OtherAssets() == false){return false;}
+		
+		Helper.ScroolToView(driver, NextButtonTopofthePage);	
+		NextButtonTopofthePage.click();
+		
 		return true;
 		
 	}
@@ -278,51 +271,55 @@ public class FactFindAssets {
 							if(Existingproperty.get("Unitnumber") != null){
 								Helper.ScroolToView(driver, UnitNumber);
 								UnitNumber.click();
+								UnitNumber.clear();
 								UnitNumber.sendKeys(Existingproperty.get("Unitnumber").toString());
-								Thread.sleep(1000);
+								Thread.sleep(500);
 							}
 							if(Existingproperty.get("StreetNumber") != null){
 								Helper.ScroolToView(driver, StreetNumber);
 								StreetNumber.click();
+								StreetNumber.clear();
 								StreetNumber.sendKeys(Existingproperty.get("StreetNumber").toString());
-								Thread.sleep(1000);
+								Thread.sleep(500);
 							}
 							if(Existingproperty.get("StreetName") != null){
 								Helper.ScroolToView(driver, StreetName);
 								StreetName.click();
+								StreetName.clear();
 								StreetName.sendKeys(Existingproperty.get("StreetName").toString());
-								Thread.sleep(1000);
+								Thread.sleep(500);
 							}
 							if(Existingproperty.get("StreetType") != null){
 								Helper.ScroolToView(driver, StreetType);
 								StreetType.click();
+								StreetType.clear();
 								StreetType.sendKeys(Existingproperty.get("StreetType").toString());
-								Thread.sleep(1000);
+								Thread.sleep(500);
 							}
 							
 							if(Existingproperty.get("PostalDeliveryNo") != null){
 								Helper.ScroolToView(driver, PostalDeliveryNumber);
 								PostalDeliveryNumber.click();
 								PostalDeliveryNumber.sendKeys(Existingproperty.get("PostalDeliveryNo").toString());
-								Thread.sleep(1000);
+								Thread.sleep(500);
 							}
 							if(Existingproperty.get("Suburb") != null){
 								Helper.ScroolToView(driver, Suburb);
 								Suburb.click();
 								Suburb.sendKeys(Existingproperty.get("Suburb").toString());
-								Thread.sleep(1000);
+								Thread.sleep(500);
 							}
 							if(Existingproperty.get("State") != null){
 								Helper.ScroolToView(driver, State);
 								State.click();
 								State.sendKeys(Existingproperty.get("State").toString());
-								Thread.sleep(1000);
+								Thread.sleep(500);
 							}
 							if(Existingproperty.get("PostCode") != null){
 								Helper.ScroolToView(driver, Postcode);
 								Postcode.click();
 								Postcode.sendKeys(Existingproperty.get("PostCode").toString());
-								Thread.sleep(1000);
+								Thread.sleep(500);
 							}
 							if(Existingproperty.get("Country") != null){
 								Helper.ScroolToView(driver, SearchCountry);
@@ -330,10 +327,12 @@ public class FactFindAssets {
 								Thread.sleep(3000);
 								screen.click(CountrySearchPopUp);
 								screen.type(Existingproperty.get("Country").toString());
-								Helper.Keystrokeenter(1);
 								Thread.sleep(1000);
-								Helper.Keystroketab(5);
-								Helper.Keystrokeenter(1);
+								screen.click(CountryFilterforSearch);
+								Thread.sleep(1000);
+								screen.find(CountryFilterforSearch).below(Offset[1]).click();
+								//Helper.Keystroketab(4);
+								//Helper.Keystrokeenter(1);
 								screen.click(SelectCountryPopup);
 								screen.waitVanish(SelectCountryPopup,15);
 							}
@@ -347,68 +346,67 @@ public class FactFindAssets {
 							Helper.ScroolToView(driver, RealEstateAssetType);
 							RealEstateAssetType.click();
 							RealEstateAssetType.sendKeys(Existingproperty.get("AssetType").toString());
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}
 						if(Existingproperty.get("PropertyValue") != null){
 							Helper.ScroolToView(driver, PropertyValue);
 							PropertyValue.click();
+							PropertyValue.clear();
 							PropertyValue.sendKeys(Existingproperty.get("PropertyValue").toString());
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}
 						if(Existingproperty.get("RentalIncome") != null){
 							Helper.ScroolToView(driver, RentalIncome);
 							RentalIncome.click();
+							RentalIncome.clear();
 							RentalIncome.sendKeys(Existingproperty.get("RentalIncome").toString());
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}
 						if(Existingproperty.get("RentalFrequency") != null){
 							Helper.ScroolToView(driver, RentalFrequency);
 							RentalFrequency.click();
 							RentalFrequency.sendKeys(Existingproperty.get("RentalFrequency").toString());
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}
 						if(Existingproperty.get("LoanBalance") != null){
 							Helper.ScroolToView(driver, LoanBalance);
 							LoanBalance.click();
+							LoanBalance.clear();
 							LoanBalance.sendKeys(Existingproperty.get("LoanBalance").toString());
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}
 						if(Existingproperty.get("LenderName") != null){
 							Helper.ScroolToView(driver, LenderName);
 							LenderName.click();
 							LenderName.sendKeys(Existingproperty.get("LenderName").toString());
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}
 						if(Existingproperty.get("LenderNameOther") != null){
 							Helper.ScroolToView(driver, LenderNameOther);
 							LenderNameOther.click();
+							LenderNameOther.clear();
 							LenderNameOther.sendKeys(Existingproperty.get("LenderNameOther").toString());
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}
-						if(Existingproperty.get("LenderNameOther") != null){
-							Helper.ScroolToView(driver, LenderNameOther);
-							LenderNameOther.click();
-							LenderNameOther.sendKeys(Existingproperty.get("LenderNameOther").toString());
-							Thread.sleep(1000);
-						}
+						
 						if(Existingproperty.get("OwnershipPercentage") != null){
 							double PrimaryOwnership = Double.parseDouble(Existingproperty.get("OwnershipPercentage").toString());
 							double SecondaryOwnership = 100 - PrimaryOwnership;
 							Applicant1Ownership.click();
-							Helper.ClearTextBox(5, (float) 0.2);
+							Applicant1Ownership.clear();
 							Applicant1Ownership.sendKeys(Double.toString(PrimaryOwnership));
 							Applicant2Ownership.click();
-							Helper.ClearTextBox(5, (float) 0.2);
+							Applicant2Ownership.clear();
 							Applicant2Ownership.sendKeys(Double.toString(SecondaryOwnership));
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}else{
 							Applicant1Ownership.click();
-							Helper.ClearTextBox(5, (float) 0.2);
+							Applicant1Ownership.clear();
 							Applicant1Ownership.sendKeys(Integer.toString(0));
 							Applicant2Ownership.click();
-							Helper.ClearTextBox(5, (float) 0.2);
+							Applicant2Ownership.clear();
 							Applicant2Ownership.sendKeys(Double.toString(100));
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}
 						
 						SavePropertyDetails.click();
@@ -457,38 +455,40 @@ public class FactFindAssets {
 							Helper.ScroolToView(driver, SavingsAccountInstitution);
 							SavingsAccountInstitution.click();
 							SavingsAccountInstitution.sendKeys(Savingsaccount.get("FinancialInstitution").toString());
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}
 						if(Savingsaccount.get("FinancialInstitutionOther") != null){
 							Helper.ScroolToView(driver, SavingsAccountInstitutionOther);
 							SavingsAccountInstitutionOther.click();
+							SavingsAccountInstitutionOther.clear();
 							SavingsAccountInstitutionOther.sendKeys(Savingsaccount.get("FinancialInstitutionOther").toString());
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}
 						if(Savingsaccount.get("AccountBalance") != null){
 							Helper.ScroolToView(driver, SavingsAccountBalance);
 							SavingsAccountBalance.click();
+							SavingsAccountBalance.clear();
 							SavingsAccountBalance.sendKeys(Savingsaccount.get("AccountBalance").toString());
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}
 						if(Savingsaccount.get("OwnershipPercentage") != null){
 							double PrimaryOwnership = Double.parseDouble(Savingsaccount.get("OwnershipPercentage").toString());
 							double SecondaryOwnership = 100 - PrimaryOwnership;
 							Applicant1SavingsAccountOwnership.click();
-							Helper.ClearTextBox(5, (float) 0.2);
+							Applicant1SavingsAccountOwnership.clear();
 							Applicant1SavingsAccountOwnership.sendKeys(Double.toString(PrimaryOwnership));
 							Applicant2SavingsAccountOwnership.click();
-							Helper.ClearTextBox(5, (float) 0.2);
+							Applicant2SavingsAccountOwnership.clear();
 							Applicant2SavingsAccountOwnership.sendKeys(Double.toString(SecondaryOwnership));
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}else{
 							Applicant1SavingsAccountOwnership.click();
-							Helper.ClearTextBox(5, (float) 0.2);
+							Applicant1SavingsAccountOwnership.clear();
 							Applicant1SavingsAccountOwnership.sendKeys(Integer.toString(0));
 							Applicant2SavingsAccountOwnership.click();
-							Helper.ClearTextBox(5, (float) 0.2);
+							Applicant2SavingsAccountOwnership.clear();
 							Applicant2SavingsAccountOwnership.sendKeys(Double.toString(100));
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}
 						
 						SaveSavingsAccountDetails.click();
@@ -536,20 +536,23 @@ public class FactFindAssets {
 						if(Motorvehicle.get("MotorVehicleMake") != null){
 							Helper.ScroolToView(driver, MotorVehicleMake);
 							MotorVehicleMake.click();
+							MotorVehicleMake.clear();
 							MotorVehicleMake.sendKeys(Motorvehicle.get("MotorVehicleMake").toString());
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}
 						if(Motorvehicle.get("MotorVehicleYear") != null){
 							Helper.ScroolToView(driver, MotorVehicleYear);
 							MotorVehicleYear.click();
+							MotorVehicleYear.clear();
 							MotorVehicleYear.sendKeys(Motorvehicle.get("MotorVehicleYear").toString());
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}
 						if(Motorvehicle.get("MotorVehicleValue") != null){
 							Helper.ScroolToView(driver, MotorVehicleValue);
 							MotorVehicleValue.click();
+							MotorVehicleValue.clear();
 							MotorVehicleValue.sendKeys(Motorvehicle.get("MotorVehicleValue").toString());
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}
 						if(Motorvehicle.get("Financed") != null){
 							if(Motorvehicle.get("Financed").toString().equals("Yes")){
@@ -612,29 +615,31 @@ public class FactFindAssets {
 							Helper.ScroolToView(driver,SuperFund );
 							SuperFund.click();
 							SuperFund.sendKeys(Superannuation.get("SuperannuationFund").toString());
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}
 						if(Superannuation.get("SuperannuationFundOther") != null){
 							Helper.ScroolToView(driver, SuperFundOther);
 							SuperFundOther.click();
+							SuperFundOther.clear();
 							SuperFundOther.sendKeys(Superannuation.get("SuperannuationFundOther").toString());
 							Thread.sleep(1000);
 						}
 						if(Superannuation.get("AccountBalance") != null){
 							Helper.ScroolToView(driver, SuperAccountBalance);
 							SuperAccountBalance.click();
+							SuperAccountBalance.clear();
 							SuperAccountBalance.sendKeys(Superannuation.get("AccountBalance").toString());
 							Thread.sleep(1000);
 						}
-						/*if(Superannuation.get("HeldBy") != null){
-							if(Superannuation.get("HeldBy").toString().equals("1")){
-								Helper.ScroolToView(driver, HeldByOwner1);
-								HeldByOwner1.click();
-							}else if(Superannuation.get("HeldBy").toString().equals("2")){
+						if(Superannuation.get("HeldBy") != null){
+							if(Superannuation.get("HeldBy").toString().equals("2")){
 								Helper.ScroolToView(driver, HeldByOwner2);
-								HeldByOwner2.click();
+								screen.click(SuperHeldBy2);
+							}else if(Superannuation.get("HeldBy").toString().equals("1")){
+								Helper.ScroolToView(driver, HeldByOwner1);
+								screen.find(SuperHeldBy1).below(Offset[1]).click();
 							}
-						}*/
+						}
 						
 						SaveSupperDetails.click();
 						Thread.sleep(2000);
@@ -647,7 +652,7 @@ public class FactFindAssets {
 			logger.info("FactFind superannuation details under asset has been successfuly entered");
 			return true;
 			
-		} catch (InterruptedException | NullPointerException e) {
+		} catch (InterruptedException | NullPointerException | FindFailed e) {
 			e.printStackTrace();
 			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
@@ -683,32 +688,33 @@ public class FactFindAssets {
 							Helper.ScroolToView(driver,OtherAssetType);
 							OtherAssetType.click();
 							OtherAssetType.sendKeys(Othersssets.get("AssetType").toString());
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}
 						if(Othersssets.get("Value") != null){
 							Helper.ScroolToView(driver, OtherAssetValue);
 							OtherAssetValue.click();
+							OtherAssetValue.clear();
 							OtherAssetValue.sendKeys(Othersssets.get("Value").toString());
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}
 						if(Othersssets.get("OwnershipPercentage") != null){
 							double PrimaryOwnership = Double.parseDouble(Othersssets.get("OwnershipPercentage").toString());
 							double SecondaryOwnership = 100 - PrimaryOwnership;
 							Applicant1OwnershipPercentage.click();
-							Helper.ClearTextBox(5, (float) 0.2);
+							Applicant1OwnershipPercentage.clear();
 							Applicant1OwnershipPercentage.sendKeys(Double.toString(PrimaryOwnership));
 							Applicant2OwnershipPercentage.click();
-							Helper.ClearTextBox(5, (float) 0.2);
+							Applicant2OwnershipPercentage.clear();
 							Applicant2OwnershipPercentage.sendKeys(Double.toString(SecondaryOwnership));
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}else{
 							Applicant1OwnershipPercentage.click();
-							Helper.ClearTextBox(5, (float) 0.2);
+							Applicant1OwnershipPercentage.clear();
 							Applicant1OwnershipPercentage.sendKeys(Integer.toString(0));
 							Applicant2OwnershipPercentage.click();
-							Helper.ClearTextBox(5, (float) 0.2);
+							Applicant2OwnershipPercentage.clear();
 							Applicant2OwnershipPercentage.sendKeys(Double.toString(100));
-							Thread.sleep(1000);
+							Thread.sleep(500);
 						}
 						
 						SaveOtherAssetDetails.click();
@@ -720,6 +726,7 @@ public class FactFindAssets {
 			Helper.ScroolToView(driver, AddMotorVehicle);		
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "FactFindOtherAssets");
 			logger.info("FactFind other Assets details under asset has been successfuly entered");
+			Thread.sleep(5000);
 			return true;
 			
 		} catch (InterruptedException | NullPointerException e) {
