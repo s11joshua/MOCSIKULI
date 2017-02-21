@@ -19,8 +19,12 @@ import Dynamics.DynamicsLeadsPage;
 import Dynamics.DynamicsLoginPage;
 import Dynamics.Selenium;
 import FactFind.AddressDetails;
+import FactFind.EmploymentDetails;
+import FactFind.FactFindAssets;
 import FactFind.FactFindExecutor;
 import FactFind.FactFindLogin;
+import FactFind.Insurance;
+import FactFind.Liabilities;
 import FactFind.PersonalDetails;
 
 import org.apache.commons.logging.Log;
@@ -63,7 +67,6 @@ public class TestExecution {
 		if (Config.GetConfigParameter("MinimizeAllWindow").equals("Yes")){
 			Helper.MinimizeAllWindows();
 		}
-		//Helper.CreateDirectory("C:\\","DiscoveryAutomation\\TestExecution\\");
 		
 		TestDataFolderRoot = Config.GetConfigParameter("WQAAutomationFolderPath")+"TestData\\";
 		
@@ -90,8 +93,12 @@ public class TestExecution {
 		new Selenium();
 		new DynamicsLeadsPage();
 		new FactFindLogin();
-		//new PersonalDetails();
+		new PersonalDetails();
 		new AddressDetails();
+		new EmploymentDetails();
+		new FactFindAssets();
+		new Liabilities();
+		new Insurance();
 	}
 	
 	@Before
@@ -163,9 +170,9 @@ public class TestExecution {
 		
 		JSONTestData = JSON.ReadTestData(testdata);
 		if (JSON.GetTestData(JSONTestData, "LeadDetails").get("LeadOrigination").equals("Dynamics")){
-			/*if(Selenium.CreateQuicklead() != true){
+			if(Selenium.CreateQuicklead() != true){
 				return false;
-			}*/
+			}
 			if (JSON.GetTestData(JSONTestData, "LeadDetails").get("SendFactFindInvitaion").equals("Yes")){
 				if(FactFindExecutor.FillFactFind() != true){
 					return false;
@@ -187,7 +194,7 @@ public class TestExecution {
 		if (Referrals.CaptureReferrals(JSONTestData) == false){return false;}
 		if (SaveScenario.Save(JSONTestData) == false){return false;}
 		if (Apply.CaptureTypeOfLodgement(JSONTestData) == false){return false;}
-		//if (Helper.ForceKillApplication("Tonto.exe") == false){return false;}
+		if (Helper.ForceKillApplication("Tonto.exe") == false){return false;}
 		return true;
 	}
 	
