@@ -41,6 +41,7 @@ public class ClientInformation {
 	static Pattern TitleandFirstName;
 	static Pattern LastName;
 	static Pattern DateOfBirth;
+	static Pattern InvalidChildAgeError;
 	static Pattern PreferredContactMethod;
 	static Pattern BusPhone;
 	static Pattern HomePhone;
@@ -125,6 +126,7 @@ public class ClientInformation {
 		TitleandFirstName = new Pattern (Imagefolderlocation + "Title&FirstName.PNG");
 		LastName = new Pattern(Imagefolderlocation + "Last Name.PNG");
 		DateOfBirth = new Pattern(Imagefolderlocation + "Date of Birth.PNG");
+		InvalidChildAgeError = new Pattern(Imagefolderlocation + "InvalidChildAgeError.PNG");
 		PreferredContactMethod = new Pattern(Imagefolderlocation + "PreferedContactMethod.PNG");
 		BusPhone = new Pattern(Imagefolderlocation + "Bus Phone.PNG");
 		HomePhone = new Pattern(Imagefolderlocation + "Home Phone.PNG");
@@ -394,8 +396,16 @@ public class ClientInformation {
 						screen.type(DOBArray.next().toString());
 						Helper.Keystroketab(2);
 					}
-					screen.click(ChildAgeOkbutton);
-					screen.waitVanish(ChildAgeOkbutton,30);
+					Thread.sleep(2000);
+					if (screen.exists(InvalidChildAgeError) != null){
+						logger.error("Invalid Child age entered, please verify the business rules for child ages");
+						Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
+						return false;
+					}else{
+						screen.click(ChildAgeOkbutton);					
+						screen.waitVanish(ChildAgeOkbutton,30);
+					}
+						
 				}
 			}
 			
@@ -428,7 +438,7 @@ public class ClientInformation {
 			}
 			
 			return true;
-		} catch (FindFailed e) {
+		} catch (FindFailed | InterruptedException e) {
 			e.printStackTrace();
 			logger.error(e.toString());
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");

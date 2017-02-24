@@ -99,6 +99,7 @@ public class TestExecution {
 		new FactFindAssets();
 		new Liabilities();
 		new Insurance();
+		
 	}
 	
 	@Before

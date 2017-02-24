@@ -17,6 +17,8 @@ public class LoginPage {
 	static Pattern password;
 	static Pattern environmentdropdown;
 	static Pattern login;
+	public static Pattern HideLogFile;
+	public static Pattern ReplicateDiscoveryDatabase;
 	
 		public LoginPage(){
 			new LoginPage("C:\\Sikuli Images\\Login\\");
@@ -28,7 +30,8 @@ public class LoginPage {
 			password = new Pattern(Imagefolderlocation + "Password.PNG");
 			environmentdropdown = new Pattern(Imagefolderlocation + "EnvironmentDropdown.PNG");
 			login = new Pattern(Imagefolderlocation + "Login.PNG");
-				
+			HideLogFile = new Pattern(Imagefolderlocation + "HideReplicationlog.PNG");
+			ReplicateDiscoveryDatabase = new Pattern(Imagefolderlocation + "LoginScreenRplicate.PNG");	
 		}
 		
 		public static boolean LaunchDiscoveryApplicaiton()
@@ -41,25 +44,6 @@ public class LoginPage {
 			App.focus("Discovery");
 			return true;
 			
-			/*if (DiscoveryAppLocation == "SysTest"){
-					logger.info("Launching the discovery application");
-					App.open("C:\\Program Files\\mortgage choice\\DiscoverySysTest\\bin\\Discovery.exe");
-					App.pause(3);
-					App.focus("Discovery");
-					return true;
-			}
-			else if (DiscoveryAppLocation == "Test"){
-					logger.info("Launching the discovery application");
-					App.open("C:\\Program Files (x86)\\Mortgage Choice\\Discovery\\bin\\Discovery.exe");
-					App.pause(3);
-					App.focus("Discovery");
-					return true;
-			}
-			else
-			{
-				logger.error("Invalid instance of the test environment set in the Config file for Discovery ");	
-				return false;
-			}*/
 			
 		}
 		
@@ -71,6 +55,8 @@ public class LoginPage {
 				return false;
 			}
 			
+			JSONObject ReplicationDetails = (JSONObject) TestExecution.JSONTestData.get("EnvironmentDetails");
+						
 			logger.info("Logging into Discovery");
 			Helper Config = new Helper();
 			String Discoveryusername = null;
@@ -114,7 +100,17 @@ public class LoginPage {
 				Helper.ClearTextBox(40);
 				screen.type(TestEnvironment);
 				Helper.Keystrokeenter(1);
-				screen.click(login);
+				if(ReplicationDetails.get("ReplicateDiscoveryDatabase").toString().equals("Yes") && Config.GetConfigParameter("Replicadatabase").toString().equals("No")){
+					if (DiscoveryReplication.StartRepliation() != true){
+						return false;
+					}else{
+						screen.click(login);
+					}
+						
+				}else{
+					screen.click(login);
+				}
+
 				Helper.ScreenDump(TestExecution.TestExecutionFolder, "DiscoveryLogin");
 				logger.info("Login was succecssful");
 				Helper.WriteToTxtFile("Login was succecssful", TestExecution.TestExecutionFolder + "logs.txt");
