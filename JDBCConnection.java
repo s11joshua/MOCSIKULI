@@ -88,12 +88,13 @@ public class JDBCConnection {
 			if(Config.GetConfigParameter("IntegratedSecurity").toString().equals("Yes")){
 				ds.setIntegratedSecurity(true);
 			}else{
-				ds.setUser(Config.GetConfigParameter("UserName").toString());
-				ds.setPassword(Config.GetConfigParameter("Password").toString());
+				ds.setUser(UserName);
+				ds.setPassword(Password);
 			}
-			ds.setServerName(Config.GetConfigParameter("ServerName").toString());
-			ds.setPortNumber(Integer.parseInt(Config.GetConfigParameter("Serverport").toString()));
-			ds.setDatabaseName(Config.GetConfigParameter("DataBaseName").toString());
+			
+			ds.setServerName(Servername);
+			ds.setPortNumber(ServerPortNumber);
+			ds.setDatabaseName(DataBaseName);
 			con = ds.getConnection();
 			logger.debug("Connection to the dynamics database was successful.");
 			stmt = con.createStatement();
@@ -114,6 +115,47 @@ public class JDBCConnection {
 	    		if (stmt != null) try { stmt.close(); } catch(Exception e) {}
 	    		if (con != null) try { con.close(); } catch(Exception e) {}
 	    	}
+	}
+	
+	public static ResultSet ExecuteCommandInMicrosoftsqlServer(String Query, String Servername, int ServerPortNumber,String DataBaseName){
+		
+		Connection con = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		try {
+			logger.debug("Trying to connect to the dynamics data base.");
+			// Establish the connection. 
+			SQLServerDataSource ds = new SQLServerDataSource();
+			ds.setIntegratedSecurity(true);
+			ds.setServerName(Servername);
+			ds.setPortNumber(ServerPortNumber);
+			ds.setDatabaseName(DataBaseName);
+			con = ds.getConnection();
+			logger.debug("Connection to the dynamics database was successful.");
+			stmt = con.createStatement();
+    		logger.debug((Query));
+    		rs = stmt.executeQuery(Query);
+        	logger.debug("Executed the SQL query successfully on the dynamics data base.");
+        	/*while (rs.next()) {
+        		System.out.println(rs.getString("<Column Name>"));
+        	}*/
+        	
+        	return rs;
+			}
+			// Handle any errors that may have occurred.
+	    	catch (Exception e) {
+	    		e.printStackTrace();
+	    		logger.error(e.toString());
+	    		return rs;
+	    	}
+	
+	   	finally {
+	    		if (rs != null) try { rs.close(); } catch(Exception e) {}
+	    		if (stmt != null) try { stmt.close(); } catch(Exception e) {}
+	    		if (con != null) try { con.close(); } catch(Exception e) {}
+	    	}
+		
 	}
 }
 
