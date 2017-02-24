@@ -330,7 +330,7 @@ public class FactFindAssets {
 								Thread.sleep(1000);
 								screen.click(CountryFilterforSearch);
 								Thread.sleep(1000);
-								screen.find(CountryFilterforSearch).below(Offset[1]).click();
+								screen.find(SelectCountry).below(Offset[1]).click();
 								//Helper.Keystroketab(4);
 								//Helper.Keystrokeenter(1);
 								screen.click(SelectCountryPopup);

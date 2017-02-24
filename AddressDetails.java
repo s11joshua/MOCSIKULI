@@ -268,7 +268,7 @@ public class AddressDetails {
 								Thread.sleep(1000);
 								screen.click(CountryFilterforSearch);
 								Thread.sleep(1000);
-								screen.find(CountryFilterforSearch).below(Offset[1]).click();
+								screen.find(SelectCountry).below(Offset[1]).click();
 								//Helper.Keystroketab(4);
 								//Helper.Keystrokeenter(1);
 								screen.click(SelectCountryPopup);
@@ -308,6 +308,10 @@ public class AddressDetails {
 							MoveInDate.sendKeys(Address.get("DateMovedIn").toString());
 							Thread.sleep(1000);
 						}
+						
+						MoveOutDate.clear();// this is intentional to clear the date because for current address 
+											//we do not have move out date and there is a current bug in the system 
+											//that defaults the date from the previous address data entry
 						if(Address.get("DateMovedOut") != null){
 							Helper.ScroolToView(driver, MoveOutDate);
 							MoveOutDate.click();
