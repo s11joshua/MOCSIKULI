@@ -100,7 +100,7 @@ public class LoginPage {
 				Helper.ClearTextBox(40);
 				screen.type(TestEnvironment);
 				Helper.Keystrokeenter(1);
-				if(ReplicationDetails.get("ReplicateDiscoveryDatabase").toString().equals("Yes") && Config.GetConfigParameter("Replicadatabase").toString().equals("No")){
+				if(ReplicationDetails.get("ReplicateDiscoveryDatabase").toString().equals("Yes") && Config.GetConfigParameter("Replicadatabase").toString().equals("Yes")){
 					if (DiscoveryReplication.StartRepliation() != true){
 						return false;
 					}else{

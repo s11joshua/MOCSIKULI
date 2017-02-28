@@ -107,7 +107,7 @@ public class TestExecution {
 		InitializeTestFramework();
 	}
 	
-	//@Test
+	@Test
 	public void TestCase001() throws Exception{
 		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));
 	}	
@@ -122,7 +122,7 @@ public class TestExecution {
 		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));		
 	}
 	
-	@Test
+	//@Test
 	public void TestCase004() throws Exception{
 		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));		
 	}
@@ -143,7 +143,6 @@ public class TestExecution {
 	}
 	
 	public boolean TestExecutor(String TestCaseName){
-		//String TestCaseName = new Object(){}.getClass().getEnclosingMethod().getName();
 		logger.info("Test execution started for Test Case: " + TestCaseName);
 		TestExecutionFolder = TestSetup(TestCaseName);
 		VideoRecorderclass Record = new VideoRecorderclass();

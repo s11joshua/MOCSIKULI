@@ -36,6 +36,7 @@ public class ClientInformation {
 	static Pattern ExistingCustomerPostcode;
 	static Pattern FindClientOKbutton;
 	static Pattern AddNewCustomer;
+	static Pattern SecondApplicantTab;
 	static Pattern ClientTypeRole;
 	static Pattern ResidencyStatus;
 	static Pattern TitleandFirstName;
@@ -116,6 +117,7 @@ public class ClientInformation {
 		
 		titlelabel = new Pattern(Imagefolderlocation + "Tilte Label.PNG");
 		AddExistingCustomer = new Pattern (Imagefolderlocation + "FindExistingCustomer.PNG");
+		SecondApplicantTab = new Pattern (Imagefolderlocation + "SecondApplicantTab.PNG");
 		ExistingCustomerSurname = new Pattern (Imagefolderlocation + "ExistingCustomer_Surname.PNG");
 		ExistingCustomerFirstname = new Pattern (Imagefolderlocation + "ExistingCustomer_Firstname.PNG");
 		ExistingCustomerPostcode = new Pattern (Imagefolderlocation + "ExistingCustomer_Postcode.PNG");
@@ -192,7 +194,7 @@ public class ClientInformation {
 		logger.debug("Entering CaptureClientDetails");
 		int counter = 0;
 		JSONArray CustomerInformation_Array = (JSONArray) RawFile.get("Customerinformation");
-		
+		JSONObject LeadDetails =  (JSONObject) RawFile.get("LeadDetails");
 		try {
 			logger.debug("Focus on application QA");
 			App.focus("Qualifier Analyser");
@@ -206,7 +208,11 @@ public class ClientInformation {
 				if (CustomerInformation.get("NewCustomer").toString() != null && CustomerInformation.get("NewCustomer").toString().equals("Yes")){
 					counter++;
 					if (counter > 1) {
-					screen.click(AddNewCustomer);
+						if(LeadDetails.get("LeadOrigination").toString().equals("Dynamics") && counter == 2){
+							screen.find(SecondApplicantTab).left(Offset[1]).click();
+						}else{
+							screen.click(AddNewCustomer);
+						}
 					}
 					
 					App.pause(2);
@@ -229,46 +235,54 @@ public class ClientInformation {
 						return false;
 					}
 					
-					if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("Title") != null && Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerNames").get("Title").toString()) >= 1){
-						screen.find(TitleandFirstName).right(Offset[1]).click();
-						Helper.Keystrokedown(Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerNames").get("Title").toString()));
-						Helper.Keystrokeenter(1);
-					}
-					if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("FirstName") != null){
-						screen.find(TitleandFirstName).right(Offset[4]).click();
-						screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("FirstName").toString());
-					}else{
-						logger.error("Invalid parameter passed for customer first name.");
-						return false;
-					}
+					if(LeadDetails.get("LeadOrigination").toString().equals("Discovery") || counter > 2){
 						
-					if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("LastName") != null){
-						screen.find(LastName).right(Offset[1]).click();
-						screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("LastName").toString());
-					}else{
-						logger.error("Invalid parameter passed for customer last name.");
-						return false;
+						if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("Title") != null && Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerNames").get("Title").toString()) >= 1){
+							screen.find(TitleandFirstName).right(Offset[1]).click();
+							Helper.Keystrokedown(Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerNames").get("Title").toString()));
+							Helper.Keystrokeenter(1);
+						}
+						if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("FirstName") != null){
+							screen.find(TitleandFirstName).right(Offset[4]).click();
+							screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("FirstName").toString());
+						}else{
+							logger.error("Invalid parameter passed for customer first name.");
+							return false;
+						}
+							
+						if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("LastName") != null){
+							screen.find(LastName).right(Offset[1]).click();
+							screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("LastName").toString());
+						}else{
+							logger.error("Invalid parameter passed for customer last name.");
+							return false;
+						}
+						
 					}
-					
 					if(CustomerInformation.get("DOB") != null){
 						screen.find(DateOfBirth).right(Offset[1]).click();
+						Helper.ClearTextBox(15,300);
 						screen.type(CustomerInformation.get("DOB").toString());
 					}
 					if(CustomerInformation.get("PreferredContactMethod") != null && Integer.parseInt(CustomerInformation.get("PreferredContactMethod").toString()) >= 1){
 						screen.find(PreferredContactMethod).right(Offset[2]).click();
+						Helper.Keystrokeup(5);
 						Helper.Keystrokedown(Integer.parseInt(CustomerInformation.get("PreferredContactMethod").toString()));
 						Helper.Keystrokeenter(1);
 						
 						if(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("BusinessPhone") != null){
 							screen.find(BusPhone).right(Offset[4]).click();
+							Helper.ClearTextBox(15,300);
 							screen.type(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("BusinessPhone").toString());
 						}
 						if(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("HomePhone") != null){
 							screen.find(HomePhone).right(Offset[4]).click();
+							Helper.ClearTextBox(15,300);
 							screen.type(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("HomePhone").toString());
 						}
 						if(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("Mobile") != null){
 							screen.find(MobilePhone).right(Offset[4]).click();
+							Helper.ClearTextBox(15,300);
 							screen.type(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("Mobile").toString());
 						}
 						if(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("EmailId") != null){
@@ -278,10 +292,12 @@ public class ClientInformation {
 										+ "email id is specified when creating the lead in dynamics");
 							}else{
 								screen.find(EmailId).right(Offset[4]).click();
+								Helper.ClearTextBox(100);
 								screen.type(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("EmailId").toString());
 							}
 						}else{
 							screen.find(EmailId).right(Offset[4]).click();
+							Helper.ClearTextBox(100);
 							screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("FirstName").toString()+"."
 									+JSON.GetTestData(CustomerInformation, "CustomerNames").get("LastName").toString() + "@moctestdomain.com");
 						}
@@ -293,11 +309,13 @@ public class ClientInformation {
 					
 					if(JSON.GetTestData(CustomerInformation, "CustomerAddress").get("AddressLine1") != null){
 						screen.find(Addressline1).right(Offset[4]).click();
+						Helper.ClearTextBox(100);
 						screen.type(JSON.GetTestData(CustomerInformation, "CustomerAddress").get("AddressLine1").toString());
 					}
 					
 					if (JSON.GetTestData(CustomerInformation, "CustomerAddress").get("AddressLine2") != null){
 						Helper.Keystroketab(1);
+						Helper.ClearTextBox(100);
 						screen.type(JSON.GetTestData(CustomerInformation, "CustomerAddress").get("AddressLine2").toString());
 					}
 					screen.click(SelectRegion);
@@ -316,9 +334,9 @@ public class ClientInformation {
 					
 					
 				} else if(CustomerInformation.get("NewCustomer").toString() != null && CustomerInformation.get("NewCustomer").toString().equals("No")){
-					counter++;
-					logger.debug("Entering condition for selecting existing customer.");
 					
+					logger.debug("Entering condition for selecting existing customer.");
+					counter++;
 					screen.click(AddExistingCustomer);
 					screen.wait(ExistingCustomerSurname,30);
 					

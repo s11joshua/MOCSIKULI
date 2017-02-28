@@ -59,8 +59,8 @@ public class DiscoveryReplication {
 	      				"FROM [DiscoverySIT].[dbo].[tblReplicationSession] a " +
 	      				"left join tblreplicationresult b " +
 	      				"ON b.[ReplicationResultID] = a.[ReplicationResultID]" +
-	      				"Where DBGuid = '55D58317-555D-4011-B85B-EC2D371DCE91'" +
-	      				//"Where DBGuid ='" + Config.GetConfigParameter("DiscoveryDBGuid").toString() +"'" +
+	      				//"Where DBGuid = '55D58317-555D-4011-B85B-EC2D371DCE91'" +
+	      				"Where DBGuid ='" + Config.GetConfigParameter("DiscoveryDBGuid").toString() +"'" +
 	      				"Order by a.StartDateTime desc";
 		
 	    Connection conn = null;

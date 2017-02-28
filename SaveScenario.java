@@ -47,13 +47,14 @@ public class SaveScenario {
 	
 	public static boolean SaveAsNewLead(JSONObject RawFile){
 		logger.debug("Entering save as new lead section");
-		JSONObject SaveScenarioDetails = JSON.GetTestData(RawFile, "SaveScenario");		
+		JSONObject SaveScenarioDetails = JSON.GetTestData(RawFile, "SaveScenario");	
+		JSONObject LeadDetails =  (JSONObject) RawFile.get("LeadDetails");
 		try {
 			screen.wait(Savebutton);
 			screen.click(Savebutton);
 			
 			
-			if(JSON.GetTestData(RawFile, "EnvironmentDetails").get("Replicadatabase").toString().equals("Yes")){
+			if(JSON.GetTestData(RawFile, "EnvironmentDetails").get("Replicadatabase").toString().equals("Yes") && LeadDetails.get("LeadOrigination").toString().equals("Discovery")){
 				screen.wait(NoButton);
 				screen.click(NoButton);
 			}
