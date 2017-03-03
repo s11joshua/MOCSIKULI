@@ -16,9 +16,6 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.sikuli.script.FindFailed;
-import org.sikuli.script.Pattern;
-import org.sikuli.script.Screen;
 import Discovery.Helper;
 import Discovery.JSON;
 import Discovery.TestExecution;
@@ -116,6 +113,7 @@ public class PersonalDetails {
 	
 	public static boolean CustomerPersonalDetails(){
 		
+		int MaxCustomerreached = 0;
 		JSONArray CustomerInformation_Array = (JSONArray) TestExecution.JSONTestData.get("Customerinformation");
 		Iterator<JSONObject> CustomerInformationArray = CustomerInformation_Array.iterator();
 		
@@ -126,17 +124,22 @@ public class PersonalDetails {
 			wait.until(ExpectedConditions.elementToBeClickable(NextButtonTopofthePage));			
 			
 			while (CustomerInformationArray.hasNext()){
+				if (MaxCustomerreached >= 2){
+					break;
+				}
 				
 				JSONObject CustomerInformation = CustomerInformationArray.next();
 				
-				if (FirstCustomerFlag.equals("Yes") || CustomerInformation.get("IsApplicant").equals("Yes")){
+				if ((FirstCustomerFlag.equals("Yes") || CustomerInformation.get("IsApplicant").equals("Yes")) && CustomerInformation.get("CustomerType").equals("Individual")){
 					
 					if (FirstCustomerFlag.equals("Yes")){
 						Applicant1.click();
 						Thread.sleep(3000);
+						MaxCustomerreached ++;
 					} else if(CustomerInformation.get("IsApplicant").equals("Yes")) {
 						Applicant2.click();
 						Thread.sleep(3000);
+						MaxCustomerreached ++;
 					}
 					
 					if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("Title") != null && Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerNames").get("Title").toString()) >= 1){
@@ -257,17 +260,19 @@ public class PersonalDetails {
 				
 					Thread.sleep(3000);
 					
-					JSONArray DependantDOBArray = (JSONArray) JSON.GetTestData(CustomerInformation, "CustomerDependents").get("DependentsDOB");
-					Iterator<String> DOBArray = DependantDOBArray.iterator();
-					while (DOBArray.hasNext()){
-						Helper.ScroolToView(driver, AddDependant);	
-						AddDependant.click();
-						Thread.sleep(2000);
-						AgeofDependant.sendKeys(CalculateAge(DOBArray.next().toString()));// we have to pass the actual value of the child this is a dummy value.
-						Helper.ScroolToView(driver, SaveDependent);
-						SaveDependent.click();
-						//screen.click(SaveDependantAge);
+					if (JSON.GetTestData(CustomerInformation, "CustomerDependents").get("NumberOfDependents") != null){
+						JSONArray DependantDOBArray = (JSONArray) JSON.GetTestData(CustomerInformation, "CustomerDependents").get("DependentsDOB");
+						Iterator<String> DOBArray = DependantDOBArray.iterator();
+						while (DOBArray.hasNext()){
+							Helper.ScroolToView(driver, AddDependant);	
+							AddDependant.click();
+							Thread.sleep(2000);
+							AgeofDependant.sendKeys(CalculateAge(DOBArray.next().toString()));
+							Helper.ScroolToView(driver, SaveDependent);
+							SaveDependent.click();
+						}
 					}
+					
 					FirstCustomerFlag = "No";
 				}
 				

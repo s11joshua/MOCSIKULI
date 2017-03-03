@@ -19,6 +19,7 @@ import org.sikuli.script.Screen;
 
 import Discovery.Helper;
 import Discovery.JSON;
+import Discovery.SaveScenario;
 import Discovery.TestExecution;
 
 public class FactFindAssets {
@@ -28,6 +29,7 @@ public class FactFindAssets {
 	static Screen screen = new Screen();
 	static WebDriver driver = null;
 	
+	static boolean JointClient;
 	static Pattern AddressLookUp;
 	static Pattern AddressCannotbeFoundokButton;
 	static Pattern CountrySearchPopUp;
@@ -209,7 +211,7 @@ public class FactFindAssets {
 
 	public static boolean EnterAssetDetails(){
 		driver = FactFindExecutor.driver;
-					
+		JointClient = FactFindExecutor.IsJointClient(TestExecution.JSONTestData);
 		if (AddProperty() == false){return false;}
 		if (AddSavingsAccount() == false){return false;}
 		if (AddMotorVehicle() == false){return false;}
@@ -235,7 +237,7 @@ public class FactFindAssets {
 			while (CustomerInformationArray.hasNext()){
 				
 				JSONObject CustomerInformation = CustomerInformationArray.next();
-				if(CustomerInformation.get("IsApplicant").toString().equals("Yes")){
+				if(CustomerInformation.get("IsApplicant").toString().equals("Yes") && CustomerInformation.get("CustomerType").equals("Individual")){
 						
 					
 					JSONArray ExistingPropertyArray = (JSONArray) JSON.GetTestData(CustomerInformation, "FactFind").get("ExistingProperty");
@@ -395,17 +397,21 @@ public class FactFindAssets {
 							Applicant1Ownership.click();
 							Applicant1Ownership.clear();
 							Applicant1Ownership.sendKeys(Double.toString(PrimaryOwnership));
-							Applicant2Ownership.click();
-							Applicant2Ownership.clear();
-							Applicant2Ownership.sendKeys(Double.toString(SecondaryOwnership));
+							if (JointClient){
+								Applicant2Ownership.click();
+								Applicant2Ownership.clear();
+								Applicant2Ownership.sendKeys(Double.toString(SecondaryOwnership));
+							}
 							Thread.sleep(500);
 						}else{
 							Applicant1Ownership.click();
 							Applicant1Ownership.clear();
 							Applicant1Ownership.sendKeys(Integer.toString(0));
-							Applicant2Ownership.click();
-							Applicant2Ownership.clear();
-							Applicant2Ownership.sendKeys(Double.toString(100));
+							if (JointClient){
+								Applicant2Ownership.click();
+								Applicant2Ownership.clear();
+								Applicant2Ownership.sendKeys(Double.toString(100));
+							}
 							Thread.sleep(500);
 						}
 						
@@ -417,7 +423,7 @@ public class FactFindAssets {
 			
 			Helper.ScroolToView(driver, AddProperty);
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "FactFindAssetsPropertyDetails");
-			logger.info("FactFind Property details under asset has been successfuly entered");
+			logger.info("FactFind Property details under asset has been successfully entered");
 			return true;
 			
 		} catch (InterruptedException | FindFailed | NullPointerException e) {
@@ -437,7 +443,7 @@ public class FactFindAssets {
 			while (CustomerInformationArray.hasNext()){
 				
 				JSONObject CustomerInformation = CustomerInformationArray.next();
-				if(CustomerInformation.get("IsApplicant").toString().equals("Yes")){
+				if(CustomerInformation.get("IsApplicant").toString().equals("Yes") && CustomerInformation.get("CustomerType").equals("Individual")){
 					
 					JSONArray SavingsAccountArray = (JSONArray) JSON.GetTestData(CustomerInformation, "FactFind").get("SavingsAccount");
 					Iterator<JSONObject> SavingsAccount = SavingsAccountArray.iterator();
@@ -477,17 +483,21 @@ public class FactFindAssets {
 							Applicant1SavingsAccountOwnership.click();
 							Applicant1SavingsAccountOwnership.clear();
 							Applicant1SavingsAccountOwnership.sendKeys(Double.toString(PrimaryOwnership));
-							Applicant2SavingsAccountOwnership.click();
-							Applicant2SavingsAccountOwnership.clear();
-							Applicant2SavingsAccountOwnership.sendKeys(Double.toString(SecondaryOwnership));
+							if(JointClient){
+								Applicant2SavingsAccountOwnership.click();
+								Applicant2SavingsAccountOwnership.clear();
+								Applicant2SavingsAccountOwnership.sendKeys(Double.toString(SecondaryOwnership));
+							}
 							Thread.sleep(500);
 						}else{
 							Applicant1SavingsAccountOwnership.click();
 							Applicant1SavingsAccountOwnership.clear();
 							Applicant1SavingsAccountOwnership.sendKeys(Integer.toString(0));
-							Applicant2SavingsAccountOwnership.click();
-							Applicant2SavingsAccountOwnership.clear();
-							Applicant2SavingsAccountOwnership.sendKeys(Double.toString(100));
+							if(JointClient){
+								Applicant2SavingsAccountOwnership.click();
+								Applicant2SavingsAccountOwnership.clear();
+								Applicant2SavingsAccountOwnership.sendKeys(Double.toString(100));
+							}
 							Thread.sleep(500);
 						}
 						
@@ -499,7 +509,7 @@ public class FactFindAssets {
 			
 			Helper.ScroolToView(driver, AddProperty);		
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "FactFindSavingsAccDetails");
-			logger.info("FactFind Savings account details under asset has been successfuly entered");
+			logger.info("FactFind Savings account details under asset has been successfully entered");
 			return true;
 			
 		} catch (InterruptedException | NullPointerException e) {
@@ -519,7 +529,7 @@ public class FactFindAssets {
 			while (CustomerInformationArray.hasNext()){
 				
 				JSONObject CustomerInformation = CustomerInformationArray.next();
-				if(CustomerInformation.get("IsApplicant").toString().equals("Yes")){
+				if(CustomerInformation.get("IsApplicant").toString().equals("Yes") && CustomerInformation.get("CustomerType").equals("Individual")){
 					
 					JSONArray MotorVehicleArray = (JSONArray) JSON.GetTestData(CustomerInformation, "FactFind").get("MotorVechileDetails");
 					Iterator<JSONObject> MotorVehicle = MotorVehicleArray.iterator();
@@ -561,14 +571,15 @@ public class FactFindAssets {
 								Financed_No.click();
 							}
 						}
-						if(Motorvehicle.get("OwnedBy") != null){
-							if(Motorvehicle.get("OwnedBy").toString().equals("1")){
-								OwnedByOwner1.click();
-							}else if(Motorvehicle.get("OwnedBy").toString().equals("2")){
-								OwnedByOwner2.click();
+						if(JointClient){
+							if(Motorvehicle.get("OwnedBy") != null){
+								if(Motorvehicle.get("OwnedBy").toString().equals("1")){
+									OwnedByOwner1.click();
+								}else if(Motorvehicle.get("OwnedBy").toString().equals("2")){
+									OwnedByOwner2.click();
+								}
 							}
 						}
-						
 						SaveMotorVehicleDetails.click();
 						Thread.sleep(2000);
 					}
@@ -577,7 +588,7 @@ public class FactFindAssets {
 			
 			Helper.ScroolToView(driver, AddSavingsAccount);		
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "FactFindMotorVehicleDetails");
-			logger.info("FactFind Motor Vehicle  details under asset has been successfuly entered");
+			logger.info("FactFind Motor Vehicle  details under asset has been successfully entered");
 			return true;
 			
 		} catch (InterruptedException | NullPointerException e) {
@@ -597,7 +608,7 @@ public class FactFindAssets {
 			while (CustomerInformationArray.hasNext()){
 				
 				JSONObject CustomerInformation = CustomerInformationArray.next();
-				if(CustomerInformation.get("IsApplicant").toString().equals("Yes")){
+				if(CustomerInformation.get("IsApplicant").toString().equals("Yes") && CustomerInformation.get("CustomerType").equals("Individual")){
 					
 					JSONArray SuperAnnuationArray = (JSONArray) JSON.GetTestData(CustomerInformation, "FactFind").get("SuperAnnuation");
 					Iterator<JSONObject> SuperAnnuation = SuperAnnuationArray.iterator();
@@ -631,13 +642,15 @@ public class FactFindAssets {
 							SuperAccountBalance.sendKeys(Superannuation.get("AccountBalance").toString());
 							Thread.sleep(1000);
 						}
-						if(Superannuation.get("HeldBy") != null){
-							if(Superannuation.get("HeldBy").toString().equals("2")){
-								Helper.ScroolToView(driver, HeldByOwner2);
-								screen.click(SuperHeldBy2);
-							}else if(Superannuation.get("HeldBy").toString().equals("1")){
-								Helper.ScroolToView(driver, HeldByOwner1);
-								screen.find(SuperHeldBy1).below(Offset[1]).click();
+						if(JointClient){
+							if(Superannuation.get("HeldBy") != null){
+								if(Superannuation.get("HeldBy").toString().equals("2")){
+									Helper.ScroolToView(driver, HeldByOwner2);
+									screen.click(SuperHeldBy2);
+								}else if(Superannuation.get("HeldBy").toString().equals("1")){
+									Helper.ScroolToView(driver, HeldByOwner1);
+									screen.find(SuperHeldBy1).below(Offset[1]).click();
+								}
 							}
 						}
 						
@@ -649,7 +662,7 @@ public class FactFindAssets {
 			
 			Helper.ScroolToView(driver, AddMotorVehicle);		
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "FactFindSupperDetails");
-			logger.info("FactFind superannuation details under asset has been successfuly entered");
+			logger.info("FactFind superannuation details under asset has been successfully entered");
 			return true;
 			
 		} catch (InterruptedException | NullPointerException | FindFailed e) {
@@ -670,7 +683,7 @@ public class FactFindAssets {
 			while (CustomerInformationArray.hasNext()){
 				
 				JSONObject CustomerInformation = CustomerInformationArray.next();
-				if(CustomerInformation.get("IsApplicant").toString().equals("Yes")){
+				if(CustomerInformation.get("IsApplicant").toString().equals("Yes") && CustomerInformation.get("CustomerType").equals("Individual")){
 					
 					JSONArray OtherAssetsArray = (JSONArray) JSON.GetTestData(CustomerInformation, "FactFind").get("OtherAssets");
 					Iterator<JSONObject> OtherAssets = OtherAssetsArray.iterator();
@@ -703,17 +716,21 @@ public class FactFindAssets {
 							Applicant1OwnershipPercentage.click();
 							Applicant1OwnershipPercentage.clear();
 							Applicant1OwnershipPercentage.sendKeys(Double.toString(PrimaryOwnership));
-							Applicant2OwnershipPercentage.click();
-							Applicant2OwnershipPercentage.clear();
-							Applicant2OwnershipPercentage.sendKeys(Double.toString(SecondaryOwnership));
+							if(JointClient){
+								Applicant2OwnershipPercentage.click();
+								Applicant2OwnershipPercentage.clear();
+								Applicant2OwnershipPercentage.sendKeys(Double.toString(SecondaryOwnership));
+							}
 							Thread.sleep(500);
 						}else{
 							Applicant1OwnershipPercentage.click();
 							Applicant1OwnershipPercentage.clear();
 							Applicant1OwnershipPercentage.sendKeys(Integer.toString(0));
-							Applicant2OwnershipPercentage.click();
-							Applicant2OwnershipPercentage.clear();
-							Applicant2OwnershipPercentage.sendKeys(Double.toString(100));
+							if(JointClient){
+								Applicant2OwnershipPercentage.click();
+								Applicant2OwnershipPercentage.clear();
+								Applicant2OwnershipPercentage.sendKeys(Double.toString(100));
+							}
 							Thread.sleep(500);
 						}
 						
@@ -725,7 +742,7 @@ public class FactFindAssets {
 			
 			Helper.ScroolToView(driver, AddMotorVehicle);		
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "FactFindOtherAssets");
-			logger.info("FactFind other Assets details under asset has been successfuly entered");
+			logger.info("FactFind other Assets details under asset has been successfully entered");
 			Thread.sleep(5000);
 			return true;
 			

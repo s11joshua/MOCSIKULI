@@ -151,6 +151,7 @@ public class AddressDetails {
 		
 		driver = FactFindExecutor.driver;
 		
+		int MaxCustomerreached = 0;
 		JSONArray CustomerInformation_Array = (JSONArray) TestExecution.JSONTestData.get("Customerinformation");
 		Iterator<JSONObject> CustomerInformationArray = CustomerInformation_Array.iterator();
 		
@@ -161,16 +162,21 @@ public class AddressDetails {
 			wait.until(ExpectedConditions.elementToBeClickable(AddAddress));			
 			
 			while (CustomerInformationArray.hasNext()){
+				if (MaxCustomerreached >= 2){
+					break;
+				}
 				JSONObject CustomerInformation = CustomerInformationArray.next();
 				
-				if (FirstCustomerFlag.equals("Yes") || CustomerInformation.get("IsApplicant").equals("Yes")){
+				if ((FirstCustomerFlag.equals("Yes") || CustomerInformation.get("IsApplicant").equals("Yes")) && CustomerInformation.get("CustomerType").equals("Individual")){
 					if (FirstCustomerFlag.equals("Yes")){
 						Applicant1.click();
 						Thread.sleep(3000);
 						FirstCustomerFlag = "No";
+						MaxCustomerreached ++;
 					} else if(CustomerInformation.get("IsApplicant").equals("Yes")) {
 						Applicant2.click();
 						Thread.sleep(3000);
+						MaxCustomerreached ++;
 					}
 					
 					JSONArray CustomerAdressArray = (JSONArray) JSON.GetTestData(CustomerInformation, "FactFind").get("Address");

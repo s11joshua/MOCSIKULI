@@ -152,6 +152,8 @@ public class EmploymentDetails {
 	static WebElement NextButtonTopofthePage;
 	
 	public static boolean EnterEmploymentDetails(){
+		
+		
 		JSONArray CustomerInformation_Array = (JSONArray) TestExecution.JSONTestData.get("Customerinformation");
 		Iterator<JSONObject> CustomerInformationArray = CustomerInformation_Array.iterator();
 		
@@ -159,22 +161,27 @@ public class EmploymentDetails {
 		try {
 		
 			driver = FactFindExecutor.driver;
-			
+			int MaxCustomerreached = 0;
 			WebDriverWait wait = new WebDriverWait(driver, 30);
 			wait.until(ExpectedConditions.elementToBeClickable(AddEmployment));
 			
 			while (CustomerInformationArray.hasNext()){
+				if (MaxCustomerreached >= 2){
+					break;
+				}
 				JSONObject CustomerInformation = CustomerInformationArray.next();
-				if (FirstCustomerFlag.equals("Yes") || CustomerInformation.get("IsApplicant").equals("Yes")){
+				if ((FirstCustomerFlag.equals("Yes") || CustomerInformation.get("IsApplicant").equals("Yes")) && CustomerInformation.get("CustomerType").equals("Individual")){
 					
 					if (FirstCustomerFlag.equals("Yes")){
 						Helper.ScroolToView(driver, Applicant1);
 						Applicant1.click();
 						Thread.sleep(3000);
+						MaxCustomerreached ++;
 					} else if(CustomerInformation.get("IsApplicant").equals("Yes")) {
 						Helper.ScroolToView(driver, Applicant2);
 						Applicant2.click();
 						Thread.sleep(3000);
+						MaxCustomerreached ++;
 					}
 					
 					JSONArray CustomerEmploymentArray = (JSONArray) JSON.GetTestData(CustomerInformation, "FactFind").get("EmploymentDetails");
@@ -278,6 +285,8 @@ public class EmploymentDetails {
 							StartDate.sendKeys(employment.get("StartDate").toString());
 							Thread.sleep(1000);
 						}
+						
+						EndDate.clear();// this can be deleted if the bug in the system is fixed, which is retaining the previous screen end date.
 						if(employment.get("EndDate") != null){
 							Helper.ScroolToView(driver, EndDate);
 							EndDate.click();

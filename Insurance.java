@@ -1,10 +1,6 @@
 package FactFind;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONArray;
@@ -17,7 +13,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.Screen;
-
 import Discovery.Helper;
 import Discovery.JSON;
 import Discovery.TestExecution;
@@ -98,6 +93,7 @@ public class Insurance {
 	public static boolean EnterinsuranceDetails(){
 		driver = FactFindExecutor.driver;
 		
+		int MaxCustomerreached = 0;
 		JSONArray CustomerInformation_Array = (JSONArray) TestExecution.JSONTestData.get("Customerinformation");
 		Iterator<JSONObject> CustomerInformationArray = CustomerInformation_Array.iterator();
 		
@@ -110,17 +106,23 @@ public class Insurance {
 			wait.until(ExpectedConditions.elementToBeClickable(LifeInsurance));
 			
 			while (CustomerInformationArray.hasNext()){
+				if (MaxCustomerreached >= 2){
+					break;
+				}
+				
 				JSONObject CustomerInformation = CustomerInformationArray.next();
-				if (FirstCustomerFlag.equals("Yes") || CustomerInformation.get("IsApplicant").equals("Yes")){
+				if ((FirstCustomerFlag.equals("Yes") || CustomerInformation.get("IsApplicant").equals("Yes")) && CustomerInformation.get("CustomerType").equals("Individual")){
 					
 					if (FirstCustomerFlag.equals("Yes")){
 						Helper.ScroolToView(driver, Applicant1);
 						Applicant1.click();
 						Thread.sleep(3000);
+						MaxCustomerreached ++;
 					} else if(CustomerInformation.get("IsApplicant").equals("Yes")) {
 						Helper.ScroolToView(driver, Applicant2);
 						Applicant2.click();
 						Thread.sleep(3000);
+						MaxCustomerreached ++;
 					}
 					
 					JSONObject CustomerInsurance = (JSONObject) JSON.GetTestData(CustomerInformation, "FactFind").get("Insurance");

@@ -73,4 +73,22 @@ public class FactFindExecutor {
 		}
 		return null;
 	}
+	
+	public static boolean IsJointClient(JSONObject RawFile){
+		int Counter = 0;
+		JSONArray CustomerInformation_Array = (JSONArray) RawFile.get("Customerinformation");
+		Iterator<JSONObject> CustomerInformationArray = CustomerInformation_Array.iterator();
+		
+		while (CustomerInformationArray.hasNext()){
+			JSONObject CustomerInformation = CustomerInformationArray.next();
+			if (CustomerInformation.get("CustomerType").toString().equals("Individual")){
+				Counter++;
+			}
+		}
+		if (Counter >= 2){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }

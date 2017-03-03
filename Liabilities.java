@@ -13,11 +13,11 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.sikuli.script.FindFailed;
 import org.sikuli.script.Screen;
 
 import Discovery.Helper;
 import Discovery.JSON;
+import Discovery.SaveScenario;
 import Discovery.TestExecution;
 
 public class Liabilities {
@@ -26,6 +26,7 @@ public class Liabilities {
 	static int Offset[] = {0,10,50,100,200,500,1000};
 	static Screen screen = new Screen();
 	static WebDriver driver = null;
+	static boolean JointClient;
 	
 	public Liabilities(){
 		
@@ -141,9 +142,9 @@ public class Liabilities {
 	static WebElement SaveExpenses;
 	
 	public static boolean EnterLiabilities(){
-		driver = FactFindExecutor.driver;
+		driver = FactFindExecutor.driver;		
+		JointClient = FactFindExecutor.IsJointClient(TestExecution.JSONTestData);
 		
-				
 		if (CreditCard() == false){return false;}
 		if (LoanDetails() == false){return false;}
 		if (Expenses() == false){return false;}
@@ -161,7 +162,7 @@ public class Liabilities {
 				while (CustomerInformationArray.hasNext()){
 					
 					JSONObject CustomerInformation = CustomerInformationArray.next();
-					if(CustomerInformation.get("IsApplicant").toString().equals("Yes")){
+					if(CustomerInformation.get("IsApplicant").toString().equals("Yes") && CustomerInformation.get("CustomerType").equals("Individual")){
 						
 						JSONArray CreditCardArray = (JSONArray) JSON.GetTestData(CustomerInformation, "FactFind").get("CreditCard");
 						Iterator<JSONObject> CreditCard = CreditCardArray.iterator();
@@ -202,13 +203,15 @@ public class Liabilities {
 								CreditCardLimit.sendKeys(Creditcard.get("Limit").toString());
 								Thread.sleep(500);
 							}
-							if(Creditcard.get("HeldBy") != null){
-								if(Creditcard.get("HeldBy").toString().equals("2")){
-									Helper.ScroolToView(driver, CreditCardOwnedBy2ndApplicant);
-									CreditCardOwnedBy2ndApplicant.click();
-								}else if(Creditcard.get("HeldBy").toString().equals("1")){
-									Helper.ScroolToView(driver, CreditCardOwnedBy1stApplicant);
-									CreditCardOwnedBy1stApplicant.click();
+							if(JointClient){
+								if(Creditcard.get("HeldBy") != null){
+									if(Creditcard.get("HeldBy").toString().equals("2")){
+										Helper.ScroolToView(driver, CreditCardOwnedBy2ndApplicant);
+										CreditCardOwnedBy2ndApplicant.click();
+									}else if(Creditcard.get("HeldBy").toString().equals("1")){
+										Helper.ScroolToView(driver, CreditCardOwnedBy1stApplicant);
+										CreditCardOwnedBy1stApplicant.click();
+									}
 								}
 							}
 							SaveCreditCardDetails.click();
@@ -219,7 +222,7 @@ public class Liabilities {
 				
 				Helper.ScroolToView(driver, AddCreditCard);		
 				Helper.ScreenDump(TestExecution.TestExecutionFolder, "FactFindLiabilities");
-				logger.info("FactFind credit card details under liabilities has been successfuly entered");
+				logger.info("FactFind credit card details under liabilities has been successfully entered");
 				return true;
 				
 			} catch (InterruptedException | NullPointerException e) {
@@ -241,7 +244,7 @@ public class Liabilities {
 			while (CustomerInformationArray.hasNext()){
 				
 				JSONObject CustomerInformation = CustomerInformationArray.next();
-				if(CustomerInformation.get("IsApplicant").toString().equals("Yes")){
+				if(CustomerInformation.get("IsApplicant").toString().equals("Yes") && CustomerInformation.get("CustomerType").equals("Individual")){
 					
 					JSONArray LoansArray = (JSONArray) JSON.GetTestData(CustomerInformation, "FactFind").get("Loans");
 					Iterator<JSONObject> Loans = LoansArray.iterator();
@@ -335,17 +338,21 @@ public class Liabilities {
 							Ownership1stApplicant.click();
 							Ownership1stApplicant.clear();
 							Ownership1stApplicant.sendKeys(Double.toString(PrimaryOwnership));
-							Ownership2ndApplicant.click();
-							Ownership2ndApplicant.clear();
-							Ownership2ndApplicant.sendKeys(Double.toString(SecondaryOwnership));
+							if(JointClient){
+								Ownership2ndApplicant.click();
+								Ownership2ndApplicant.clear();
+								Ownership2ndApplicant.sendKeys(Double.toString(SecondaryOwnership));
+							}
 							Thread.sleep(1000);
 						}else{
 							Ownership1stApplicant.click();
 							Ownership1stApplicant.clear();
 							Ownership1stApplicant.sendKeys(Integer.toString(0));
-							Ownership2ndApplicant.click();
-							Ownership2ndApplicant.clear();
-							Ownership2ndApplicant.sendKeys(Double.toString(100));
+							if(JointClient){
+								Ownership2ndApplicant.click();
+								Ownership2ndApplicant.clear();
+								Ownership2ndApplicant.sendKeys(Double.toString(100));
+							}
 							Thread.sleep(1000);
 						}
 						SaveLoanDetails.click();
@@ -356,7 +363,7 @@ public class Liabilities {
 			
 			Helper.ScroolToView(driver, AddLoanDetails);		
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "FactFindLoanDetail");
-			logger.info("FactFind loan details under liabilities has been successfuly entered");
+			logger.info("FactFind loan details under liabilities has been successfully entered");
 			return true;
 			
 		} catch (InterruptedException | NullPointerException e) {
@@ -374,6 +381,7 @@ public class Liabilities {
 			JSONArray CustomerInformation_Array = (JSONArray) TestExecution.JSONTestData.get("Customerinformation");
 			Iterator<JSONObject> CustomerInformationArray = CustomerInformation_Array.iterator();
 			String MonthlyExpensesEntered = null;
+			//Monthly Expenses will be entered only once and then exit
 			while (CustomerInformationArray.hasNext() && MonthlyExpensesEntered == null){
 				
 				JSONObject CustomerInformation = CustomerInformationArray.next();
@@ -496,7 +504,7 @@ public class Liabilities {
 			Helper.ScroolToView(driver, Groceries);		
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "FactFindMonthlyExpenses");
 			NextButtonBottomofthePage.click();
-			logger.info("FactFind monthly expenses for liabilities has been successfuly entered");
+			logger.info("FactFind monthly expenses for liabilities has been successfully entered");
 			return true;
 			
 		} catch (InterruptedException | NullPointerException e) {
