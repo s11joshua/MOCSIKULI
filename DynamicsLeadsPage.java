@@ -82,90 +82,93 @@ public class DynamicsLeadsPage {
 		while (CustomerInformationArray.hasNext()){
 			JSONObject CustomerInformation = CustomerInformationArray.next();
 			CustomerNames = (JSONObject) CustomerInformation.get("CustomerNames");
-			if (Numberofcustomer == 0){
-				CustomerFirstName = CustomerNames.get("FirstName").toString();
-				CustomerLastName = CustomerNames.get("LastName").toString();
-				CustomerContact = (JSONObject) CustomerInformation.get("CustomerContactDetails");
-				if(CustomerContact.get("EmailId") != null){
-					CustomerEmailId = CustomerContact.get("EmailId").toString();
+			if(CustomerInformation.get("IsApplicant").toString().equals("Yes") && CustomerInformation.get("CustomerType").toString().equals("Individual")){
+				if (Numberofcustomer == 0){
+					CustomerFirstName = CustomerNames.get("FirstName").toString();
+					CustomerLastName = CustomerNames.get("LastName").toString();
+					CustomerContact = (JSONObject) CustomerInformation.get("CustomerContactDetails");
+					if(CustomerContact.get("EmailId") != null){
+						CustomerEmailId = CustomerContact.get("EmailId").toString();
+					}
+					Numberofcustomer ++;
+				}else if (Numberofcustomer > 0){
+					SpouseFirstName = CustomerNames.get("FirstName").toString();
+					SpouseLastName = CustomerNames.get("LastName").toString();
+					break;
 				}
-				Numberofcustomer ++;
-			}else if (Numberofcustomer > 0 && CustomerInformation.get("IsApplicant").equals("Yes") ){
-				SpouseFirstName = CustomerNames.get("FirstName").toString();
-				SpouseLastName = CustomerNames.get("LastName").toString();
-				Numberofcustomer ++;
 			}
 		}
-			screen.click(LeadFirstName);
-			screen.type(CustomerFirstName);
-			screen.click(LeadLastName);
-			screen.type(CustomerLastName);
-			if (SpouseFirstName != null){
-				screen.click(SpouseFirst);
-				screen.type(SpouseFirstName);
+		
+		screen.click(LeadFirstName);
+		screen.type(CustomerFirstName);
+		screen.click(LeadLastName);
+		screen.type(CustomerLastName);
+		if (SpouseFirstName != null){
+			screen.click(SpouseFirst);
+			screen.type(SpouseFirstName);
+			Helper.Keystrokeenter(1);
+			if (SpouseLastName != null){
+				screen.click(SpouseLast);
+				screen.type(SpouseLastName);
 				Helper.Keystrokeenter(1);
-				if (SpouseLastName != null){
-					screen.click(SpouseLast);
-					screen.type(SpouseLastName);
-					Helper.Keystrokeenter(1);
-				}
 			}
-			
-			screen.click(LeadSourceMinor);
-			screen.type("Family&Friends");
-			Helper.Keystrokeenter(1);
-			Thread.sleep(2000);
-			Helper.Keystrokeenter(1);
-			screen.click(Email);
-			if(CustomerEmailId != null){
-				if (CustomerEmailId.equals("No")){
-					//This is intentional, if we want the Email id to be blank
-					SendFactFindInvite = "No";
-				}
-				else{
-					screen.type(CustomerEmailId.toString());
-					Helper.Keystrokeenter(1);
-					Thread.sleep(2000);
-					screen.click(Savelead);
-					SendFactFindInvite = "Yes";
-				}
-			}else{
-				screen.type(CustomerFirstName.toString()+"."
-						+CustomerLastName.toString() + "@moctestdomain.com");
+		}
+		
+		screen.click(LeadSourceMinor);
+		screen.type("Family&Friends");
+		Helper.Keystrokeenter(1);
+		Thread.sleep(2000);
+		Helper.Keystrokeenter(1);
+		screen.click(Email);
+		if(CustomerEmailId != null){
+			if (CustomerEmailId.equals("No")){
+				//This is intentional, if we want the Email id to be blank
+				SendFactFindInvite = "No";
+			}
+			else{
+				screen.type(CustomerEmailId.toString());
 				Helper.Keystrokeenter(1);
 				Thread.sleep(2000);
 				screen.click(Savelead);
 				SendFactFindInvite = "Yes";
 			}
-						
-			screen.wait(SavedSuccessfully, 30);
-			logger.info("Quick Lead Created Successfully");
-			screen.wait(ViewLead, 30).click();			
-			screen.wait(QualifyLead, 30).click();
-			Thread.sleep(30000);
-			if (screen.exists(PopUpOk) != null) {
-				screen.click(PopUpOk);
-			}
-			if(screen.wait(SendInvite,60) == null){
-				logger.error("Lead was not Qualified sucessfully");
-				return false;
-			}
-			logger.info("Lead Qualified sucessfully");
-			Thread.sleep(5000);
-			screen.wait(OpportunityTypeDropdown,30);
-			Helper.Keystrokedown(1);
+		}else{
+			screen.type(CustomerFirstName.toString()+"."
+					+CustomerLastName.toString() + "@moctestdomain.com");
 			Helper.Keystrokeenter(1);
-			screen.click(SaveOpportunity);
-			Thread.sleep(10000);
-			if(SendFactFindInvite.equals("Yes") && FactFindInvitation.equals("Yes")){
-				screen.click(SendInvite);
-				screen.wait(PopUpOk,30).click();
-				logger.info("FactFind Invite has been sent to the Customer");
-			}
+			Thread.sleep(2000);
+			screen.click(Savelead);
+			SendFactFindInvite = "Yes";
+		}
+					
+		screen.wait(SavedSuccessfully, 30);
+		logger.info("Quick Lead Created Successfully");
+		screen.wait(ViewLead, 30).click();			
+		screen.wait(QualifyLead, 30).click();
+		Thread.sleep(30000);
+		if (screen.exists(PopUpOk) != null) {
+			screen.click(PopUpOk);
+		}
+		if(screen.wait(SendInvite,60) == null){
+			logger.error("Lead was not Qualified sucessfully");
+			return false;
+		}
+		logger.info("Lead Qualified sucessfully");
+		Thread.sleep(5000);
+		screen.wait(OpportunityTypeDropdown,30);
+		Helper.Keystrokedown(1);
+		Helper.Keystrokeenter(1);
+		screen.click(SaveOpportunity);
+		Thread.sleep(10000);
+		if(SendFactFindInvite.equals("Yes") && FactFindInvitation.equals("Yes")){
+			screen.click(SendInvite);
 			screen.wait(PopUpOk,30).click();
-			Helper.ScreenDump(TestExecution.TestExecutionFolder, "DynamicsQuickLead");
-			logger.info("Quick Lead Created Sucessfully");
-			return true;
+			logger.info("FactFind Invite has been sent to the Customer");
+		}
+		screen.wait(PopUpOk,30).click();
+		Helper.ScreenDump(TestExecution.TestExecutionFolder, "DynamicsQuickLead");
+		logger.info("Quick Lead Created Sucessfully");
+		return true;
 		}catch (FindFailed | InterruptedException e) {
 			e.printStackTrace();
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");

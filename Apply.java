@@ -68,7 +68,9 @@ public class Apply {
 			Helper.ScreenDump(TestExecution.TestExecutionFolder, "ApplyScreen_BeforeSubmission");
 			screen.click(ApplicationSubmit);
 			
-			if (screen.exists(SuccessResponse,120) != null){
+			
+			if (screen.exists(SuccessResponse,120) == null){
+				logger.info("The application was not sent successfully to Broker Center or the wait counter expired.");
 				return false;
 			}
 			

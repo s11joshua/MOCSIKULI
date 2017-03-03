@@ -98,7 +98,7 @@ public class DiscoveryHomePage {
 		String FirstCustomerFlag = "Yes";
 		while (CustomerInformationArray.hasNext()){
 			JSONObject CustomerInformation = CustomerInformationArray.next();
-			if(CustomerInformation.get("IsApplicant").equals("Yes")){
+			if(CustomerInformation.get("IsApplicant").equals("Yes") && CustomerInformation.get("CustomerType").equals("Individual")){
 				if(FirstCustomerFlag.equals("Yes")){
 					FirstCustomerFlag = "No";
 					if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("FirstName") != null){

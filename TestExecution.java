@@ -107,7 +107,7 @@ public class TestExecution {
 		InitializeTestFramework();
 	}
 	
-	@Test
+	//@Test
 	public void TestCase001() throws Exception{
 		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));
 	}	
@@ -122,7 +122,7 @@ public class TestExecution {
 		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));		
 	}
 	
-	//@Test
+	@Test
 	public void TestCase004() throws Exception{
 		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));		
 	}
@@ -169,7 +169,7 @@ public class TestExecution {
 	public boolean TestSteps(String testdata){
 		
 		JSONTestData = JSON.ReadTestData(testdata);
-		if (JSON.GetTestData(JSONTestData, "LeadDetails").get("LeadOrigination").equals("Dynamics")){
+		/*if (JSON.GetTestData(JSONTestData, "LeadDetails").get("LeadOrigination").equals("Dynamics")){
 			if(Selenium.CreateQuicklead() != true){
 				return false;
 			}
@@ -188,24 +188,25 @@ public class TestExecution {
 		if (Securities.CaptureSecurities(JSONTestData) == false){return false;}
 		if (LoanStructure.CaptureLoanStructure(JSONTestData) == false){return false;}
 		if (QualifyLenders.ActionOnQulifyLenders(JSONTestData) == false){return false;}
-		if (ScenarioSummary.SelectLenderandProduct(JSONTestData) == false){return false;}
+		if (ScenarioSummary.SelectLenderandProduct(JSONTestData) == false){return false;}*/
 		if (SaveScenario.SaveAsNewLead(JSONTestData) == false){return false;}
-		if (ResponsibleLending.CaptureResponsibleLending(JSONTestData) == false){return false;}
+		/*if (ResponsibleLending.CaptureResponsibleLending(JSONTestData) == false){return false;}
 		if (Referrals.CaptureReferrals(JSONTestData) == false){return false;}
 		if (SaveScenario.Save(JSONTestData) == false){return false;}
 		if (Apply.CaptureTypeOfLodgement(JSONTestData) == false){return false;}
-		if (Helper.ForceKillApplication("Tonto.exe") == false){return false;}
+		if (Helper.ForceKillApplication("Tonto.exe") == false){return false;}*/
 		return true;
 	}
 	
 	public String TestSetup(String TestCaseName){
 		
-		try {
+		/*try {
 			Runtime.getRuntime().exec("taskkill /F /IM " + "Tonto.exe");
+			logger.info("Killed All open instance of Tonto.exe");
 		} catch (IOException e) {
 			e.printStackTrace();
 			logger.error(e.toString());
-		}
+		}*/
 		
 		TestExecutionFolder = null;
 		

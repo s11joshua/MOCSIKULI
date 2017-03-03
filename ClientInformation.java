@@ -208,7 +208,7 @@ public class ClientInformation {
 				if (CustomerInformation.get("NewCustomer").toString() != null && CustomerInformation.get("NewCustomer").toString().equals("Yes")){
 					counter++;
 					if (counter > 1) {
-						if(LeadDetails.get("LeadOrigination").toString().equals("Dynamics") && counter == 2){
+						if(LeadDetails.get("LeadOrigination").toString().equals("Dynamics") && counter == 2 && CustomerInformation.get("CustomerType").toString().equals("Individual")){
 							screen.find(SecondApplicantTab).left(Offset[1]).click();
 						}else{
 							screen.click(AddNewCustomer);
@@ -235,7 +235,7 @@ public class ClientInformation {
 						return false;
 					}
 					
-					if(LeadDetails.get("LeadOrigination").toString().equals("Discovery") || counter > 2){
+					if(LeadDetails.get("LeadOrigination").toString().equals("Discovery") || counter > 2 || CustomerInformation.get("CustomerType").toString().equals("Guarantor")){
 						
 						if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("Title") != null && Integer.parseInt(JSON.GetTestData(CustomerInformation, "CustomerNames").get("Title").toString()) >= 1){
 							screen.find(TitleandFirstName).right(Offset[1]).click();
@@ -261,28 +261,32 @@ public class ClientInformation {
 					}
 					if(CustomerInformation.get("DOB") != null){
 						screen.find(DateOfBirth).right(Offset[1]).click();
-						Helper.ClearTextBox(15,300);
+						Helper.ClearTextBox(15,(float) 0.300);
 						screen.type(CustomerInformation.get("DOB").toString());
 					}
 					if(CustomerInformation.get("PreferredContactMethod") != null && Integer.parseInt(CustomerInformation.get("PreferredContactMethod").toString()) >= 1){
 						screen.find(PreferredContactMethod).right(Offset[2]).click();
 						Helper.Keystrokeup(5);
-						Helper.Keystrokedown(Integer.parseInt(CustomerInformation.get("PreferredContactMethod").toString()));
-						Helper.Keystrokeenter(1);
+						if (Integer.parseInt(CustomerInformation.get("PreferredContactMethod").toString())-1 > 1){
+							Helper.Keystrokedown(Integer.parseInt(CustomerInformation.get("PreferredContactMethod").toString())-1);
+							Helper.Keystrokeenter(1);
+						}else{
+							Helper.Keystrokeenter(1);
+						}
 						
 						if(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("BusinessPhone") != null){
 							screen.find(BusPhone).right(Offset[4]).click();
-							Helper.ClearTextBox(15,300);
+							Helper.ClearTextBox(15,(float) 0.300);
 							screen.type(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("BusinessPhone").toString());
 						}
 						if(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("HomePhone") != null){
 							screen.find(HomePhone).right(Offset[4]).click();
-							Helper.ClearTextBox(15,300);
+							Helper.ClearTextBox(15,(float) 0.300);
 							screen.type(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("HomePhone").toString());
 						}
 						if(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("Mobile") != null){
 							screen.find(MobilePhone).right(Offset[4]).click();
-							Helper.ClearTextBox(15,300);
+							Helper.ClearTextBox(15,(float) 0.300);
 							screen.type(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("Mobile").toString());
 						}
 						if(JSON.GetTestData(CustomerInformation, "CustomerContactDetails").get("EmailId") != null){
