@@ -30,25 +30,14 @@ public class FactFindAssets {
 	static WebDriver driver = null;
 	
 	static boolean JointClient;
-	static Pattern AddressLookUp;
-	static Pattern AddressCannotbeFoundokButton;
-	static Pattern CountrySearchPopUp;
-	static Pattern CountryFilterforSearch;
-	static Pattern SelectCountry;
-	static Pattern SelectCountryPopup;
+	
 	static Pattern SuperHeldBy1;
 	static Pattern SuperHeldBy2;
 	
 	public FactFindAssets(){
-		new FactFindAssets("C:\\Sikuli Images\\FactFind\\Assets\\");
+		new FactFindAssets(TestExecution.PatternRootFolderlocation+"FactFind\\Assets\\");
 	}
 	public FactFindAssets(String Imagefolderlocation){
-		AddressLookUp = new Pattern (Imagefolderlocation + "ExistingPropertyAddressLookup.PNG");
-		AddressCannotbeFoundokButton = new Pattern (Imagefolderlocation + "AddressNotFoundokbutton.PNG");
-		CountrySearchPopUp = new Pattern (Imagefolderlocation + "CountrySearch.PNG");
-		SelectCountryPopup = new Pattern (Imagefolderlocation + "SelectCountryPopup.PNG");
-		CountryFilterforSearch = new Pattern (Imagefolderlocation + "SearchCountryInPopup.PNG");
-		SelectCountry = new Pattern (Imagefolderlocation + "SelectCountry.PNG");
 		SuperHeldBy1 = new Pattern (Imagefolderlocation + "HeldBy1stPerson.PNG");
 		SuperHeldBy2 = new Pattern (Imagefolderlocation + "HeldBy2ndPerson.PNG");
 	}
@@ -264,11 +253,11 @@ public class FactFindAssets {
 							AddressString = "                    ";
 						}
 						
-						screen.find(AddressLookUp).below(Offset[1]).click();
+						screen.find(CountrySelection.AssetAddressLookUp).below(Offset[1]).click();
 						screen.type(AddressString);
 						Thread.sleep(3000);
-						if (screen.exists(AddressCannotbeFoundokButton) != null){
-							screen.click(AddressCannotbeFoundokButton);
+						if (screen.exists(CountrySelection.AddressCannotbeFoundokButton) != null){
+							screen.click(CountrySelection.AddressCannotbeFoundokButton);
 							Thread.sleep(3000);
 							if(Existingproperty.get("Unitnumber") != null){
 								Helper.ScroolToView(driver, UnitNumber);
@@ -326,21 +315,14 @@ public class FactFindAssets {
 							if(Existingproperty.get("Country") != null){
 								Helper.ScroolToView(driver, SearchCountry);
 								SearchCountry.click();
-								Thread.sleep(3000);
-								screen.click(CountrySearchPopUp);
-								screen.type(Existingproperty.get("Country").toString());
-								Thread.sleep(1000);
-								screen.click(CountryFilterforSearch);
-								Thread.sleep(1000);
-								screen.find(SelectCountry).below(Offset[1]).click();
-								//Helper.Keystroketab(4);
-								//Helper.Keystrokeenter(1);
-								screen.click(SelectCountryPopup);
-								screen.waitVanish(SelectCountryPopup,15);
+								if(CountrySelection.SelectCountry(Existingproperty.get("Country").toString()) != true){
+									return false;
+								}
 							}
 							
+							
 						}else{
-							screen.find(AddressLookUp).below(Offset[2]).doubleClick();
+							screen.find(CountrySelection.AssetAddressLookUp).below(Offset[2]).doubleClick();
 							Thread.sleep(4000);
 						}
 						

@@ -29,30 +29,17 @@ public class AddressDetails {
 	public static WebDriver driver = null;
 	
 	
-	static Pattern AddressCannotbeFound;
-	static Pattern AddressCannotbeFoundokButton;
-	static Pattern CountrySearchPopUp;
-	static Pattern CountryFilterforSearch;
-	static Pattern SelectCountry;
-	static Pattern SelectCountryPopup;
-	static Pattern AddressLookUp;
-	
 	public AddressDetails(WebDriver BrowserType){
 		PageFactory.initElements(BrowserType, this);
 	}
 	
-	public AddressDetails(){
-		new AddressDetails("C:\\Sikuli Images\\FactFind\\Address\\");
+	/*public AddressDetails(){
+		new AddressDetails(TestExecution.PatternRootFolderlocation+"FactFind\\Address\\");
 	}
 	public AddressDetails(String Imagefolderlocation){
-		AddressCannotbeFound = new Pattern (Imagefolderlocation + "AddressCannotbeFound.PNG");
 		AddressCannotbeFoundokButton = new Pattern (Imagefolderlocation + "AddressNotFoundokbutton.PNG");
-		CountrySearchPopUp = new Pattern (Imagefolderlocation + "CountrySearch.PNG");
-		CountryFilterforSearch = new Pattern (Imagefolderlocation + "SearchCountryInPopup.PNG");
-		SelectCountry = new Pattern (Imagefolderlocation + "SelectCountry.PNG");
-		SelectCountryPopup = new Pattern (Imagefolderlocation + "SelectCountryPopup.PNG");
 		AddressLookUp = new Pattern (Imagefolderlocation + "AddressLookUp.PNG");
-	}
+	}*/
 	
 	@FindBy(how = How.XPATH, using = ".//*[@id='lnkAddAddress']")
 	static WebElement AddAddress;
@@ -198,12 +185,12 @@ public class AddressDetails {
 							AddressString = "                    ";
 						}
 						
-						screen.find(AddressLookUp).below(Offset[1]).click();
+						screen.find(CountrySelection.AddressLookUp).below(Offset[1]).click();
 						screen.type(AddressString);
 						Thread.sleep(3000);
 						
-						if (screen.exists(AddressCannotbeFoundokButton) != null){
-							screen.click(AddressCannotbeFoundokButton);
+						if (screen.exists(CountrySelection.AddressCannotbeFoundokButton) != null){
+							screen.click(CountrySelection.AddressCannotbeFoundokButton);
 							Thread.sleep(3000);
 							if(Address.get("Unitnumber") != null){
 								Helper.ScroolToView(driver, UnitNumber);
@@ -268,22 +255,13 @@ public class AddressDetails {
 							if(Address.get("Country") != null){
 								Helper.ScroolToView(driver, CountrySearch);
 								CountrySearch.click();
-								Thread.sleep(3000);
-								screen.click(CountrySearchPopUp);
-								screen.type(Address.get("Country").toString());
-								Thread.sleep(1000);
-								screen.click(CountryFilterforSearch);
-								Thread.sleep(1000);
-								screen.find(SelectCountry).below(Offset[1]).click();
-								//Helper.Keystroketab(4);
-								//Helper.Keystrokeenter(1);
-								screen.click(SelectCountryPopup);
-								screen.waitVanish(SelectCountryPopup,10);
-								Thread.sleep(2000);
+								if(CountrySelection.SelectCountry(Address.get("Country").toString()) != true){
+									return false;
+								}
 							}
 							
 						}else{
-							screen.find(AddressLookUp).below(Offset[2]).doubleClick();
+							screen.find(CountrySelection.AddressLookUp).below(Offset[2]).doubleClick();
 							Thread.sleep(4000);
 						}
 						
