@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -379,7 +380,14 @@ public class Helper {
 	
 	public String GetConfigParameter(String ParameterKey){
 		Properties prop = new Properties();
-		String propFileName = "config.properties";
+		try {
+			prop.load(new FileInputStream("C:/TestFolder/Config.properties"));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		
+		/*String propFileName = "config.properties";
 		InputStream inputStream;
 		inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
 		
@@ -391,7 +399,7 @@ public class Helper {
 			}	
 		}catch (IOException e) {
 			e.printStackTrace();
-		}			 
+		}*/			 
 		
 		return prop.getProperty(ParameterKey);
 	}

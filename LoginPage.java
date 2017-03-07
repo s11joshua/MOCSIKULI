@@ -21,7 +21,7 @@ public class LoginPage {
 	public static Pattern ReplicateDiscoveryDatabase;
 	
 		public LoginPage(){
-			new LoginPage("C:\\Sikuli Images\\Login\\");
+			new LoginPage(TestExecution.PatternRootFolderlocation+"Login\\");
 		}
 	
 		public LoginPage(String Imagefolderlocation)

@@ -48,7 +48,7 @@ public class Securities {
 	static Pattern Security10;
 		
 	public Securities(){
-		new Securities("C:\\Sikuli Images\\Securities\\");
+		new Securities(TestExecution.PatternRootFolderlocation+"Securities\\");
 	}
 	
 	public Securities(String Imagefolderlocation){

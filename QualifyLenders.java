@@ -21,7 +21,7 @@ public class QualifyLenders {
 	static Pattern Qualifiedsymbol;
 	
 	public QualifyLenders(){
-		new QualifyLenders("C:\\Sikuli Images\\QualifyLenders\\");
+		new QualifyLenders(TestExecution.PatternRootFolderlocation+"QualifyLenders\\");
 	}
 	
 	public QualifyLenders(String Imagefolderlocation){

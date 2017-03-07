@@ -50,8 +50,8 @@ public class ScenarioSummary {
 	static Pattern LoanScroll;
 
 	public ScenarioSummary(){
-		new ScenarioSummary("C:\\Sikuli Images\\ScenarioSummary\\");
-		new LoanStructure("C:\\Sikuli Images\\LoanStructure\\");
+		new ScenarioSummary(TestExecution.PatternRootFolderlocation+"ScenarioSummary\\");
+		//new LoanStructure("C:\\Sikuli Images\\LoanStructure\\");
 	}
 	
 	public ScenarioSummary(String Imagefolderlocation){

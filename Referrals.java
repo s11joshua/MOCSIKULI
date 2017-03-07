@@ -26,7 +26,7 @@ public class Referrals {
 
 	
 	public Referrals(){
-		new Referrals("C:\\Sikuli Images\\Referrals\\");
+		new Referrals(TestExecution.PatternRootFolderlocation+"Referrals\\");
 	}
 	
 	public Referrals(String Imagefolderlocation){

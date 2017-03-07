@@ -29,7 +29,7 @@ public class DiscoveryHomePage {
 	
 	
 	public DiscoveryHomePage(){
-		new DiscoveryHomePage("C:\\Sikuli Images\\DiscoveryHomePage\\");
+		new DiscoveryHomePage(TestExecution.PatternRootFolderlocation+"DiscoveryHomePage\\");
 	}
 	
 	public DiscoveryHomePage(String Imagefolderlocation){
@@ -49,7 +49,7 @@ public class DiscoveryHomePage {
 		
 		try {
 			if(LeadDetails.get("LeadOrigination").toString().equals("Dynamics")){
-				screen.wait(loanApplicationTab,15);
+				screen.wait(loanApplicationTab,30);
 				screen.click(loanApplicationTab);
 				Helper.Keystrokedown(4);
 				Helper.Keystrokeenter(1);

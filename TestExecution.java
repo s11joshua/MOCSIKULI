@@ -1,24 +1,18 @@
 package Discovery;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Properties;
 
 import org.junit.runners.MethodSorters;
-import org.openqa.selenium.WebDriver;
-
 import static org.junit.Assert.*;
-import org.sikuli.script.App;
-import org.sikuli.script.Screen;
-
 import Dynamics.DynamicsLeadsPage;
-import Dynamics.DynamicsLoginPage;
 import Dynamics.Selenium;
 import FactFind.AddressDetails;
+import FactFind.CountrySelection;
 import FactFind.EmploymentDetails;
 import FactFind.FactFindAssets;
 import FactFind.FactFindExecutor;
@@ -26,7 +20,6 @@ import FactFind.FactFindLogin;
 import FactFind.Insurance;
 import FactFind.Liabilities;
 import FactFind.PersonalDetails;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONObject;
@@ -42,8 +35,8 @@ import org.sikuli.basics.Settings;
 public class TestExecution {
 	
 	static Log logger = LogFactory.getLog(TestExecution.class);
-	
 	public static JSONObject JSONTestData;
+	public static String PatternRootFolderlocation; 
 	public String TestEnvironment;
 	public String DiscoveryUserName;
 	public String DiscoveryPassword;
@@ -56,17 +49,31 @@ public class TestExecution {
 	public static String TestExecutionFolder;
 	
 	public void InitializeTestFramework(){
+		Helper Config = new Helper();
 		Settings.OcrTextSearch = true;
 		Settings.OcrTextRead = true;
 		Settings.setShowActions(true);
 		//Debug.setDebugLevel(1);
 		Settings.UserLogs = true;
 		Settings.LogTime = true;
-		Helper Config = new Helper();
+				
+		try {
+			Runtime.getRuntime().exec("taskkill /F /IM " + "Tonto.exe");
+			Runtime.getRuntime().exec("taskkill /F /IM " + "geckodriver.exe");
+			Runtime.getRuntime().exec("taskkill /F /IM " + "IEDriverServer.exe");
+			Runtime.getRuntime().exec("taskkill /F /IM " + "chromedriver.exe");
+			
+			logger.info("Killed All open instance of Tonto and browser drivers");
+		} catch (IOException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		}
 		
 		if (Config.GetConfigParameter("MinimizeAllWindow").equals("Yes")){
 			Helper.MinimizeAllWindows();
 		}
+		
+		PatternRootFolderlocation = Config.GetConfigParameter("PatternRootFolder");
 		
 		TestDataFolderRoot = Config.GetConfigParameter("WQAAutomationFolderPath")+"TestData\\";
 		
@@ -94,12 +101,10 @@ public class TestExecution {
 		new DynamicsLeadsPage();
 		new FactFindLogin();
 		new PersonalDetails();
-		new AddressDetails();
-		new EmploymentDetails();
 		new FactFindAssets();
 		new Liabilities();
 		new Insurance();
-		
+		new CountrySelection();
 	}
 	
 	@Before
@@ -107,7 +112,7 @@ public class TestExecution {
 		InitializeTestFramework();
 	}
 	
-	//@Test
+	@Test
 	public void TestCase001() throws Exception{
 		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));
 	}	
@@ -122,7 +127,7 @@ public class TestExecution {
 		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));		
 	}
 	
-	@Test
+	//@Test
 	public void TestCase004() throws Exception{
 		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));		
 	}
@@ -144,7 +149,7 @@ public class TestExecution {
 	
 	public boolean TestExecutor(String TestCaseName){
 		logger.info("Test execution started for Test Case: " + TestCaseName);
-		TestExecutionFolder = TestSetup(TestCaseName);
+		TestExecutionFolder = TestFolderSetup(TestCaseName);
 		VideoRecorderclass Record = new VideoRecorderclass();
 		Record.startRecording(TestExecutionFolder);
 		if (TestExecutionFolder != null){
@@ -169,10 +174,10 @@ public class TestExecution {
 	public boolean TestSteps(String testdata){
 		
 		JSONTestData = JSON.ReadTestData(testdata);
-		/*if (JSON.GetTestData(JSONTestData, "LeadDetails").get("LeadOrigination").equals("Dynamics")){
-			if(Selenium.CreateQuicklead() != true){
+		if (JSON.GetTestData(JSONTestData, "LeadDetails").get("LeadOrigination").equals("Dynamics")){
+			/*if(Selenium.CreateQuicklead() != true){
 				return false;
-			}
+			}*/
 			if (JSON.GetTestData(JSONTestData, "LeadDetails").get("SendFactFindInvitaion").equals("Yes")){
 				if(FactFindExecutor.FillFactFind() != true){
 					return false;
@@ -188,25 +193,17 @@ public class TestExecution {
 		if (Securities.CaptureSecurities(JSONTestData) == false){return false;}
 		if (LoanStructure.CaptureLoanStructure(JSONTestData) == false){return false;}
 		if (QualifyLenders.ActionOnQulifyLenders(JSONTestData) == false){return false;}
-		if (ScenarioSummary.SelectLenderandProduct(JSONTestData) == false){return false;}*/
+		if (ScenarioSummary.SelectLenderandProduct(JSONTestData) == false){return false;}
 		if (SaveScenario.SaveAsNewLead(JSONTestData) == false){return false;}
-		/*if (ResponsibleLending.CaptureResponsibleLending(JSONTestData) == false){return false;}
+		if (ResponsibleLending.CaptureResponsibleLending(JSONTestData) == false){return false;}
 		if (Referrals.CaptureReferrals(JSONTestData) == false){return false;}
 		if (SaveScenario.Save(JSONTestData) == false){return false;}
 		if (Apply.CaptureTypeOfLodgement(JSONTestData) == false){return false;}
-		if (Helper.ForceKillApplication("Tonto.exe") == false){return false;}*/
+		if (Helper.ForceKillApplication("Tonto.exe") == false){return false;}
 		return true;
 	}
 	
-	public String TestSetup(String TestCaseName){
-		
-		/*try {
-			Runtime.getRuntime().exec("taskkill /F /IM " + "Tonto.exe");
-			logger.info("Killed All open instance of Tonto.exe");
-		} catch (IOException e) {
-			e.printStackTrace();
-			logger.error(e.toString());
-		}*/
+	public String TestFolderSetup(String TestCaseName){
 		
 		TestExecutionFolder = null;
 		

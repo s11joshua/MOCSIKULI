@@ -12,6 +12,7 @@ public class Apply {
 	public static int Offset[] = {0,10,50,100,200,500,1000};
 	public static Screen screen = new Screen();
 	
+	
 	static Pattern AddThirdParty;
 	static Pattern ApplicationSubmit;
 	static Pattern Apply;
@@ -22,7 +23,7 @@ public class Apply {
 
 	
 	public Apply(){
-		new Apply("C:\\Sikuli Images\\Apply\\");
+		new Apply(TestExecution.PatternRootFolderlocation+"Apply\\");
 	}
 	
 	public Apply(String Imagefolderlocation){
@@ -78,7 +79,7 @@ public class Apply {
 			logger.info("Application was submitted successfully");
 			Helper.WriteToTxtFile("Application was submitted successfully", TestExecution.TestExecutionFolder + "logs.txt");
 			App.pause(30);//This is to wait for broker center to be opened .. this should be changed to dynamically wait for BC to open.
-			
+			App.focus("Tonto.exe");
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();

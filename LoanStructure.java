@@ -38,7 +38,7 @@ public class LoanStructure {
 
 	
 	public LoanStructure(){
-		new LoanStructure("C:\\Sikuli Images\\LoanStructure\\");
+		new LoanStructure(TestExecution.PatternRootFolderlocation+"LoanStructure\\");
 	}
 	
 	public LoanStructure(String Imagefolderlocation){

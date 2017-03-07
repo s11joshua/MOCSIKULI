@@ -39,7 +39,7 @@ public class ResponsibleLending {
 	static Pattern CustomerHasSufficientInsuranceCover;
 	
 	public ResponsibleLending(){
-		new ResponsibleLending("C:\\Sikuli Images\\ResponsibleLending\\");
+		new ResponsibleLending(TestExecution.PatternRootFolderlocation+"ResponsibleLending\\");
 	}
 	
 	public ResponsibleLending(String Imagefolderlocation){

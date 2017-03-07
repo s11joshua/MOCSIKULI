@@ -24,7 +24,7 @@ public class QAHomePage {
 	static Pattern NewScenario;
 	
 	public QAHomePage(){
-		new QAHomePage("C:\\Sikuli Images\\QA Homepage\\");
+		new QAHomePage(TestExecution.PatternRootFolderlocation+"QA Homepage\\");
 	}
 	
 	public QAHomePage(String Imagefolderlocation){

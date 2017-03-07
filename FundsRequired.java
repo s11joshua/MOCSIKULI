@@ -63,7 +63,7 @@ public class FundsRequired {
 	static Pattern CapitaliseLMI;
 		
 	public FundsRequired(){
-		new FundsRequired("C:\\Sikuli Images\\FundsRequired\\");
+		new FundsRequired(TestExecution.PatternRootFolderlocation+"FundsRequired\\");
 	}
 	
 	public FundsRequired(String Imagefolderlocation){

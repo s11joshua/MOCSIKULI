@@ -16,7 +16,7 @@ public class ClientInformation {
 	
 	public static int Offset[] = {0,10,50,100,200,500,1000};
 	public static Screen screen = new Screen();
-
+	
 	
 	
 	static Pattern qashortcut;
@@ -103,7 +103,7 @@ public class ClientInformation {
 	static Pattern CommitmentOKbutton;
 	
 	public ClientInformation(){
-		new ClientInformation("C:\\Sikuli Images\\Client_Information\\");
+		new ClientInformation(TestExecution.PatternRootFolderlocation+"Client_Information\\");
 	}
 	
 	public ClientInformation(String Imagefolderlocation)

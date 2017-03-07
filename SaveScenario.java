@@ -30,7 +30,7 @@ public class SaveScenario {
 	static Pattern JointClentOK;
 
 	public SaveScenario(){
-		new SaveScenario("C:\\Sikuli Images\\SaveScenario\\");
+		new SaveScenario(TestExecution.PatternRootFolderlocation+"SaveScenario\\");
 	}
 	
 	public SaveScenario(String Imagefolderlocation){
@@ -62,15 +62,19 @@ public class SaveScenario {
 				screen.click(NoButton);
 			}
 			
-			Thread.sleep(3);
-			if (screen.exists(CreateNewClientPopUp) != null){
-				screen.click(CreateNewjointClientinDiscovery);
+			if(JSON.GetTestData(RawFile, "EnvironmentDetails").get("Replicadatabase").toString().equals("Yes") && LeadDetails.get("LeadOrigination").toString().equals("Dynamics")){
+				Thread.sleep(3);
+				if (screen.exists(CreateNewClientPopUp) != null){
+					screen.click(CreateNewjointClientinDiscovery);
+				}
 			}
 			
-			if(MorethanOneApplicant(RawFile) == true){
-				Thread.sleep(3);
-				screen.wait(JointClentOK);
-				screen.click(JointClentOK);
+			if(JSON.GetTestData(RawFile, "EnvironmentDetails").get("Replicadatabase").toString().equals("Yes") && LeadDetails.get("LeadOrigination").toString().equals("Discovery")){
+				if(MorethanOneApplicant(RawFile) == true){
+					Thread.sleep(3);
+					//screen.wait(JointClentOK);
+					screen.click(JointClentOK);
+				}
 			}
 			
 			App.pause(4);
