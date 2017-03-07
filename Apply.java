@@ -79,7 +79,7 @@ public class Apply {
 			logger.info("Application was submitted successfully");
 			Helper.WriteToTxtFile("Application was submitted successfully", TestExecution.TestExecutionFolder + "logs.txt");
 			App.pause(30);//This is to wait for broker center to be opened .. this should be changed to dynamically wait for BC to open.
-			App.focus("Tonto.exe");
+			App.focus("Qualifier Analyser");
 			return true;
 		} catch (FindFailed e) {
 			e.printStackTrace();
