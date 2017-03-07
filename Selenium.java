@@ -32,7 +32,7 @@ public class Selenium {
 	static Pattern QuickOpportunity;
 	
 	public Selenium(){
-		new Selenium("C:\\Sikuli Images\\Dynamics\\");
+		new Selenium(TestExecution.PatternRootFolderlocation+"Dynamics\\");
 	}
 	public Selenium(String Imagefolderlocation){
 		sales = new Pattern (Imagefolderlocation + "Sales.PNG");

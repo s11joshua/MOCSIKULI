@@ -38,7 +38,7 @@ public class DynamicsLeadsPage {
 	static Pattern OpportunityTypeDropdown;
 	
 	public DynamicsLeadsPage(){
-		new DynamicsLeadsPage("C:\\Sikuli Images\\Dynamics\\Leads\\");
+		new DynamicsLeadsPage(TestExecution.PatternRootFolderlocation+"Dynamics\\Leads\\");
 	}
 	
 	public DynamicsLeadsPage(String Imagefolderlocation){
