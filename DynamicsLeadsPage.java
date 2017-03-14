@@ -1,5 +1,7 @@
 package Dynamics;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
@@ -98,8 +100,9 @@ public class DynamicsLeadsPage {
 				}
 			}
 		}
-		
+		Thread.sleep(2000);
 		screen.click(LeadFirstName);
+		Thread.sleep(2000);
 		screen.type(CustomerFirstName);
 		screen.click(LeadLastName);
 		screen.type(CustomerLastName);

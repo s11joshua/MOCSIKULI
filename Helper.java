@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -357,6 +358,39 @@ public class Helper {
 		}
 	}
 	
+	public static void CopyDiscoveryErrorLogtoExecutionFolder(String TargetFile){
+		try {
+			Files.copy(Paths.get(TestExecution.DiscoveryErroLogFile), Paths.get(TargetFile));
+			logger.info("The Discovery Error log file has been successfully copied to the following target folder: " + TargetFile);
+		} catch (IOException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+		}
+	}
+	
+	public static void CopyAOLXMLFiletoExecutionFolder() {
+	    File fl = new File(TestExecution.DiscoveryGeneratedXMLPath);
+	    File[] files = fl.listFiles(new FileFilter() {          
+	        public boolean accept(File file) {
+	            return file.isFile();
+	        }
+	    });
+	    long lastMod = Long.MIN_VALUE;
+	    File choice = null;
+	    for (File file : files) {
+	        if (file.lastModified() > lastMod) {
+	            choice = file;
+	            lastMod = file.lastModified();
+	        }
+	    }
+	  	if(choice != null){
+	  		CopyFiles(choice.toString(),TestExecution.TestExecutionFolder + choice.getName());
+		}
+		else{
+	    	logger.info("There are no Discovery generated XML file which was created after the test execution");
+	    }
+	}
+	
 	public static boolean ReadAllTextFilesInDirectory(String DirectoryPath){
 	Path dir = FileSystems.getDefault().getPath(DirectoryPath);
 	//List<JSONObject> list = new ArrayList<JSONObject>();
@@ -378,29 +412,14 @@ public class Helper {
 		}
 	}
 	
-	public String GetConfigParameter(String ParameterKey){
+	public static String GetConfigParameter(String ParameterKey){
 		Properties prop = new Properties();
 		try {
 			prop.load(new FileInputStream("C:/TestFolder/Config.properties"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
-		
-		/*String propFileName = "config.properties";
-		InputStream inputStream;
-		inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
-		
-		try{
-			if (inputStream != null) {
-				prop.load(inputStream);
-			}else {
-				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
-			}	
-		}catch (IOException e) {
-			e.printStackTrace();
-		}*/			 
-		
+				
 		return prop.getProperty(ParameterKey);
 	}
 

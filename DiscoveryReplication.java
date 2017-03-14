@@ -29,7 +29,11 @@ public class DiscoveryReplication {
 				if (RepliationStatus == 6){
 					logger.info("Replication completed sucessfully with the follwoing status code :" + RepliationStatus);
 					return true;
-				}else{
+				}else if(RepliationStatus == 8){
+					logger.info("Replication completed with errors and the status code is:" + RepliationStatus);
+					return true;
+				}
+				else{
 					logger.error("Replication failed with the following status code :" + RepliationStatus);
 					return false;
 				}

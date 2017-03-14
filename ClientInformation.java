@@ -245,6 +245,7 @@ public class ClientInformation {
 						if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("FirstName") != null){
 							screen.find(TitleandFirstName).right(Offset[4]).click();
 							screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("FirstName").toString());
+							
 						}else{
 							logger.error("Invalid parameter passed for customer first name.");
 							return false;
@@ -253,6 +254,7 @@ public class ClientInformation {
 						if(JSON.GetTestData(CustomerInformation, "CustomerNames").get("LastName") != null){
 							screen.find(LastName).right(Offset[1]).click();
 							screen.type(JSON.GetTestData(CustomerInformation, "CustomerNames").get("LastName").toString());
+														
 						}else{
 							logger.error("Invalid parameter passed for customer last name.");
 							return false;

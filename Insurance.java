@@ -232,6 +232,7 @@ public class Insurance {
 			}
 		
 		logger.info("FactFind Insurance details entered successfully");
+		Thread.sleep(5000);
 		return true;
 		}catch (InterruptedException e) {
 			e.printStackTrace();

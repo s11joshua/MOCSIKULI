@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.attribute.FileTime;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Properties;
@@ -46,10 +47,13 @@ public class TestExecution {
 	public String LogFolder;
 	public String ExecutionFolder;
 	public String TimeStamp;
+	public static long TestExecutionStartTime;
+	public static String DiscoveryGeneratedXMLPath;
 	public static String TestExecutionFolder;
+	public static String DiscoveryErroLogFile;
 	
 	public void InitializeTestFramework(){
-		Helper Config = new Helper();
+		
 		Settings.OcrTextSearch = true;
 		Settings.OcrTextRead = true;
 		Settings.setShowActions(true);
@@ -69,21 +73,25 @@ public class TestExecution {
 			logger.error(e.toString());
 		}
 		
-		if (Config.GetConfigParameter("MinimizeAllWindow").equals("Yes")){
+		if (Helper.GetConfigParameter("MinimizeAllWindow").equals("Yes")){
 			Helper.MinimizeAllWindows();
 		}
 		
-		PatternRootFolderlocation = Config.GetConfigParameter("PatternRootFolder");
+		PatternRootFolderlocation = Helper.GetConfigParameter("PatternRootFolder");
+		DiscoveryErroLogFile = Helper.GetConfigParameter("DiscoveryErrorLog");
+		TestDataFolderRoot = Helper.GetConfigParameter("WQAAutomationFolderPath")+"TestData\\";
+		DiscoveryGeneratedXMLPath = Helper.GetConfigParameter("DiscoveryGeneratedXMLPath");
 		
-		TestDataFolderRoot = Config.GetConfigParameter("WQAAutomationFolderPath")+"TestData\\";
-		
-		LogFolder = Config.GetConfigParameter("WQAAutomationFolderPath")+"Logs\\";
+		LogFolder = Helper.GetConfigParameter("WQAAutomationFolderPath")+"Logs\\";
 		Debug.setLogFile(LogFolder + "Sikuli.log");
-		RootFolder = Config.GetConfigParameter("WQAAutomationFolderPath")+"TestExecution\\";
+		RootFolder = Helper.GetConfigParameter("WQAAutomationFolderPath")+"TestExecution\\";
 	    TestFolder =  new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
 	    Helper.CreateDirectory(RootFolder,TestFolder);
 	    ExecutionFolder = RootFolder + TestFolder +"\\";
-				
+		
+	    TestExecutionStartTime = System.currentTimeMillis();
+	    System.out.println(TestExecutionStartTime);
+	    
 		new LoginPage();
 		new DiscoveryHomePage();
 		new QAHomePage();
@@ -109,42 +117,49 @@ public class TestExecution {
 	
 	@Before
 	public void setUp() throws Exception {
+		logger.info("Starting Test case Initalization");
 		InitializeTestFramework();
+		logger.info("Test case Initalization Completed successfully");
 	}
 	
 	@Test
 	public void TestCase001() throws Exception{
-		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));
+		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));	
 	}	
 	
-	//@Test
+	@Test
 	public void TestCase002() throws Exception{
 		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));	
 	}
 	
-	//@Test
+	@Test
 	public void TestCase003() throws Exception{
-		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));		
+		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));	
 	}
 	
-	//@Test
+	@Test
 	public void TestCase004() throws Exception{
-		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));		
+		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));
 	}
 	
-	//@Test
+	@Test
 	public void TestCase005() throws Exception{
 		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));
 	}
 	
-	//@After
+	@After
 	public void tearDown() throws Exception {
+		logger.info("Starting Tear Down Operation");
 		try {
 			Runtime.getRuntime().exec("taskkill /F /IM " + "Tonto.exe");
 		} catch (IOException e) {
 			e.printStackTrace();
 			logger.error(e.toString());
 		}
+		
+		Helper.CopyDiscoveryErrorLogtoExecutionFolder(TestExecutionFolder+"DiscoveryErrorLog.txt");
+		Helper.CopyAOLXMLFiletoExecutionFolder();
+		logger.info("Tear Down Operation Completed successfully");
 	}
 	
 	public boolean TestExecutor(String TestCaseName){
@@ -175,9 +190,9 @@ public class TestExecution {
 		
 		JSONTestData = JSON.ReadTestData(testdata);
 		if (JSON.GetTestData(JSONTestData, "LeadDetails").get("LeadOrigination").equals("Dynamics")){
-			/*if(Selenium.CreateQuicklead() != true){
+			if(Selenium.CreateQuicklead() != true){
 				return false;
-			}*/
+			}
 			if (JSON.GetTestData(JSONTestData, "LeadDetails").get("SendFactFindInvitaion").equals("Yes")){
 				if(FactFindExecutor.FillFactFind() != true){
 					return false;
