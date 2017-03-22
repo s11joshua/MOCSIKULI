@@ -17,7 +17,7 @@ public class DiscoveryReplication {
 	static int RepliationStatus = 0;
 	static int TimerExpiry = 0;
 	
-	static boolean StartRepliation(){
+	static boolean StartRepliationfromLoginScreen(){
 		Helper Config = new Helper();
 		TimerExpiry = Integer.parseInt(Config.GetConfigParameter("ReplicationTimeoutExpiry").toString());
 		try {
@@ -49,6 +49,45 @@ public class DiscoveryReplication {
 			return false;
 		}
 		
+		
+	}
+	
+	static boolean StartRepliationfromDiscoveryHomePae(){
+		Helper Config = new Helper();
+		TimerExpiry = Integer.parseInt(Config.GetConfigParameter("ReplicationTimeoutExpiry").toString());
+		try {
+			screen.click(DiscoveryHomePage.File);
+			Helper.Keystrokedown(1);
+			Helper.Keystrokeenter(1);
+			screen.click(DiscoveryHomePage.View);
+			Helper.Keystrokedown(1);
+			Helper.Keystrokeenter(1);
+			
+			Thread.sleep(60000);
+			CheckReplicationStatus();
+			
+			if (RepliationStatus != 0){
+				if (RepliationStatus == 6){
+					logger.info("Replication completed sucessfully with the follwoing status code :" + RepliationStatus);
+					return true;
+				}else if(RepliationStatus == 8){
+					logger.info("Replication completed with errors and the status code is:" + RepliationStatus);
+					return true;
+				}
+				else{
+					logger.error("Replication failed with the following status code :" + RepliationStatus);
+					return false;
+				}
+			}else{
+				logger.error("Replication did not complete and timed out after waiting for : " + Integer.parseInt(Config.GetConfigParameter("ReplicationTimeoutExpiry").toString()) + " minitues");
+				return false;
+			}
+			
+		} catch (FindFailed | InterruptedException e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+			return false;
+		}
 		
 	}
 	
@@ -133,7 +172,11 @@ public class DiscoveryReplication {
 		            	}else{
 		            		TimerExpiry = TimerExpiry - 1;
 		            		logger.info("Replication wait Timer expiry Count: "+TimerExpiry);
-		            		Thread.sleep(60000);
+		            		if(TimerExpiry <= 0){
+		            			break;
+		            		}else{
+		            			Thread.sleep(60000);
+		            		}
 		            	}
 	            	}	            	
 	            }

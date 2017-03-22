@@ -56,7 +56,8 @@ public class LoginPage {
 			}
 			
 			JSONObject ReplicationDetails = (JSONObject) TestExecution.JSONTestData.get("EnvironmentDetails");
-						
+			JSONObject LeadOriginationDetails = (JSONObject) TestExecution.JSONTestData.get("LeadDetails");
+			
 			logger.info("Logging into Discovery");
 			Helper Config = new Helper();
 			String Discoveryusername = null;
@@ -100,8 +101,8 @@ public class LoginPage {
 				Helper.ClearTextBox(40);
 				screen.type(TestEnvironment);
 				Helper.Keystrokeenter(1);
-				if(ReplicationDetails.get("ReplicateDiscoveryDatabase").toString().equals("Yes") && Config.GetConfigParameter("Replicadatabase").toString().equals("Yes")){
-					if (DiscoveryReplication.StartRepliation() != true){
+				if(ReplicationDetails.get("ReplicateDiscoveryDatabase").toString().equals("Yes") && Config.GetConfigParameter("Replicadatabase").toString().equals("Yes") && LeadOriginationDetails.get("LeadOrigination").toString().equals("Dynamics")){
+					if (DiscoveryReplication.StartRepliationfromLoginScreen() != true){
 						return false;
 					}else{
 						screen.click(login);

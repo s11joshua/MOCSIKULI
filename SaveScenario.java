@@ -71,9 +71,11 @@ public class SaveScenario {
 			
 			if(JSON.GetTestData(RawFile, "EnvironmentDetails").get("Replicadatabase").toString().equals("Yes") && LeadDetails.get("LeadOrigination").toString().equals("Discovery")){
 				if(MorethanOneApplicant(RawFile) == true){
+					if(MixOfNewandExistingClients(RawFile) == true){ 
 					Thread.sleep(3);
 					//screen.wait(JointClentOK);
 					screen.click(JointClentOK);
+					}
 				}
 			}
 			
@@ -200,6 +202,26 @@ public class SaveScenario {
 		}else{
 			return false;
 		}
+		
+	}
+	
+	public static boolean MixOfNewandExistingClients(JSONObject RawFile){
+		int Counter = 0;
+		JSONArray CustomerInformation_Array = (JSONArray) RawFile.get("Customerinformation");
+		Iterator<JSONObject> CustomerInformationArray = CustomerInformation_Array.iterator();
+		boolean newcustomer = false;
+		boolean existingcustomer = false;
+		while (CustomerInformationArray.hasNext()){
+			JSONObject CustomerInformation = CustomerInformationArray.next();
+			if (CustomerInformation.get("NewCustomer").toString().equals("Yes")){
+				newcustomer = true;				
+			}else if (CustomerInformation.get("NewCustomer").toString().equals("Yes")){
+				existingcustomer = true;
+			}
+		}
+		
+		if(newcustomer && existingcustomer)	return true;
+		else return false;
 		
 	}
 }

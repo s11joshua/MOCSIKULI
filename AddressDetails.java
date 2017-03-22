@@ -14,7 +14,6 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.sikuli.script.FindFailed;
-import org.sikuli.script.Pattern;
 import org.sikuli.script.Screen;
 
 import Discovery.Helper;
@@ -33,13 +32,6 @@ public class AddressDetails {
 		PageFactory.initElements(BrowserType, this);
 	}
 	
-	/*public AddressDetails(){
-		new AddressDetails(TestExecution.PatternRootFolderlocation+"FactFind\\Address\\");
-	}
-	public AddressDetails(String Imagefolderlocation){
-		AddressCannotbeFoundokButton = new Pattern (Imagefolderlocation + "AddressNotFoundokbutton.PNG");
-		AddressLookUp = new Pattern (Imagefolderlocation + "AddressLookUp.PNG");
-	}*/
 	
 	@FindBy(how = How.XPATH, using = ".//*[@id='lnkAddAddress']")
 	static WebElement AddAddress;

@@ -21,7 +21,9 @@ public class QAHomePage {
 	static Pattern clientsearch;
 	static Pattern quickqualify;
 	static Pattern SelectOpportunity;
+	static Pattern SelectScenario;
 	static Pattern NewScenario;
+	static Pattern EditScenario;
 	
 	public QAHomePage(){
 		new QAHomePage(TestExecution.PatternRootFolderlocation+"QA Homepage\\");
@@ -31,7 +33,9 @@ public class QAHomePage {
 		clientsearch = new Pattern(Imagefolderlocation + "Clienttextbox.PNG");
 		quickqualify = new Pattern(Imagefolderlocation + "QuickQualify.PNG");
 		SelectOpportunity = new Pattern(Imagefolderlocation + "SelectOpportunity.PNG");
+		SelectScenario = new Pattern(Imagefolderlocation + "SelectScenario.PNG");
 		NewScenario = new Pattern(Imagefolderlocation + "NewScenario.PNG");
+		EditScenario = new Pattern(Imagefolderlocation + "Edit.PNG");
 	}
 	
 	public static boolean QuickQualify(JSONObject RawFile){
@@ -67,5 +71,19 @@ public class QAHomePage {
 			return false;
 		}
 		
+	}
+	
+	public static boolean EditScenarioandUpdateAOL(){
+		try {
+			screen.click(SelectOpportunity);
+			App.pause(2);
+			
+			return true;
+		}catch (FindFailed e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
+			return false;
+		}
 	}
 }

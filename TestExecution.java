@@ -10,8 +10,11 @@ import java.util.Properties;
 
 import org.junit.runners.MethodSorters;
 import static org.junit.Assert.*;
+
+import Dynamics.DynamicsExecutor;
+import Dynamics.DynamicsHomepage;
 import Dynamics.DynamicsLeadsPage;
-import Dynamics.Selenium;
+
 import FactFind.AddressDetails;
 import FactFind.CountrySelection;
 import FactFind.EmploymentDetails;
@@ -30,6 +33,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.sikuli.basics.Debug;
 import org.sikuli.basics.Settings;
+import org.sikuli.script.App;
 
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -105,7 +109,7 @@ public class TestExecution {
 		new ResponsibleLending();
 		new Referrals();
 		new Apply();
-		new Selenium();
+		new DynamicsExecutor();
 		new DynamicsLeadsPage();
 		new FactFindLogin();
 		new PersonalDetails();
@@ -122,30 +126,35 @@ public class TestExecution {
 		logger.info("Test case Initalization Completed successfully");
 	}
 	
-	@Test
+	//@Test
 	public void TestCase001() throws Exception{
 		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));	
 	}	
 	
-	@Test
+	//@Test
 	public void TestCase002() throws Exception{
 		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));	
 	}
 	
-	@Test
+	//@Test
 	public void TestCase003() throws Exception{
 		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));	
 	}
 	
-	@Test
+	//@Test
 	public void TestCase004() throws Exception{
 		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));
 	}
 	
-	@Test
+	//@Test
 	public void TestCase005() throws Exception{
 		assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));
 	}
+	
+	@Test
+		public void TestCase006() throws Exception{
+			assertTrue(TestExecutor(new Object(){}.getClass().getEnclosingMethod().getName()));
+		}
 	
 	@After
 	public void tearDown() throws Exception {
@@ -189,33 +198,68 @@ public class TestExecution {
 	public boolean TestSteps(String testdata){
 		
 		JSONTestData = JSON.ReadTestData(testdata);
-		if (JSON.GetTestData(JSONTestData, "LeadDetails").get("LeadOrigination").equals("Dynamics")){
-			if(Selenium.CreateQuicklead() != true){
-				return false;
-			}
-			if (JSON.GetTestData(JSONTestData, "LeadDetails").get("SendFactFindInvitaion").equals("Yes")){
-				if(FactFindExecutor.FillFactFind() != true){
+		if (JSON.GetTestData(JSONTestData, "Apply").get("UpdateApplyOnline") != null && (!JSON.GetTestData(JSONTestData, "Apply").get("UpdateApplyOnline").equals("Yes"))){
+			if (JSON.GetTestData(JSONTestData, "LeadDetails").get("LeadOrigination").equals("Dynamics")){
+				if(DynamicsExecutor.CreateQuicklead() != true){
 					return false;
 				}
+				if (JSON.GetTestData(JSONTestData, "LeadDetails").get("SendFactFindInvitaion").equals("Yes")){
+					if(FactFindExecutor.FillFactFind() != true){
+						return false;
+					}
+				}
 			}
-		}
 		
-		if (LoginPage.LogintoDiscovery(JSONTestData) == false){return false;}
-		if (DiscoveryHomePage.NavigatetoQualifyandAnalize() == false){return false;}
-		if (QAHomePage.QuickQualify(JSONTestData) == false){return false;}
-		if (ClientInformation.CaptureClientDetails(JSONTestData) == false){return false;}
-		if (FundsRequired.CaptureTransaction(JSONTestData) == false){return false;}
-		if (Securities.CaptureSecurities(JSONTestData) == false){return false;}
-		if (LoanStructure.CaptureLoanStructure(JSONTestData) == false){return false;}
-		if (QualifyLenders.ActionOnQulifyLenders(JSONTestData) == false){return false;}
-		if (ScenarioSummary.SelectLenderandProduct(JSONTestData) == false){return false;}
-		if (SaveScenario.SaveAsNewLead(JSONTestData) == false){return false;}
-		if (ResponsibleLending.CaptureResponsibleLending(JSONTestData) == false){return false;}
-		if (Referrals.CaptureReferrals(JSONTestData) == false){return false;}
-		if (SaveScenario.Save(JSONTestData) == false){return false;}
-		if (Apply.CaptureTypeOfLodgement(JSONTestData) == false){return false;}
-		if (Helper.ForceKillApplication("Tonto.exe") == false){return false;}
-		return true;
+			if (LoginPage.LogintoDiscovery(JSONTestData) == false){return false;}
+			if (DiscoveryHomePage.NavigatetoQualifyandAnalize() == false){return false;}
+			if (QAHomePage.QuickQualify(JSONTestData) == false){return false;}
+			if (ClientInformation.CaptureClientDetails(JSONTestData) == false){return false;}
+			if (FundsRequired.CaptureTransaction(JSONTestData) == false){return false;}
+			if (Securities.CaptureSecurities(JSONTestData) == false){return false;}
+			if (LoanStructure.CaptureLoanStructure(JSONTestData) == false){return false;}
+			if (QualifyLenders.ActionOnQulifyLenders(JSONTestData) == false){return false;}
+			if (ScenarioSummary.SelectLenderandProduct(JSONTestData) == false){return false;}
+			if (SaveScenario.SaveAsNewLead(JSONTestData) == false){return false;}
+			if (ResponsibleLending.CaptureResponsibleLending(JSONTestData) == false){return false;}
+			if (Referrals.CaptureReferrals(JSONTestData) == false){return false;}
+			if (SaveScenario.Save(JSONTestData) == false){return false;}
+			if (Apply.CaptureTypeOfLodgement(JSONTestData) == false){return false;}
+		
+		
+			if (JSON.GetTestData(JSONTestData, "LeadDetails").get("LeadOrigination").equals("Discovery")){
+				if (JSON.GetTestData(JSONTestData, "LeadDetails").get("SendFactFindInvitaion").equals("Yes")){
+					if(DiscoveryReplication.StartRepliationfromDiscoveryHomePae() != true){
+						return false;
+					}
+					if(DynamicsExecutor.LogintoDynamics() != true){
+						System.out.println("test the logic after login to dynamics");
+						return false;
+					}
+					if(DynamicsHomepage.SearchOpportunity() != true){
+						return false;
+					}
+					if(DynamicsHomepage.SendFactFindInvite() != true){
+						return false;
+					}
+					if (JSON.GetTestData(JSONTestData, "LeadDetails").get("SendFactFindInvitaion").equals("Yes")){
+						if(FactFindExecutor.FillFactFind() != true){
+							return false;
+						}
+					}
+				}
+				
+				App.focus("Qualifier Analyser");
+				if (Apply.UpdateApplyOnline() == false){return false;}
+			}		
+			return true;
+		}else{
+			if (LoginPage.LogintoDiscovery(JSONTestData) == false){return false;}
+			if (DiscoveryHomePage.FindExistingScenario() == false){return false;}
+			if (Apply.UpdateApplyOnline() == false){return false;}
+			return true;
+		}
+		//if (Helper.ForceKillApplication("Tonto.exe") == false){return false;}
+		
 	}
 	
 	public String TestFolderSetup(String TestCaseName){

@@ -167,8 +167,9 @@ public class DynamicsLeadsPage {
 			screen.click(SendInvite);
 			screen.wait(PopUpOk,30).click();
 			logger.info("FactFind Invite has been sent to the Customer");
+			screen.wait(PopUpOk,30).click();
 		}
-		screen.wait(PopUpOk,30).click();
+		
 		Helper.ScreenDump(TestExecution.TestExecutionFolder, "DynamicsQuickLead");
 		logger.info("Quick Lead Created Sucessfully");
 		return true;
@@ -180,5 +181,5 @@ public class DynamicsLeadsPage {
 		}
 				
 	}
-
+	
 }

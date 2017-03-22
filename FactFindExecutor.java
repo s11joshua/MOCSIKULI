@@ -1,19 +1,16 @@
 package FactFind;
 
 import java.util.Iterator;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.openqa.selenium.WebDriver;
-
-import Discovery.ClientInformation;
 import Discovery.Helper;
 import Discovery.JSON;
-import Discovery.LoginPage;
 import Discovery.TestExecution;
-import Dynamics.Selenium;
+import Dynamics.DynamicsExecutor;
+
 
 public class FactFindExecutor {
 	static Log logger = LogFactory.getLog(FactFindExecutor.class);
@@ -22,7 +19,7 @@ public class FactFindExecutor {
 	public static boolean FillFactFind(){
 		
 		Helper Config = new Helper();
-		driver = Selenium.LaunchBrowser(Config.GetConfigParameter("BrowserType"));
+		driver = DynamicsExecutor.LaunchBrowser(Config.GetConfigParameter("BrowserType"));
 		driver.get(Config.GetConfigParameter("FactFindURL"));
 		driver.manage().window().maximize();
 		new FactFindLogin(driver);

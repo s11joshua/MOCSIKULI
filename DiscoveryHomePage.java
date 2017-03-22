@@ -26,7 +26,8 @@ public class DiscoveryHomePage {
 	static Pattern QuerySurname;
 	static Pattern RunQuery;
 	static Pattern SelectOpportunity;
-	
+	static Pattern File;
+	static Pattern View;
 	
 	public DiscoveryHomePage(){
 		new DiscoveryHomePage(TestExecution.PatternRootFolderlocation+"DiscoveryHomePage\\");
@@ -41,7 +42,8 @@ public class DiscoveryHomePage {
 		QuerySurname = new Pattern(Imagefolderlocation + "QueryLastSurname.PNG");
 		RunQuery = new Pattern(Imagefolderlocation + "RunQuery.PNG");
 		SelectOpportunity = new Pattern(Imagefolderlocation + "SelectOpportunity.PNG");
-		
+		File = new Pattern(Imagefolderlocation + "File.PNG");
+		View = new Pattern(Imagefolderlocation + "View.PNG");
 	}
 	
 	public static boolean NavigatetoQualifyandAnalize(){
@@ -122,5 +124,44 @@ public class DiscoveryHomePage {
 		}
 		return;
 	}
+	
+	public static boolean FindExistingScenario(){
+		try {
+			screen.wait(loanApplicationTab,30);
+			screen.click(loanApplicationTab);
+			Helper.Keystrokedown(4);
+			Helper.Keystrokeenter(1);
+			App.pause(3);
+			screen.click(RunQuery);
+			App.pause(3);
+			getNames();
+			if (JointName != null){
+				screen.find(QuerySurname).below(Offset[1]).click();
+				screen.type(JointName);
+			}else{
+				screen.find(QueryFirstName).below(Offset[1]).click();
+				screen.type(FirstName);
+				screen.find(QuerySurname).below(Offset[1]).click();
+				screen.type(LastName);
+			}
+			Helper.Keystrokeenter(1);
+			App.pause(2);
+			screen.find(QuerySurname).below(Offset[3]).doubleClick();
+			App.pause(5);
+			screen.click(GotoQAHomepage);
+			screen.wait(QAHomePage.SelectScenario,15).click();
+			App.pause(2);
+			screen.wait(QAHomePage.EditScenario,15).click();
+			App.pause(15);
+			return true;
+		} catch (FindFailed e) {
+			e.printStackTrace();
+			logger.error(e.toString());
+			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
+			return false;
+		}
+
+	}
+	
 	
 }
