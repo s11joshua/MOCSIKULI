@@ -39,6 +39,9 @@ import org.sikuli.script.App;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestExecution {
 	
+	static Properties prop = new Properties();
+	
+	
 	static Log logger = LogFactory.getLog(TestExecution.class);
 	public static JSONObject JSONTestData;
 	public static String PatternRootFolderlocation; 
@@ -64,7 +67,9 @@ public class TestExecution {
 		//Debug.setDebugLevel(1);
 		Settings.UserLogs = true;
 		Settings.LogTime = true;
-				
+		
+		Helper config = new Helper();
+		
 		try {
 			Runtime.getRuntime().exec("taskkill /F /IM " + "Tonto.exe");
 			Runtime.getRuntime().exec("taskkill /F /IM " + "geckodriver.exe");
@@ -76,19 +81,22 @@ public class TestExecution {
 			e.printStackTrace();
 			logger.error(e.toString());
 		}
-		
-		if (Helper.GetConfigParameter("MinimizeAllWindow").equals("Yes")){
+		if(config.GetConfigParameter("MinimizeAllWindow").equals("Yes")){
 			Helper.MinimizeAllWindows();
 		}
 		
-		PatternRootFolderlocation = Helper.GetConfigParameter("PatternRootFolder");
-		DiscoveryErroLogFile = Helper.GetConfigParameter("DiscoveryErrorLog");
-		TestDataFolderRoot = Helper.GetConfigParameter("WQAAutomationFolderPath")+"TestData\\";
-		DiscoveryGeneratedXMLPath = Helper.GetConfigParameter("DiscoveryGeneratedXMLPath");
+		if (config.GetConfigParameter("MinimizeAllWindow").equals("Yes")){
+			Helper.MinimizeAllWindows();
+		}
 		
-		LogFolder = Helper.GetConfigParameter("WQAAutomationFolderPath")+"Logs\\";
+		PatternRootFolderlocation = config.GetConfigParameter("PatternRootFolder");
+		DiscoveryErroLogFile = config.GetConfigParameter("DiscoveryErrorLog");
+		TestDataFolderRoot = config.GetConfigParameter("WQAAutomationFolderPath")+"TestData\\";
+		DiscoveryGeneratedXMLPath = config.GetConfigParameter("DiscoveryGeneratedXMLPath");
+		
+		LogFolder = config.GetConfigParameter("WQAAutomationFolderPath")+"Logs\\";
 		Debug.setLogFile(LogFolder + "Sikuli.log");
-		RootFolder = Helper.GetConfigParameter("WQAAutomationFolderPath")+"TestExecution\\";
+		RootFolder = config.GetConfigParameter("WQAAutomationFolderPath")+"TestExecution\\";
 	    TestFolder =  new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
 	    Helper.CreateDirectory(RootFolder,TestFolder);
 	    ExecutionFolder = RootFolder + TestFolder +"\\";

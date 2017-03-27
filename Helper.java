@@ -44,6 +44,7 @@ import org.sikuli.script.Screen;
 public class Helper {
 	static Log logger = LogFactory.getLog(Helper.class);
 	public ScreenRecorder screenRecorder;
+	static Screen screen = new Screen();
 	
 	public static void Keystrokebackspace(int repeatcount)
 	{	
@@ -412,14 +413,15 @@ public class Helper {
 		}
 	}
 	
-	public static String GetConfigParameter(String ParameterKey){
+	public String GetConfigParameter(String ParameterKey){
 		Properties prop = new Properties();
 		try {
-			prop.load(new FileInputStream("C:/TestFolder/Config.properties"));
+			prop.load(new FileInputStream("resources/Config.properties"));
+			//prop.load(new FileInputStream("C:/TestFolder/Config.properties"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-				
+			
 		return prop.getProperty(ParameterKey);
 	}
 
@@ -466,6 +468,7 @@ public class Helper {
 			logger.error(e.toString());
 		}
 	}
+	
 	
 	
 }

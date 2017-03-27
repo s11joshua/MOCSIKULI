@@ -17,8 +17,6 @@ public class ClientInformation {
 	public static int Offset[] = {0,10,50,100,200,500,1000};
 	public static Screen screen = new Screen();
 	
-	
-	
 	static Pattern qashortcut;
 	static Pattern clientsearch;
 	static Pattern quickqualify;

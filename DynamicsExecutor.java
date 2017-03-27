@@ -30,6 +30,7 @@ public class DynamicsExecutor {
 	static Pattern QuickContact;
 	static Pattern QuickOpportunity;
 	static Pattern SelectOpportunity;
+	static Pattern Sales;
 	public static Pattern SearchItem;
 	
 	public DynamicsExecutor(){
@@ -42,6 +43,7 @@ public class DynamicsExecutor {
 		QuickContact = new Pattern (Imagefolderlocation + "QuickContact.PNG");
 		QuickOpportunity = new Pattern (Imagefolderlocation + "QuickOpportunity.PNG");
 		SelectOpportunity = new Pattern (Imagefolderlocation + "SelectOpportunity.PNG");
+		Sales = new Pattern (Imagefolderlocation + "Sales.PNG");
 		SearchItem = new Pattern (Imagefolderlocation + "SearchItem.PNG");
 	}
 	
@@ -70,6 +72,8 @@ public class DynamicsExecutor {
 	public static boolean LogintoDynamics(){
 	 	
 		Helper Config = new Helper();
+		
+		
 		driver = DynamicsExecutor.LaunchBrowser(Config.GetConfigParameter("BrowserType"));
 		driver.get(Config.GetConfigParameter("DynamicsURL"));
 		driver.manage().window().maximize();
@@ -91,22 +95,12 @@ public class DynamicsExecutor {
 			return false;
 		}
 		
-		try {
-			screen.click(QuickCreate);				
-			screen.click(QuickCreateLead);
-			Thread.sleep(3000);
-			if (DynamicsLeadsPage.CreateQuickLead() != true){
-				driver.close();
-				return false;
-			}else{
-				driver.close();
-				return true;
-			}
-		} catch (FindFailed | InterruptedException e) {
-			e.printStackTrace();
-			Helper.ScreenDump(TestExecution.TestExecutionFolder, "Error");
-			logger.error(e.toString());
+		if (DynamicsLeadsPage.CreateLead() != true){
+			driver.close();
 			return false;
+		}else{
+			driver.close();
+			return true;
 		}
 		
 	}
